@@ -9,7 +9,16 @@ Please check out our blog for a [full explanation](https://getdozer.io/blog/micr
 ### Running 
 
 ```
+# Bring up the postgres server
 docker-compose up
+
+# Run dozer
+docker run -it \
+  -v "$PWD":/usr/dozer \
+  -p 8080:8080 \
+  -p 50051:50051 \
+  public.ecr.aws/getdozer/dozer \
+  dozer
 ```
 
 **NOTE**: [Git LFS](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage) is needed when cloning this sample.
@@ -73,6 +82,76 @@ grpcurl -plaintext localhost:50051 dozer.generated.routes.Routes/query
     }
   ]
 }
+
+grpcurl -plaintext localhost:50051 dozer.generated.bookings_details.BookingsDetails/query
+[{
+  "records": [
+    {
+      "id": "3682",
+      "record": {
+        "passengerId": "3986 620108",
+        "passengerName": "IGOR KARPOV",
+        "bookRef": "0002E0",
+        "bookDate": "2017-07-11T13:09:00Z",
+        "totalAmount": {
+          "lo": 8960000
+        },
+        "ticketNo": "0005434407173",
+        "flightId": "26920",
+        "fareConditions": "Economy",
+        "amount": {
+          "lo": 1640000
+        },
+        "flightNo": "PG0678",
+        "scheduledArrival": "2017-08-01T13:45:00Z",
+        "scheduledDeparture": "2017-08-01T11:30:00Z",
+        "departureAirport": "MCX",
+        "arrivalAirport": "SVO",
+        "actualArrival": "2017-08-01T13:51:00Z",
+        "actualDeparture": "2017-08-01T11:33:00Z",
+        "DozerRecordVersion": 1
+      }
+    }
+
+    ...
+]
+
+# Filter by passenger_id
+grpcurl  -d '{"query":"{\"$filter\": {\"passenger_id\": \"3986 620108\"}}"}' \
+ -plaintext localhost:50051 \
+ dozer.generated.bookings_details.BookingsDetails/query
+{
+  "records": [
+    {
+      "id": "3682",
+      "record": {
+        "passengerId": "3986 620108",
+        "passengerName": "IGOR KARPOV",
+        "bookRef": "0002E0",
+        "bookDate": "2017-07-11T13:09:00Z",
+        "totalAmount": {
+          "lo": 8960000
+        },
+        "ticketNo": "0005434407173",
+        "flightId": "26920",
+        "fareConditions": "Economy",
+        "amount": {
+          "lo": 1640000
+        },
+        "flightNo": "PG0678",
+        "scheduledArrival": "2017-08-01T13:45:00Z",
+        "scheduledDeparture": "2017-08-01T11:30:00Z",
+        "departureAirport": "MCX",
+        "arrivalAirport": "SVO",
+        "actualArrival": "2017-08-01T13:51:00Z",
+        "actualDeparture": "2017-08-01T11:33:00Z",
+        "DozerRecordVersion": 1
+      }
+    },
+  ...
+ ]
+}
+
 ```
 
 ### Under the hood
@@ -80,13 +159,8 @@ Dozer transforms all the queries in dozer-config.yaml into a DAG (Directed Acycl
 
 ![Booking Dag](images/booking_dag.svg)
 
-
-The following is a snapshot of counters while running this sample.
-
-![Process Counts](./images/counts.png)
-
 ### Configuration
-Dozer generates end to end date pipeline + APIs just via configuration. Refer to the configuration for [this example here](./dozer-config.yaml)
+ Refer to the configuration for [this example here](./dozer-config.yaml)
 
 ###  Notes
 [Sample data is from here](https://postgrespro.com/docs/postgrespro/10/demodb-bookings-installation)
