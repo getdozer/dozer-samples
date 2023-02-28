@@ -1,15 +1,39 @@
 ### Dozer Sample - Flight bookings
-In this example, Dozer fetches data from multiple Postgres tables and combines them in real time based on the queries and produces fast READ APIs to be used in a flight booking application. 
+In this example, Dozer fetches data from multiple Postgres tables and combines them in real time based on the queries and produces fast READ APIs to be used in a flight booking application.
 
 
-This pattern is very much applicable even when the data is being fetched across micro services and even from different types of data stores. Check out Dozer documentation for all supported data sources. 
+This pattern is very much applicable even when the data is being fetched across micro services and even from different types of data stores. Check out Dozer documentation for all supported data sources.
 
 Please check out our blog for a [full explanation](https://getdozer.io/blog/microservices)
 
-### Running 
+### Running
+
+#### Initialization
 
 ```
+# Configuration files from previous steps should be located as followed
+
+├── dozer-config.yaml
+└── docker-compose.yml
+```
+
+```bash
 docker-compose up
+```
+
+#### Running Dozer
+
+```bash
+# Dozer Config is expected to be at `/usr/dozer/dozer-config.yml` by default.
+# REST APIs are exposed over 8080
+# gRPC APIs are exposed over 50051
+docker run -it \
+  -v "$PWD":/usr/dozer \
+  -p 8080:8080 \
+  -p 50051:50051 \
+  --platform linux/amd64 \
+  public.ecr.aws/k7k6x1d4/dozer \
+  dozer
 ```
 
 **NOTE**: [Git LFS](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage) is needed when cloning this sample.
@@ -18,15 +42,15 @@ docker-compose up
 
 ![Db Schema](images/schema.png)
 
-### APIs 
+### APIs
 | Path                  | Source  | Notes                                                                                          |
-| --------------------- | ------- | ---------------------------------------------------------------------------------------------- |
+|-----------------------|---------|------------------------------------------------------------------------------------------------|
 | GET /bookings         | Derived | Booking Listing API. Filters are automatically generated on single columns. Eg: `passenger_id` |
 | GET /bookings/details | Derived | Detailed information about a booking including flight information across several stops         |
 | GET /routes           | Derived | All routes per day of the week based on all ticket bookings made                               |
 
-### Querying 
-Every endpoint generates a `Count` and a `Query` method. Both of these support filter and sort operations. 
+### Querying
+Every endpoint generates a `Count` and a `Query` method. Both of these support filter and sort operations.
 `REST` APIs are available on `8080` port and gRPC on `50051` by default.
 
 ```
