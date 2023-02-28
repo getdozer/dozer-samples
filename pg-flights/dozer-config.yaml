@@ -50,10 +50,9 @@ sql: |
                     flights.departure_airport,
                     flights.arrival_airport,
                     flights.aircraft_code,
-   --  (flights.scheduled_arrival - flights.scheduled_departure) AS duration,
-   20 as duration,
-   -- (to_char(flights.scheduled_departure, 'ID'::text))::integer AS days_of_week
-          1 as days_of_week
+  -- (flights.scheduled_arrival - flights.scheduled_departure) AS duration,
+  20 as duration,
+   DAY_OF_WEEK(flights.scheduled_departure) as days_of_week
                         FROM flights) f1
               GROUP BY f1.flight_no, f1.departure_airport, f1.arrival_airport, f1.aircraft_code, f1.duration, f1.days_of_week
           --   ORDER BY f1.flight_no, f1.departure_airport, f1.arrival_airport, f1.aircraft_code, f1.duration, f1.days_of_week
