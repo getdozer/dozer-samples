@@ -20,7 +20,7 @@ docker-compose up
 
 ### APIs 
 | Path                  | Source  | Notes                                                                                          |
-| --------------------- | ------- | ---------------------------------------------------------------------------------------------- |
+|-----------------------|---------|------------------------------------------------------------------------------------------------|
 | GET /bookings         | Derived | Booking Listing API. Filters are automatically generated on single columns. Eg: `passenger_id` |
 | GET /bookings/details | Derived | Detailed information about a booking including flight information across several stops         |
 | GET /routes           | Derived | All routes per day of the week based on all ticket bookings made                               |
