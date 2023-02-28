@@ -1,50 +1,39 @@
-### Dozer Sample - Flight bookings
-In this example, Dozer fetches data from multiple Postgres tables and combines them in real time based on the queries and produces fast READ APIs to be used in a flight booking application.
+# Breaking Down Microservices Silos: Building a Real-Time API with Dozer across multiple Postgres databases
 
+In this example, Dozer fetches data from multiple Postgres tables and combines them in real time based on the queries and produces fast READ APIs to be used in a flight booking application.
 
 This pattern is very much applicable even when the data is being fetched across micro services and even from different types of data stores. Check out Dozer documentation for all supported data sources.
 
 Please check out our blog for a [full explanation](https://getdozer.io/blog/microservices)
 
-### Running
-
-#### Initialization
-
-```
-# Configuration files from previous steps should be located as followed
-
-├── dozer-config.yaml
-└── docker-compose.yml
-```
-
-```bash
-docker-compose up
-```
-
 #### Running Dozer
-
 ```bash
-# Dozer Config is expected to be at `/usr/dozer/dozer-config.yml` by default.
-# REST APIs are exposed over 8080
-# gRPC APIs are exposed over 50051
+# Bring up the postgres server using `docker-compose`
+docker-compose up
+
+# Run dozer
 docker run -it \
   -v "$PWD":/usr/dozer \
   -p 8080:8080 \
   -p 50051:50051 \
-  --platform linux/amd64 \
-  public.ecr.aws/k7k6x1d4/dozer \
+  public.ecr.aws/getdozer/dozer \
   dozer
 ```
-
 **NOTE**: [Git LFS](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage) is needed when cloning this sample.
 
-### Schema
+### Scenario
+To start, let's consider an example of a flight tickets booking website. The entire service is split across two main microservices:
+
+**A booking microservice:** handling all the bookings, tickets and boarding passes
+**A flight master microservice:** maintaining all the flights master data including routes, aircraft, etc.
+
+Each service maintains its own database. BOOKINGS, TICKETS, TICKET_FLIGHTS, BOARDING_PASSES are part of the booking microservice database, and AIRPORTS, FLIGHTS, AIRCRAFTS, SEATS are part of flight master microservice database. Below is a comprehensive ER diagram of all the data.
 
 ![Db Schema](images/schema.png)
 
 ### APIs
 | Path                  | Source  | Notes                                                                                          |
-|-----------------------|---------|------------------------------------------------------------------------------------------------|
+| --------------------- | ------- | ---------------------------------------------------------------------------------------------- |
 | GET /bookings         | Derived | Booking Listing API. Filters are automatically generated on single columns. Eg: `passenger_id` |
 | GET /bookings/details | Derived | Detailed information about a booking including flight information across several stops         |
 | GET /routes           | Derived | All routes per day of the week based on all ticket bookings made                               |
@@ -97,6 +86,76 @@ grpcurl -plaintext localhost:50051 dozer.generated.routes.Routes/query
     }
   ]
 }
+
+grpcurl -plaintext localhost:50051 dozer.generated.bookings_details.BookingsDetails/query
+[{
+  "records": [
+    {
+      "id": "3682",
+      "record": {
+        "passengerId": "3986 620108",
+        "passengerName": "IGOR KARPOV",
+        "bookRef": "0002E0",
+        "bookDate": "2017-07-11T13:09:00Z",
+        "totalAmount": {
+          "lo": 8960000
+        },
+        "ticketNo": "0005434407173",
+        "flightId": "26920",
+        "fareConditions": "Economy",
+        "amount": {
+          "lo": 1640000
+        },
+        "flightNo": "PG0678",
+        "scheduledArrival": "2017-08-01T13:45:00Z",
+        "scheduledDeparture": "2017-08-01T11:30:00Z",
+        "departureAirport": "MCX",
+        "arrivalAirport": "SVO",
+        "actualArrival": "2017-08-01T13:51:00Z",
+        "actualDeparture": "2017-08-01T11:33:00Z",
+        "DozerRecordVersion": 1
+      }
+    }
+
+    ...
+]
+
+# Filter by passenger_id
+grpcurl  -d '{"query":"{\"$filter\": {\"passenger_id\": \"3986 620108\"}}"}' \
+ -plaintext localhost:50051 \
+ dozer.generated.bookings_details.BookingsDetails/query
+{
+  "records": [
+    {
+      "id": "3682",
+      "record": {
+        "passengerId": "3986 620108",
+        "passengerName": "IGOR KARPOV",
+        "bookRef": "0002E0",
+        "bookDate": "2017-07-11T13:09:00Z",
+        "totalAmount": {
+          "lo": 8960000
+        },
+        "ticketNo": "0005434407173",
+        "flightId": "26920",
+        "fareConditions": "Economy",
+        "amount": {
+          "lo": 1640000
+        },
+        "flightNo": "PG0678",
+        "scheduledArrival": "2017-08-01T13:45:00Z",
+        "scheduledDeparture": "2017-08-01T11:30:00Z",
+        "departureAirport": "MCX",
+        "arrivalAirport": "SVO",
+        "actualArrival": "2017-08-01T13:51:00Z",
+        "actualDeparture": "2017-08-01T11:33:00Z",
+        "DozerRecordVersion": 1
+      }
+    },
+  ...
+ ]
+}
+
 ```
 
 ### Under the hood
@@ -104,13 +163,8 @@ Dozer transforms all the queries in dozer-config.yaml into a DAG (Directed Acycl
 
 ![Booking Dag](images/booking_dag.svg)
 
-
-The following is a snapshot of counters while running this sample.
-
-![Process Counts](./images/counts.png)
-
 ### Configuration
-Dozer generates end to end date pipeline + APIs just via configuration. Refer to the configuration for [this example here](./dozer-config.yaml)
+ Refer to the configuration for [this example here](./dozer-config.yaml)
 
 ###  Notes
 [Sample data is from here](https://postgrespro.com/docs/postgrespro/10/demodb-bookings-installation)
