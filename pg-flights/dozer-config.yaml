@@ -34,45 +34,37 @@ sql: |
     
   -- FLIGHT ROUTES
   WITH tbl AS (
-  SELECT f2.flight_no,
-    f2.departure_airport,
-    f2.arrival_airport,
-    f2.aircraft_code,
-    f2.duration,
-    f2.days_of_week
-    FROM ( SELECT f1.flight_no,
-            f1.departure_airport,
-            f1.arrival_airport,
-            f1.aircraft_code,
-            f1.duration,
-            f1.days_of_week
-            FROM ( SELECT flights.flight_no,
-                    flights.departure_airport,
-                    flights.arrival_airport,
-                    flights.aircraft_code,
-  -- (flights.scheduled_arrival - flights.scheduled_departure) AS duration,
-  20 as duration,
-   DAY_OF_WEEK(flights.scheduled_departure) as days_of_week
-                        FROM flights) f1
-              GROUP BY f1.flight_no, f1.departure_airport, f1.arrival_airport, f1.aircraft_code, f1.duration, f1.days_of_week
-          --   ORDER BY f1.flight_no, f1.departure_airport, f1.arrival_airport, f1.aircraft_code, f1.duration, f1.days_of_week
-          ) f2
-      GROUP BY f2.flight_no, f2.departure_airport, f2.arrival_airport, f2.aircraft_code, f2.duration, f2.days_of_week
-        )
-    SELECT f3.flight_no,
-      f3.departure_airport,
+      SELECT f1.flight_no,
+        f1.departure_airport,
+        f1.arrival_airport,
+        f1.aircraft_code,
+        f1.duration,
+        f1.days_of_week
+      FROM ( 
+        SELECT flights.flight_no,
+          flights.departure_airport,
+          flights.arrival_airport,
+          flights.aircraft_code,
+          (flights.scheduled_arrival - flights.scheduled_departure) AS duration,
+          DAY_OF_WEEK(flights.scheduled_departure) as days_of_week
+          FROM flights
+        ) f1
+      GROUP BY f1.flight_no, f1.departure_airport, f1.arrival_airport, f1.aircraft_code, f1.duration, f1.days_of_week        
+    )
+    SELECT f2.flight_no,
+      f2.departure_airport,
       dep.airport_name AS departure_airport_name,
       dep.city AS departure_city,
-      f3.arrival_airport,
+      f2.arrival_airport,
       arr.airport_name AS arrival_airport_name,
       arr.city AS arrival_city,
-      f3.aircraft_code,
-      f3.duration,
-      f3.days_of_week
+      f2.aircraft_code,
+      f2.duration,
+      f2.days_of_week
     INTO routes  
-    FROM tbl f3
-      JOIN  airports dep on f3.departure_airport = dep.airport_code
-      JOIN airports arr ON f3.arrival_airport = arr.airport_code;
+    FROM tbl f2
+      JOIN  airports dep on f2.departure_airport = dep.airport_code
+      JOIN airports arr ON f2.arrival_airport = arr.airport_code;
 
 sources:
   - name: tickets
