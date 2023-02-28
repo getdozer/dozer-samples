@@ -7,9 +7,13 @@ This pattern is very much applicable even when the data is being fetched across 
 Please check out our blog for a [full explanation](https://getdozer.io/blog/microservices)
 
 ### Running 
+
 ```
 docker-compose up
 ```
+
+**NOTE**: [Git LFS](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage) is needed when cloning this sample.
+
 ### Schema
 
 ![Image](images/schema.png)
