@@ -31,7 +31,17 @@ sql: |
     inner join flights f on tf.flight_id = f.flight_id;
 
 
-    
+    -- BOOKING SUMMARY
+    select passenger_id, passenger_name, 
+      b.book_ref, book_date, total_amount, count(tf.ticket_no) as ticket_count, count(f.flight_no) as flight_count, count(passenger_id) as passenger_count
+    into bookings_summary
+    from bookings b 
+    inner join tickets t on t.book_ref = b.book_ref 
+    inner join ticket_flights tf on tf.ticket_no = t.ticket_no
+    inner join flights f on tf.flight_id = f.flight_id
+    group by b.book_ref, book_date, total_amount;
+
+
   -- FLIGHT ROUTES
   WITH tbl AS (
       SELECT f1.flight_no,
@@ -102,6 +112,13 @@ endpoints:
         - book_ref
         - ticket_no
         - flight_no
+
+  - name: bookings_summary
+    path: /bookings
+    table_name: bookings_summary
+    index:
+      primary_key:
+        - book_ref
 
   - name: routes
     path: /routes
