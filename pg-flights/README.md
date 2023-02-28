@@ -76,7 +76,13 @@ grpcurl -plaintext localhost:50051 dozer.generated.routes.Routes/query
 ```
 
 ### Under the hood
-Data is processed in real time and you can see the counter of events processed by sources and sinks.
+Dozer transforms all the queries in dozer-config.yaml into a DAG (Directed Acyclic Graph). The DAG defines the streaming execution of the query where each node is a source, a processor or a sink. Below is, for instance, the generated DAG for the BOOKING DETAILS query. 
+
+![Booking Dag](images/booking_dag.svg)
+
+
+The following is a snapshot of counters while running this sample.
+
 ![Process Counts](./images/counts.png)
 
 ### Configuration
