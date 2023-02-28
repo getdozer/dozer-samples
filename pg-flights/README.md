@@ -16,7 +16,7 @@ docker-compose up
 
 ### Schema
 
-![Image](images/schema.png)
+![Db Schema](images/schema.png)
 
 ### APIs 
 | Path                  | Source  | Notes                                                                                          |
@@ -24,6 +24,60 @@ docker-compose up
 | GET /bookings         | Derived | Booking Listing API. Filters are automatically generated on single columns. Eg: `passenger_id` |
 | GET /bookings/details | Derived | Detailed information about a booking including flight information across several stops         |
 | GET /routes           | Derived | All routes per day of the week based on all ticket bookings made                               |
+
+### Querying 
+Every endpoint generates a `Count` and a `Query` method. Both of these support filter and sort operations. 
+`REST` APIs are available on `8080` port and gRPC on `50051` by default.
+
+```
+grpcurl -plaintext localhost:50051 dozer.generated.bookings_details.BookingsDetails/count
+{
+  "count": "185270"
+}
+
+grpcurl -plaintext localhost:50051 dozer.generated.routes.Routes/count
+{
+  "count": "3798"
+}
+
+grpcurl -plaintext localhost:50051 dozer.generated.routes.Routes/query
+
+{
+  "records": [
+    {
+      "id": "3093",
+      "record": {
+        "flightNo": "PG0001",
+        "departureAirport": "UIK",
+        "arrivalAirport": "SGC",
+        "aircraftCode": "CR2",
+        "duration": "8400000",
+        "daysOfWeek": "5",
+        "DozerRecordVersion": 1
+      }
+    },
+
+    ....
+
+    {
+      "id": "406",
+      "record": {
+        "flightNo": "PG0013",
+        "departureAirport": "AER",
+        "arrivalAirport": "SVO",
+        "aircraftCode": "773",
+        "duration": "6300000",
+        "daysOfWeek": "5",
+        "DozerRecordVersion": 1
+      }
+    }
+  ]
+}
+```
+
+### Under the hood
+Data is processed in real time and you can see the counter of events processed by sources and sinks.
+![Process Counts](./images/counts.png)
 
 ### Configuration
 Dozer generates end to end date pipeline + APIs just via configuration. Refer to the configuration for [this example here](./dozer-config.yaml)
