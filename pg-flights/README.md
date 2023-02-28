@@ -21,7 +21,13 @@ docker run -it \
 ```
 **NOTE**: [Git LFS](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage) is needed when cloning this sample.
 
-### Schema
+### Scenario
+To start, let's consider an example of a flight tickets booking website. The entire service is split across two main microservices:
+
+**A booking microservice:** handling all the bookings, tickets and boarding passes
+**A flight master microservice:** maintaining all the flights master data including routes, aircraft, etc.
+
+Each service maintains its own database. BOOKINGS, TICKETS, TICKET_FLIGHTS, BOARDING_PASSES are part of the booking microservice database, and AIRPORTS, FLIGHTS, AIRCRAFTS, SEATS are part of flight master microservice database. Below is a comprehensive ER diagram of all the data.
 
 ![Db Schema](images/schema.png)
 
