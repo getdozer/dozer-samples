@@ -39,7 +39,8 @@ sql: |
         f1.arrival_airport,
         f1.aircraft_code,
         f1.duration,
-        f1.days_of_week
+        f1.days_of_week,
+        count(flight_no) as flight_count
       FROM ( 
         SELECT flights.flight_no,
           flights.departure_airport,
