@@ -6,21 +6,22 @@ This pattern is very much applicable even when the data is being fetched across 
 
 Please check out our blog for a [full explanation](https://getdozer.io/blog/microservices)
 
+#### Installation 
+Refer to the [Installation section](https://getdozer.io/docs/installation) for installing on different operating systems.
+
+**NOTE**: [Git LFS](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage) is needed when cloning this sample.
+
 #### Running Dozer
 ```bash
 # Bring up the postgres server using `docker-compose`
 docker-compose up
 
-# Run dozer
-docker run -it \
-  -v "$PWD":/usr/dozer \
-  -p 8080:8080 \
-  -p 50051:50051 \
-  public.ecr.aws/getdozer/dozer \
-  dozer
-```
-**NOTE**: [Git LFS](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage) is needed when cloning this sample.
+# Run it with a single command
+dozer
 
+# Help
+dozer -h
+```
 ### Scenario
 To start, let's consider an example of a flight tickets booking website. The entire service is split across two main microservices:
 

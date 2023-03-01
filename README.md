@@ -3,25 +3,17 @@
 This repository will contain a variety of samples showcasing [Dozer](https://github.com/getdozer/dozer).
 
 
-Each of the samples provide a `dozer-config.yaml` that could be used to start Dozer. 
+Each of the samples provides a `dozer-config`.yaml` that could be used to start Dozer. 
 Each folder also optionally contains a `docker-compose.yaml` for any data source support.
 
-## Running Dozer
-```bash
-docker run -it \
-  -v "$PWD":/usr/dozer \
-  -p 8080:8080 \
-  -p 50051:50051 \
-  public.ecr.aws/k7k6x1d4/dozer \
-  dozer -c dozer-config.yaml
-```
-
+#### Installing Dozer
+Refer to the [Installation section](https://getdozer.io/docs/installation) for installing on different operating systems.
 
 ## Samples
 
 [Flight Booking Service and Postgres ](./pg-flights/README.md) 
 
-This sample describes a pattern to deploy fast APIs out of multiple micro services taking the example of a flight booking service powered by Postgres.
+This sample describes a pattern to deploy fast APIs out of multiple microservices taking the example of a flight booking service powered by Postgres.
 
 
 
