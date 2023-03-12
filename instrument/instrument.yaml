@@ -1,0 +1,66 @@
+app_name: dozer-ingest-users
+connections:
+  - config: !Grpc
+      adapter: arrow
+      schemas: !Path "instrumentation.json"
+      port: 7005
+    name: instrument_conn
+
+api:
+  rest:
+    port: 7002
+  grpc:
+    port: 7003
+  app_grpc:
+    port: 7004
+
+sql: |
+  select name, avg(end_time - start_time)/1000.0 as duration, extract(minute from start_time) as minute
+  into minute_spans
+  from spans
+  group by name, extract(minute from start_time);
+
+  select name, avg(end_time-start_time)/1000.0 as duration, extract(hour from start_time) as hour
+  into hourly_spans
+  from spans
+  group by name, extract(hour from start_time);
+
+sources:
+  - name: spans
+    table_name: spans
+    connection: !Ref instrument_conn
+    columns:
+  - name: events
+    table_name: events
+    connection: !Ref instrument_conn
+    columns:
+
+endpoints:
+  - name: spans
+    path: /spans
+    table_name: spans
+    index:
+      primary_key:
+        - id
+
+  - name: hourly_spans
+    path: /hourly_spans
+    table_name: hourly_spans
+    index:
+      primary_key:
+        - name
+        - hour
+
+  - name: minute_spans
+    path: /minute_spans
+    table_name: minute_spans
+    index:
+      primary_key:
+        - name
+        - minute
+
+  - name: events
+    path: /events
+    table_name: events
+    index:
+      primary_key:
