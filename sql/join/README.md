@@ -60,6 +60,7 @@ curl -X POST  http://localhost:8080/pickup/query \
 ```
 
 **`gRPC`**
+
 Filter with limit of 1
 ```
 grpcurl -d '{"query": "{\"$limit\": 1}"}' \
