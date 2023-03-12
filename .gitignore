@@ -1,3 +1,5 @@
 tmpdir/
 .DS_Store
 pg-flights/.dozer
+.dozer
+connectors/postgres/data/
