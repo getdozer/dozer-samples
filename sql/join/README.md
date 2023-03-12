@@ -59,7 +59,3 @@ curl -X POST  http://localhost:8080/pickup/query \
     {"pickup_time":"2022-01-09T12:36:18.000Z","zone":"East Elmhurst","__dozer_record_id":589824,"__dozer_record_version":1}]
 ```
 
-
-Postman
-
-![Postman Actor](./images/actor.png)
