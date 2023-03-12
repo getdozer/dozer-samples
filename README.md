@@ -1,3 +1,18 @@
+<div align="center">
+    <a target="_blank" href="https://getdozer.io/">
+        <br><img src="https://dozer-assets.s3.ap-southeast-1.amazonaws.com/logo-blue.svg" width=40%><br>
+    </a>
+</div>
+
+<p align="center">
+    <br />
+    <b>
+    Connect any data source, combine them in real-time and instantly get low-latency gRPC and REST APIs.<br>
+    ⚡ All with just a simple configuration! ⚡️
+    </b>
+</p>
+<br />
+
 ## Dozer Samples
 
 This repository will contain a variety of samples showcasing [Dozer](https://github.com/getdozer/dozer).
@@ -26,13 +41,13 @@ Refer to the [Installation section](https://getdozer.io/docs/installation) for i
 
 
 
-## Refeference
+## Reference
 
 Refer to the following section on the main repository for the following references.
-| Reference  | Notes                               |
-| ---------- | ----------------------------------- |
-| Connectors | Sample connnector config references |
-| SQL        | Sample SQL using Dozer              |
+| Reference                                                       | Notes                               |
+| --------------------------------------------------------------- | ----------------------------------- |
+| [Connectors](https://getdozer.io/docs/configuration/connectors) | Sample connnector config references |
+| [SQL](https://getdozer.io/docs/sql/introduction)                | Sample SQL using Dozer              |
 
 
 ## Contributing
