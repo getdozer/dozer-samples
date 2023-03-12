@@ -71,3 +71,32 @@ curl -X POST  http://localhost:8080/hop/query \
     {"location":43,"pickup_time":"2022-01-03T09:45:59.000Z","start":"2022-01-03T09:44:00.000Z","end":"2022-01-03T09:46:00.000Z","__dozer_record_id":262144,"__dozer_record_version":1}
 ]
 ```
+
+
+**`gRPC`**
+Filter with limit of 1
+```
+grpcurl -d '{"query": "{\"$limit\": 1}"}' \
+-plaintext localhost:50051 \
+dozer.generated.tumble.Tumbles/query
+```
+Response
+```
+{
+  "records": [
+    {
+      "record": {
+        "location": "142",
+        "pickupTime": "2022-01-01T00:35:40Z",
+        "start": "2022-01-01T00:35:00Z",
+        "end": "2022-01-01T00:40:00Z",
+        "DozerRecordVersion": 1
+      }
+    }
+  ]
+}
+```
+
+
+ 
+

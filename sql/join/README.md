@@ -59,3 +59,24 @@ curl -X POST  http://localhost:8080/pickup/query \
     {"pickup_time":"2022-01-09T12:36:18.000Z","zone":"East Elmhurst","__dozer_record_id":589824,"__dozer_record_version":1}]
 ```
 
+**`gRPC`**
+Filter with limit of 1
+```
+grpcurl -d '{"query": "{\"$limit\": 1}"}' \
+-plaintext localhost:50051 \
+dozer.generated.pickup.Pickups/query
+```
+Response
+```
+{
+  "records": [
+    {
+      "record": {
+        "pickupTime": "2022-01-01T00:35:40Z",
+        "zone": "Lincoln Square East",
+        "DozerRecordVersion": 1
+      }
+    }
+  ]
+}
+```

@@ -53,3 +53,25 @@ curl -X POST  http://localhost:8080/total_distance/query \
 ]
 ```
 
+**`gRPC`**
+Filter with limit of 1
+```
+grpcurl -d '{"query": "{\"$limit\": 1}"}' \
+-plaintext localhost:50051 \
+dozer.generated.total_distance.TotalDistances/query
+```
+Response
+```
+{
+  "records": [
+    {
+      "id": "2",
+      "record": {
+        "vendor": "6",
+        "totalDistance": 45929.08,
+        "DozerRecordVersion": 5563
+      }
+    }
+  ]
+}
+```
