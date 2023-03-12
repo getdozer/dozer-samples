@@ -8,21 +8,21 @@ Refer to the [Installation section](https://getdozer.io/docs/installation) for i
 
 ## Samples
 
-| Type             | Sample                                                  | Notes                                                          |
-| ---------------- | ------------------------------------------------------- | -------------------------------------------------------------- |
-| Connectors       | [Postgres](./postgres)                                  | Load data using Postgres CDC                                   |
-|                  | [Local Storage](./local-storage)                        | Load data from local files                                     |
-|                  | [Snowflake](./snowflake)                                | Load data using Snowflake table streams                        |
-| SQL              | [Using JOINs](./sql/join)                               | Dozer APIs over multiple sources using JOIN                    |
-|                  | [Using Aggregations](./sql/aggregations)                | How to aggregate using Dozer                                   |
-|                  | [Using Window Functions](./sql/window-functions)        | Use `Hop` and `Tumble` Windows                                 |
-| Use Cases        | [Flight Microservices](./usecases/pg-flights)           | Build APIs over multiple microservices.                        |
-|                  | [Use Dozer to Instrument](./usecases/instrument)        | Combine Log data to get real time insights                     |
-|                  | [Real Time Model Scoring](./usecases/model-scoring)     | Deploy trained models to get real time insights as APIs        |
-| Client Libraries | [Dozer React Starter](./clients/react-sample)           | Instantly start building real time views using Dozer and React |
-|                  | [Python Ingestion Using Arrow](./clients/python-sample) | Use Python to instantly ingest arrow dataframes into Dozer     |
-|                  | [Real Time Model Scoring](./usecases/model-scoring)     | Deploy trained models to get real time insights as APIs        |
-| Authorization    | [Dozer Authorziation](./authorization/auth-sample)      | How to apply JWT Auth on Dozer APIs                            |
+| Type             | Sample                                           | Notes                                                          |
+| ---------------- | ------------------------------------------------ | -------------------------------------------------------------- |
+| Connectors       | [Postgres](./postgres)                           | Load data using Postgres CDC                                   |
+|                  | [Local Storage](./local-storage)                 | Load data from local files                                     |
+|                  | Snowflake (Coming soon)                          | Load data using Snowflake table streams                        |
+| SQL              | [Using JOINs](./sql/join)                        | Dozer APIs over multiple sources using JOIN                    |
+|                  | [Using Aggregations](./sql/aggregations)         | How to aggregate using Dozer                                   |
+|                  | [Using Window Functions](./sql/window-functions) | Use `Hop` and `Tumble` Windows                                 |
+| Use Cases        | [Flight Microservices](./usecases/pg-flights)    | Build APIs over multiple microservices.                        |
+|                  | Use Dozer to Instrument (Coming soon)            | Combine Log data to get real time insights                     |
+|                  | Real Time Model Scoring (Coming soon)            | Deploy trained models to get real time insights as APIs        |
+| Client Libraries | Dozer React Starter (Coming soon)                | Instantly start building real time views using Dozer and React |
+|                  | Python Ingestion Using Arrow (Coming soon)       | Use Python to instantly ingest arrow dataframes into Dozer     |
+|                  | Real Time Model Scoring (Coming soon)            | Deploy trained models to get real time insights as APIs        |
+| Authorization    | Dozer Authorziation (Coming soon)                | How to apply JWT Auth on Dozer APIs                            |
 
 
 
