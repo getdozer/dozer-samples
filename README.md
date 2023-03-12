@@ -14,7 +14,7 @@ Refer to the [Installation section](https://getdozer.io/docs/installation) for i
 |                  | [Local Storage](/local-storage)                         | Load data from local files                                     |
 |                  | [Snowflake](./snowflake)                                | Load data using Snowflake table streams                        |
 | SQL              | [Using JOINs](./sql/join)                               | Dozer APIs over multiple sources using JOIN                    |
-|                  | [Using Aggregations](/sql/aggregrations)                | How to aggregate using Dozer                                   |
+|                  | [Using Aggregations](./sql/aggregrations)               | How to aggregate using Dozer                                   |
 |                  | [Using Window Functions](./sql/window-functions)        | Use `Hop` and `Tumble` Windows                                 |
 | Use Cases        | [Flight Microservices](./usecases/pg-flights)           | Build APIs over multiple microservices.                        |
 |                  | [Use Dozer to Instrument](./usecases/instrument)        | Combine Log data to get real time insights                     |
