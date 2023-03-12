@@ -71,7 +71,3 @@ curl -X POST  http://localhost:8080/hop/query \
     {"location":43,"pickup_time":"2022-01-03T09:45:59.000Z","start":"2022-01-03T09:44:00.000Z","end":"2022-01-03T09:46:00.000Z","__dozer_record_id":262144,"__dozer_record_version":1}
 ]
 ```
-
-Postman
-
-![Postman Actor](./images/actor.png)
