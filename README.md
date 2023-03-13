@@ -25,8 +25,8 @@ Refer to the [Installation section](https://getdozer.io/docs/installation) for i
 
 | Type             | Sample                                           | Notes                                                          |
 | ---------------- | ------------------------------------------------ | -------------------------------------------------------------- |
-| Connectors       | [Postgres](./postgres)                           | Load data using Postgres CDC                                   |
-|                  | [Local Storage](./local-storage)                 | Load data from local files                                     |
+| Connectors       | [Postgres](./connectors/postgres)                | Load data using Postgres CDC                                   |
+|                  | [Local Storage](./connectors/local-storage)      | Load data from local files                                     |
 |                  | Snowflake (Coming soon)                          | Load data using Snowflake table streams                        |
 | SQL              | [Using JOINs](./sql/join)                        | Dozer APIs over multiple sources using JOIN                    |
 |                  | [Using Aggregations](./sql/aggregations)         | How to aggregate using Dozer                                   |
@@ -43,7 +43,7 @@ Refer to the [Installation section](https://getdozer.io/docs/installation) for i
 
 ## Reference
 
-Refer to the following section on the main repository for the following references.
+Refer to the following for an exhaustive list of configuration samples.
 | Reference                                                       | Notes                               |
 | --------------------------------------------------------------- | ----------------------------------- |
 | [Connectors](https://getdozer.io/docs/configuration/connectors) | Sample connnector config references |
