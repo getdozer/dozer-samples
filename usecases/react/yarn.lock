@@ -1342,7 +1342,7 @@
 
 "@getdozer/dozer-react@git+https://github.com/getdozer/dozer-react.git":
   version "0.0.1"
-  resolved "git+https://github.com/getdozer/dozer-react.git#08268b808d3e97ae83ad72b7dfcd5bfefe3ceb9c"
+  resolved "git+https://github.com/getdozer/dozer-react.git#6e92fa81c0ab2388e604af2a73d6f8d760665487"
   dependencies:
     "@getdozer/dozer-js" "ssh://git@github.com:getdozer/dozer-js.git"
     "@types/react" "^18.0.28"
