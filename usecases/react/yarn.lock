@@ -1321,7 +1321,7 @@
 
 "@getdozer/dozer-js@git+https://github.com/getdozer/dozer-js.git":
   version "0.0.1"
-  resolved "git+https://github.com/getdozer/dozer-js.git#0bf7b2030d5aed654c0c344b04558e6079259ac4"
+  resolved "git+https://github.com/getdozer/dozer-js.git#809cb8717e86969c6e272946387c7ae1adb0689b"
   dependencies:
     "@types/google-protobuf" "^3.15.6"
     google-protobuf "^3.21.2"
@@ -1331,8 +1331,8 @@
 
 "@getdozer/dozer-js@ssh://git@github.com:getdozer/dozer-js.git":
   version "0.0.1"
-  uid "0bf7b2030d5aed654c0c344b04558e6079259ac4"
-  resolved "ssh://git@github.com:getdozer/dozer-js.git#0bf7b2030d5aed654c0c344b04558e6079259ac4"
+  uid "809cb8717e86969c6e272946387c7ae1adb0689b"
+  resolved "ssh://git@github.com:getdozer/dozer-js.git#809cb8717e86969c6e272946387c7ae1adb0689b"
   dependencies:
     "@types/google-protobuf" "^3.15.6"
     google-protobuf "^3.21.2"
@@ -1342,7 +1342,7 @@
 
 "@getdozer/dozer-react@git+https://github.com/getdozer/dozer-react.git":
   version "0.0.1"
-  resolved "git+https://github.com/getdozer/dozer-react.git#771d21edd81b39792a6bf81a56572827b1abd4c0"
+  resolved "git+https://github.com/getdozer/dozer-react.git#08268b808d3e97ae83ad72b7dfcd5bfefe3ceb9c"
   dependencies:
     "@getdozer/dozer-js" "ssh://git@github.com:getdozer/dozer-js.git"
     "@types/react" "^18.0.28"
@@ -2304,9 +2304,9 @@
   integrity sha512-93+VvleD3mXwlLI/xASjw0FzKcwzl3OdTCzm1LaRfqgS21gfFtK3zDXM5Op9TeeMsJVOaJ2VRDpT9q4Y3d0AvA==
 
 "@types/node@>=13.7.0":
-  version "18.15.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.15.1.tgz#41dc2bf78e8085a250d4670d95edb7fba621dd29"
-  integrity sha512-U2TWca8AeHSmbpi314QBESRk7oPjSZjDsR+c+H4ECC1l+kFgpZf8Ydhv3SJpPy51VyZHHqxlb6mTTqYNNRVAIw==
+  version "18.15.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.15.3.tgz#f0b991c32cfc6a4e7f3399d6cb4b8cf9a0315014"
+  integrity sha512-p6ua9zBxz5otCmbpb5D3U4B5Nanw6Pk3PPyX05xnxbB/fRv71N7CPmORg7uAD5P70T0xmx1pzAx/FUfa5X+3cw==
 
 "@types/object-hash@^1.3.0":
   version "1.3.4"

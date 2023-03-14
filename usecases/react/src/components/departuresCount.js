@@ -2,10 +2,12 @@ import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 import { useOnEvent, useQueryCommon } from "@getdozer/dozer-react";
 import { OperationType, Type } from "@getdozer/dozer-js/lib/esm/generated/protos/types";
 import { useEffect, useState } from "react";
+import {Order} from "@getdozer/dozer-js/lib/esm/query_helper";
 
 function DeparturesCount() {
   const [counts, setCounts] = useState([]);
-  const {records, fields} = useQueryCommon('departures_count', "{\"$order_by\":{\"start\":\"asc\"}}");
+  let query = {orderBy: {start: Order.ASC}};
+  const {records, fields} = useQueryCommon('departures_count', query);
 
   useOnEvent('departures_count', (data, fields, primaryIndexKeys, mapper) => {
     if (fields.length) {
