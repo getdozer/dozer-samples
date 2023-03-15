@@ -3,3 +3,4 @@ tmpdir/
 pg-flights/.dozer
 .dozer
 connectors/**/data/
+.ipynb_checkpoints/
