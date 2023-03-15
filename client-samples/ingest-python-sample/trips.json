@@ -1,0 +1,222 @@
+[
+  {
+    "name": "trips",
+    "schema": {
+      "fields": [
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Utf8",
+          "name": "hvfhs_license_num",
+          "nullable": true
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Utf8",
+          "name": "dispatching_base_num",
+          "nullable": true
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Utf8",
+          "name": "originating_base_num",
+          "nullable": true
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": {
+            "Timestamp": [
+              "Millisecond",
+              "SGT"
+            ]
+          },
+          "name": "request_datetime",
+          "nullable": true
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": {
+            "Timestamp": [
+              "Millisecond",
+              "SGT"
+            ]
+          },
+          "name": "on_scene_datetime",
+          "nullable": true
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": {
+            "Timestamp": [
+              "Millisecond",
+              "SGT"
+            ]
+          },
+          "name": "pickup_datetime",
+          "nullable": true
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": {
+            "Timestamp": [
+              "Millisecond",
+              "SGT"
+            ]
+          },
+          "name": "dropoff_datetime",
+          "nullable": true
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Int64",
+          "name": "PULocationID",
+          "nullable": true
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Int64",
+          "name": "DOLocationID",
+          "nullable": true
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Float64",
+          "name": "trip_miles",
+          "nullable": true
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Int64",
+          "name": "trip_time",
+          "nullable": true
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Float64",
+          "name": "base_passenger_fare",
+          "nullable": true
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Float64",
+          "name": "tolls",
+          "nullable": true
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Float64",
+          "name": "bcf",
+          "nullable": true
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Float64",
+          "name": "sales_tax",
+          "nullable": true
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Float64",
+          "name": "congestion_surcharge",
+          "nullable": true
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Float64",
+          "name": "airport_fee",
+          "nullable": true
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Float64",
+          "name": "tips",
+          "nullable": true
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Float64",
+          "name": "driver_pay",
+          "nullable": true
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Utf8",
+          "name": "shared_request_flag",
+          "nullable": true
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Utf8",
+          "name": "shared_match_flag",
+          "nullable": true
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Utf8",
+          "name": "access_a_ride_flag",
+          "nullable": true
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Utf8",
+          "name": "wav_request_flag",
+          "nullable": true
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Utf8",
+          "name": "wav_match_flag",
+          "nullable": true
+        }
+      ],
+      "metadata": {}
+    }
+  }
+]
