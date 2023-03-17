@@ -57,7 +57,7 @@ sql: |
           flights.arrival_airport,
           flights.aircraft_code,
           (flights.scheduled_arrival - flights.scheduled_departure) AS duration,
-          DAY_OF_WEEK(flights.scheduled_departure) as days_of_week
+          EXTRACT(DOW FROM flights.scheduled_departure) as days_of_week
           FROM flights
         ) f1
       GROUP BY f1.flight_no, f1.departure_airport, f1.arrival_airport, f1.aircraft_code, f1.duration, f1.days_of_week        
@@ -119,6 +119,8 @@ endpoints:
     index:
       primary_key:
         - book_ref
+        - book_date
+        - total_amount
 
   - name: routes
     path: /routes
