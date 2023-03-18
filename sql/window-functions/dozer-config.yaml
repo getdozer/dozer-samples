@@ -36,3 +36,6 @@ endpoints:
     table_name: hop
     index:
       primary_key: 
+
+cache_max_map_size: 2073741824
+app_max_map_size: 2073741824
