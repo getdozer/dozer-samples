@@ -22,7 +22,7 @@ dozer
 ### Ingest data
 ```python
 import polars as pl
-from dozer.ingest import IngestClient
+from pydozer.ingest import IngestClient
 
 df = pl.read_parquet('data/trips/fhvhv_tripdata_2022-01.parquet')
 ingest_client = IngestClient(url="localhost:7005")
