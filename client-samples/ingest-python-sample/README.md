@@ -34,7 +34,7 @@ ingest_client.ingest_df_arrow("trips", small)
 ### Sample Queries
 
 ```python
-from dozer.api import ApiClient
+from pydozer.api import ApiClient
 
 api_client = ApiClient("trips", url="localhost:7003")
 # Get Record Count
