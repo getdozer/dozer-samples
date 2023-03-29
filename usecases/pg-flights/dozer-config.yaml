@@ -77,28 +77,30 @@ sql: |
       JOIN  airports dep on f2.departure_airport = dep.airport_code
       JOIN airports arr ON f2.arrival_airport = arr.airport_code;
 
+# NOTE: as the table names between the connections are the same,
+#  aliasing is needed to avoid ambiguity
 sources:
-  - name: tickets
+  - name: b_tickets
     table_name: tickets
     columns:
     connection: !Ref bookings_conn
 
-  - name: bookings
+  - name: b_bookings
     table_name: bookings
     columns:
     connection: !Ref bookings_conn
 
-  - name: ticket_flights
+  - name: b_ticket_flights
     table_name: ticket_flights
     columns:
     connection: !Ref bookings_conn
 
-  - name: airports
+  - name: b_airports
     table_name: airports
     columns:
     connection: !Ref flights_conn
 
-  - name: flights
+  - name: b_flights
     table_name: flights
     columns:
     connection: !Ref flights_conn
