@@ -95,12 +95,12 @@ sources:
     columns:
     connection: !Ref bookings_conn
 
-  - name: b_airports
+  - name: f_airports
     table_name: airports
     columns:
     connection: !Ref flights_conn
 
-  - name: b_flights
+  - name: f_flights
     table_name: flights
     columns:
     connection: !Ref flights_conn
