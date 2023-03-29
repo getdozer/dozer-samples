@@ -1,4 +1,5 @@
 app_name: flight-microservices
+cache_max_map_size: 2147483648
 connections:
   - config: !Postgres
       user: postgres
@@ -17,29 +18,28 @@ connections:
 
 sql: |
 
-
   -- BOOKING DETAILS
-    select passenger_id, passenger_name, 
-      b.book_ref, book_date, total_amount, 
-      t.ticket_no, tf.flight_id, fare_conditions, tf.amount, 
-      f.flight_no, f.scheduled_arrival, f.scheduled_departure,  
-      f.departure_airport, f.arrival_airport, f.actual_arrival, f.actual_departure
-    into bookings_details
-    from bookings b 
-    inner join tickets t on t.book_ref = b.book_ref 
-    inner join ticket_flights tf on tf.ticket_no = t.ticket_no
-    inner join flights f on tf.flight_id = f.flight_id;
+  select passenger_id, passenger_name, 
+    b.book_ref, book_date, total_amount, 
+    t.ticket_no, tf.flight_id, fare_conditions, tf.amount, 
+    f.flight_no, f.scheduled_arrival, f.scheduled_departure,  
+    f.departure_airport, f.arrival_airport, f.actual_arrival, f.actual_departure
+  into bookings_details
+  from b_bookings b 
+  inner join b_tickets t on t.book_ref = b.book_ref 
+  inner join b_ticket_flights tf on tf.ticket_no = t.ticket_no
+  inner join f_flights f on tf.flight_id = f.flight_id;
 
 
-    -- BOOKING SUMMARY
-    select passenger_id, passenger_name, 
-      b.book_ref, book_date, total_amount, count(tf.ticket_no) as ticket_count, count(f.flight_no) as flight_count, count(passenger_id) as passenger_count
-    into bookings_summary
-    from bookings b 
-    inner join tickets t on t.book_ref = b.book_ref 
-    inner join ticket_flights tf on tf.ticket_no = t.ticket_no
-    inner join flights f on tf.flight_id = f.flight_id
-    group by b.book_ref, book_date, total_amount;
+  -- BOOKING SUMMARY
+  select passenger_id, passenger_name, 
+    b.book_ref, book_date, total_amount, count(tf.ticket_no) as ticket_count, count(f.flight_no) as flight_count, count(passenger_id) as passenger_count
+  into bookings_summary
+  from b_bookings b 
+  inner join b_tickets t on t.book_ref = b.book_ref 
+  inner join b_ticket_flights tf on tf.ticket_no = t.ticket_no
+  inner join f_flights f on tf.flight_id = f.flight_id
+  group by b.book_ref, book_date, total_amount;
 
 
   -- FLIGHT ROUTES
@@ -52,13 +52,13 @@ sql: |
         f1.days_of_week,
         count(flight_no) as flight_count
       FROM ( 
-        SELECT flights.flight_no,
-          flights.departure_airport,
-          flights.arrival_airport,
-          flights.aircraft_code,
-          (flights.scheduled_arrival - flights.scheduled_departure) AS duration,
-          EXTRACT(DOW FROM flights.scheduled_departure) as days_of_week
-          FROM flights
+        SELECT f_flights.flight_no,
+          f_flights.departure_airport,
+          f_flights.arrival_airport,
+          f_flights.aircraft_code,
+          (f_flights.scheduled_arrival - f_flights.scheduled_departure) AS duration,
+          EXTRACT(DOW FROM f_flights.scheduled_departure) as days_of_week
+          FROM f_flights
         ) f1
       GROUP BY f1.flight_no, f1.departure_airport, f1.arrival_airport, f1.aircraft_code, f1.duration, f1.days_of_week        
     )
@@ -74,11 +74,11 @@ sql: |
       f2.days_of_week
     INTO routes  
     FROM tbl f2
-      JOIN  airports dep on f2.departure_airport = dep.airport_code
-      JOIN airports arr ON f2.arrival_airport = arr.airport_code;
+      JOIN f_airports dep on f2.departure_airport = dep.airport_code
+      JOIN f_airports arr ON f2.arrival_airport = arr.airport_code;
 
 # NOTE: as the table names between the connections are the same,
-#  aliasing is needed to avoid ambiguity
+#       aliasing is needed to avoid ambiguity
 sources:
   - name: b_tickets
     table_name: tickets
