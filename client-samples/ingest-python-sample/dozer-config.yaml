@@ -7,7 +7,6 @@ connections:
     name: trips_arrow
 
 cache_max_map_size: 1073741824
-app_max_map_size: 1073741824
 
 api:
   rest:
