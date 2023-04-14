@@ -10,7 +10,7 @@ packages = [{include = "ingest_python_sample"}]
 [tool.poetry.dependencies]
 python = "^3.9"
 polars = "^0.16.8"
-dozer = {git = "git@github.com:getdozer/dozer-python.git", rev = "main"}
+pydozer = {git = "git@github.com:getdozer/dozer-python.git", rev = "main"}
 
 
 [tool.poetry.group.dev.dependencies]

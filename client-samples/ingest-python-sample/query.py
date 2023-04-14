@@ -1,5 +1,5 @@
 
-from dozer.api import ApiClient
+from pydozer.api import ApiClient
 
 api_client = ApiClient("trips_arrow", url="localhost:7003")
 trips = api_client.query()
