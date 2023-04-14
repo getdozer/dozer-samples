@@ -1,8 +1,8 @@
 
 from time import sleep
 import polars as pl
-from dozer.ingest import IngestClient
-from dozer.api import ApiClient
+from pydozer.ingest import IngestClient
+from pydozer.api import ApiClient
 
 df = pl.read_parquet('data/trips/fhvhv_tripdata_2022-01.parquet')
 ingest_client = IngestClient(url="localhost:7005")
