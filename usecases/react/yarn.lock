@@ -1192,6 +1192,25 @@
   resolved "https://registry.yarnpkg.com/@csstools/selector-specificity/-/selector-specificity-2.1.1.tgz#c9c61d9fe5ca5ac664e1153bb0aa0eba1c6d6308"
   integrity sha512-jwx+WCqszn53YHOfvFMJJRd/B2GqkCBt+1MJSG6o5/s8+ytHMvDZXsJgUEWLk12UnLd7HYKac4BYU5i/Ron1Cw==
 
+"@dozerjs/dozer-react@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@dozerjs/dozer-react/-/dozer-react-0.0.4.tgz#17512e04462016e80f41391e5f431c780c24e169"
+  integrity sha512-pKYKxkqzRitI7urSiWAw9m8W3hs1iOuUMSAd3wEnUiIWN5g2/s7MyI2tnELNH0cX4BEspIwYRN7iUHttUZKwCA==
+  dependencies:
+    "@dozerjs/dozer" "0.0.5"
+    "@types/react" "^18.0.28"
+
+"@dozerjs/dozer@0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@dozerjs/dozer/-/dozer-0.0.5.tgz#4ca171399135bf5e91df14c1eac9a55fe6709a5d"
+  integrity sha512-Xkiw6kG/gp3XiKEW9zqrld1huimw01GPPl6Ipfpxn6PJIP/AcbpCS6zobGN163C8NSHDaDec1G0FdNQMbGGLoQ==
+  dependencies:
+    "@types/google-protobuf" "^3.15.6"
+    google-protobuf "^3.21.2"
+    grpc-web "^1.4.2"
+    rxjs "^7.8.0"
+    ts-proto "^1.140.0"
+
 "@emotion/babel-plugin@^11.10.6":
   version "11.10.6"
   resolved "https://registry.yarnpkg.com/@emotion/babel-plugin/-/babel-plugin-11.10.6.tgz#a68ee4b019d661d6f37dec4b8903255766925ead"
@@ -1318,34 +1337,6 @@
   version "8.35.0"
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.35.0.tgz#b7569632b0b788a0ca0e438235154e45d42813a7"
   integrity sha512-JXdzbRiWclLVoD8sNUjR443VVlYqiYmDVT6rGUEIEHU5YJW0gaVZwV2xgM7D4arkvASqD0IlLUVjHiFuxaftRw==
-
-"@getdozer/dozer-js@git+https://github.com/getdozer/dozer-js.git":
-  version "0.0.1"
-  resolved "git+https://github.com/getdozer/dozer-js.git#809cb8717e86969c6e272946387c7ae1adb0689b"
-  dependencies:
-    "@types/google-protobuf" "^3.15.6"
-    google-protobuf "^3.21.2"
-    grpc-web "^1.4.2"
-    rxjs "^7.8.0"
-    ts-proto "^1.140.0"
-
-"@getdozer/dozer-js@ssh://git@github.com:getdozer/dozer-js.git":
-  version "0.0.1"
-  uid "809cb8717e86969c6e272946387c7ae1adb0689b"
-  resolved "ssh://git@github.com:getdozer/dozer-js.git#809cb8717e86969c6e272946387c7ae1adb0689b"
-  dependencies:
-    "@types/google-protobuf" "^3.15.6"
-    google-protobuf "^3.21.2"
-    grpc-web "^1.4.2"
-    rxjs "^7.8.0"
-    ts-proto "^1.140.0"
-
-"@getdozer/dozer-react@git+https://github.com/getdozer/dozer-react.git":
-  version "0.0.1"
-  resolved "git+https://github.com/getdozer/dozer-react.git#6e92fa81c0ab2388e604af2a73d6f8d760665487"
-  dependencies:
-    "@getdozer/dozer-js" "ssh://git@github.com:getdozer/dozer-js.git"
-    "@types/react" "^18.0.28"
 
 "@googlemaps/js-api-loader@^1.7.0":
   version "1.15.1"

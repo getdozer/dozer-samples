@@ -5,8 +5,8 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "@getdozer/dozer-js": "git+https://github.com/getdozer/dozer-js.git",
-    "@getdozer/dozer-react": "git+https://github.com/getdozer/dozer-react.git",
+    "@dozerjs/dozer": "0.0.5",
+    "@dozerjs/dozer-react": "0.0.4",
     "@mui/material": "^5.11.7",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

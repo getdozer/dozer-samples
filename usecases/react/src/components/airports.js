@@ -1,7 +1,7 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useQueryCommon } from "@getdozer/dozer-react";
-import { Type } from "@getdozer/dozer-js/lib/esm/generated/protos/types";
+import { useQueryCommon } from "@dozerjs/dozer-react";
+import { Type } from "@dozerjs/dozer/lib/esm/generated/protos/types";
 
 function Airports() {
   const {records, fields} = useQueryCommon('airports');

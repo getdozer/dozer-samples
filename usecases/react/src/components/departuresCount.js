@@ -1,8 +1,8 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { useOnEvent, useQueryCommon } from "@getdozer/dozer-react";
-import { OperationType, Type } from "@getdozer/dozer-js/lib/esm/generated/protos/types";
 import { useEffect, useState } from "react";
-import {Order} from "@getdozer/dozer-js/lib/esm/query_helper";
+import { useOnEvent, useQueryCommon } from "@dozerjs/dozer-react";
+import { Order } from "@dozerjs/dozer/lib/esm/query_helper";
+import { OperationType, Type } from "@dozerjs/dozer/lib/esm/generated/protos/types";
 
 function DeparturesCount() {
   const [counts, setCounts] = useState([]);

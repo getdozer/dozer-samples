@@ -1,7 +1,7 @@
 import GoogleMapReact from 'google-map-react';
-import { useOnEvent, useQueryCommon } from "@getdozer/dozer-react";
 import { useEffect, useState } from "react";
-import { OperationType } from "@getdozer/dozer-js/lib/esm/generated/protos/types";
+import { useOnEvent, useQueryCommon } from "@dozerjs/dozer-react";
+import { OperationType } from "@dozerjs/dozer/lib/esm/generated/protos/types";
 
 const Marker = ({ text }) => <div style={{
   color: "white",
