@@ -15,7 +15,7 @@ const Marker = ({ text }) => <div style={{
 
 function AirportsMap() {
   const [airports, setAirports] = useState([]);
-  const { records } = useQueryCommon('airports_count');
+  const { records } = useQueryCommon('airports_count', {limit: 5000});
 
   useOnEvent('airports_count', (data, fields, primaryIndexKeys, mapper) => {
     if (fields.length) {
