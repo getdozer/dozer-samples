@@ -4,3 +4,5 @@ pg-flights/.dozer
 .dozer
 connectors/**/data/
 .ipynb_checkpoints/
+sql/join/data/
+connectors/snowflake/env.sh
