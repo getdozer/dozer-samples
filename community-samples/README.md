@@ -1,13 +1,13 @@
 # Dozer Sample Contribution Guidelines
 
-Thank you for your interest in contributing to the Sample-by-Community project! This document outlines the guidelines and best practices to follow when submitting a community project. We appreciate your effort and look forward to collaborating with you.
+Thank you for your interest in contributing to the dozer-samples! This document outlines the guidelines and best practices to follow when submitting a community project. We appreciate your effort and look forward to collaborating with you.
 
 ## Contribution Process
 
-1. **Fork** the Sample-by-Community repository on GitHub.
+1. **Fork** the [dozer-samples](https://github.com/getdozer/dozer-samples/) repository on GitHub.
 2. **Clone** your forked repository to your local machine.
 3. **Create** a new branch with a descriptive name related to your project (e.g., `my-awesome-project`).
-4. **Add** your project files to the `samples-by-community` directory within the repository.
+4. **Add** your project files to the `community-samples` directory within the repository.
 5. **Commit** your changes and **push** them to your forked repository.
 6. **Submit** a Pull Request (PR) from your forked repository to the `main` [dozer-samples](https://github.com/getdozer/dozer-samples/) repository.
 
@@ -16,7 +16,7 @@ Thank you for your interest in contributing to the Sample-by-Community project! 
 Please structure your project as follows:
 
 ```bash
-sample-by-community/
+community-samples/
     ├── your-project-name/
     │   ├── your-project-file_1/
     │   ├── your-project-file_n/
