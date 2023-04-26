@@ -34,7 +34,7 @@ Refer to the [Installation section](https://getdozer.io/docs/installation) for i
 | Use Cases        | [Flight Microservices](./usecases/pg-flights)                            | Build APIs over multiple microservices.                                      |
 |                  | Use Dozer to Instrument (Coming soon)                                    | Combine Log data to get real time insights                                   |
 |                  | Real Time Model Scoring (Coming soon)                                    | Deploy trained models to get real time insights as APIs                      |
-| Client Libraries | Dozer React Starter (Coming soon)                                        | Instantly start building real time views using Dozer and React               |
+| Client Libraries | [Dozer React Starter](./usecases/react/)                                        | Instantly start building real time views using Dozer and React               |
 |                  | [Ingest Polars/Pandas Dataframes](./client-samples/ingest-python-sample) | Instantly ingest Polars/Pandas dataframes using Arrow format and deploy APIs |
 | Authorization    | Dozer Authorziation (Coming soon)                                        | How to apply JWT Auth on Dozer APIs                                          |
 
@@ -45,7 +45,7 @@ Refer to the [Installation section](https://getdozer.io/docs/installation) for i
 Refer to the following for an exhaustive list of configuration samples.
 | Reference                                                       | Notes                               |
 | --------------------------------------------------------------- | ----------------------------------- |
-| [Connectors](https://getdozer.io/docs/configuration/connectors) | Sample connnector config references |
+| [Connectors](https://getdozer.io/docs/configuration/connectors) | Sample connector config references |
 | [SQL](https://getdozer.io/docs/sql/introduction)                | Sample SQL using Dozer              |
 
 
@@ -58,4 +58,3 @@ Please refer to [Contributing](https://getdozer.io/docs/contributing/overview) f
 - [Documentation](https://getdozer.io/docs/dozer/)
 - [Architecture](https://getdozer.io/docs/dozer/architecture)
 - [Discord channel](https://discord.gg/3eWXBgJaEQ)
-
