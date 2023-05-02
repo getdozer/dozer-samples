@@ -13,7 +13,7 @@ This example demonstrates how to use the Dozer Lambda Runtime to execute Lambda 
 
 Follow these steps to set up and run the example app:
 
-### Step 1: Clone the Dozer repository and install dependencies
+### Step 1: Clone the [Dozer Samples repository](https://github.com/getdozer/dozer-samples) and install dependencies
 
 ```bash
 git clone https://github.com/getdozer/dozer-samples.git
@@ -21,7 +21,7 @@ cd dozer-samples/usecases/lambda/
 pip install -r requirements.txt
 ```
 
-### Step 2: Remove any existing Dozer configuration and start the Dozer process
+### Step 2: Remove any existing Dozer configuration and start the Dozer
 
 ```bash
 rm -rf ./.dozer && dozer -c config/dozer-config.yaml
