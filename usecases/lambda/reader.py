@@ -13,14 +13,14 @@ client = Client(account_sid, auth_token)
 def message():
     message = client.messages.create(
         body="from Dozer Assistant:\nThe temperature of the room is too high 🥵",
-        from_="",
-        to="",
+        from_='',
+        to=''
     )
     print(message.sid)
 
 
 async def main():
-    reader = await pydozer_log.LogReader.new("./.dozer/pipeline", "events")
+    reader = await pydozer_log.LogReader.new("./.dozer", "events")
     while True:
         data = await reader.next_op()
         if "op" in data.keys():
