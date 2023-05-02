@@ -1,0 +1,23 @@
+{
+  "events": {
+    "schema": {
+      "fields": [
+        {
+          "typ": "String",
+          "name": "id",
+          "nullable": true
+        },
+        {
+          "typ": "Float",
+          "name": "temperature",
+          "nullable": true
+        },
+        {
+          "typ": "String",
+          "name": "time",
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

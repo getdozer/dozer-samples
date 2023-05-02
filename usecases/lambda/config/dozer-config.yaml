@@ -1,0 +1,32 @@
+app_name: dozer-ingest-users
+connections:
+  - config: !Grpc
+      schemas: !Path "config/events.json"
+      port: 7001
+    name: ingest
+
+sources:
+  - name: events
+    table_name: events
+    connection: !Ref ingest
+    columns:
+
+sql: |
+  SELECT id, temperature
+  INTO alerts
+  FROM events
+  WHERE temperature >= 23.0
+  
+
+endpoints:
+  - name: events
+    path: /events
+    table_name: events
+    index:
+      primary_key:
+
+  - name: alerts
+    path: /alerts
+    table_name: alerts
+    index:
+      primary_key:
