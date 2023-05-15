@@ -4,7 +4,7 @@ This sample app was developed during the first-ever Dozer Appathon. It was an ov
 
 # About the App
 
-The app is simply a HTML file that is configured with Axios to hit the Dozer endpoint and fetch the required data values. In this context, there's a calender that an user can use to pick a date and submit it to fetch the Closing price of 4 different Crypto coins (Ethereum, Bitcoin, DOGE, Solana) on that date. The Closing price values are further plotted as a bar chart for better visual representation.
+The app is simply an HTML file that is configured with Axios to hit the Dozer endpoint and fetch the required data values. In this context, there's a calendar that a user can use to pick a date and submit it to fetch the Closing price of 4 different Crypto coins (Ethereum, Bitcoin, DOGE, Solana) on that date. The Closing price values are further plotted as a bar chart for better visual representation.
 
 ![App Snapshot](./data/app.png)
 
