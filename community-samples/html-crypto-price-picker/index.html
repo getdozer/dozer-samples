@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Crypto Price Graphs</title>
+  </head>
+  <body>
+    <h1>Crypto Price Graphs</h1>
+    <label for="date">Select a date:</label>
+    <input
+      type="date"
+      id="date"
+      name="date"
+      min="2023-01-01"
+      max="2023-05-13"
+    />
+    <button id="submit">Submit</button>
+    <hr />
+    <h2>Crypto Prices</h2>
+    <canvas id="cryptoChart"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      const cryptoChart = new Chart(
+        document.getElementById("cryptoChart").getContext("2d"),
+        {
+          type: "line", // Change to line
+          data: {
+            labels: [],
+            datasets: [
+              {
+                label: "ETH Price",
+                data: [],
+                backgroundColor: "rgba(54, 162, 235, 0.2)",
+                borderColor: "rgba(54, 162, 235, 1)",
+                borderWidth: 1,
+              },
+              {
+                label: "BitCoin Price",
+                data: [],
+                backgroundColor: "rgba(255, 99, 132, 0.2)",
+                borderColor: "rgba(255, 99, 132, 1)",
+                borderWidth: 1,
+              },
+              {
+                label: "Doge Price",
+                data: [],
+                backgroundColor: "rgba(187, 56, 102, 0.2)",
+                borderColor: "rgba(187, 56, 102, 1)",
+                borderWidth: 1,
+              },
+              {
+                label: "Solana Price",
+                data: [],
+                backgroundColor: "rgba(201, 134, 76, 0.2)",
+                borderColor: "rgba(201, 134, 76, 1)",
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              xAxes: [
+                {
+                  type: "time",
+                  time: {
+                    unit: "day",
+                  },
+                },
+              ],
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true,
+                  },
+                },
+              ],
+            },
+          },
+        }
+      );
+
+      const submitButton = document.getElementById("submit");
+
+      submitButton.addEventListener("click", async () => {
+        const dateInput = document.getElementById("date");
+        const date = dateInput.value;
+        const formattedDate = date.split("-").reverse().join("-");
+
+        const endpoints = [
+          `YOUR_DOZER_URL:PORT/eth/${formattedDate}`,
+          `YOUR_DOZER_URL:PORT/btc/${formattedDate}`,
+          `YOUR_DOZER_URL:PORT/doge/${formattedDate}`,
+          `YOUR_DOZER_URL:PORT/solana/${formattedDate}`,
+        ];
+
+        try {
+          const responses = await Promise.all(
+            endpoints.map((endpoint) => axios.get(endpoint))
+          );
+          console.log(responses);
+
+          const priceData = responses.map((response) => response.data);
+
+          cryptoChart.data.labels.push(date);
+          cryptoChart.data.datasets[0].data.push(priceData[0].Close);
+          cryptoChart.data.datasets[1].data.push(priceData[1].Close);
+          cryptoChart.data.datasets[2].data.push(priceData[2].Close);
+          cryptoChart.data.datasets[3].data.push(priceData[3].Close);
+
+          // update chart only once
+          cryptoChart.update();
+        } catch (error) {
+          console.error(error);
+          alert("Error getting price data");
+        }
+      });
+    </script>
+  </body>
+</html>
