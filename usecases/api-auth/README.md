@@ -48,12 +48,12 @@ cd server && yarn install
 ```
  The server app takes care of the user login feature and passes the auto-generated auth token with the master token to subsequent requests to the client app while communicating
 
-8. Install dependencies & start the react application:
-```bash
-cd ..
-yarn install && yarn start
-```
-Go to [localhost:3000](localhost:3000) to see the user side view of the app that lets you book the ticket. To see the admin dashboard go to [localhost:3000/admin/dashboard](localhost:3000/admin/dashboard). Enter username and password as "admin" to see the real-time updates on ticket sales.
+8. In a new terminal, navigate to the `client` directory, install client dependencies and start the app:
+    ```bash
+    cd ../client && yarn install && yarn start
+    ```
+Go to [localhost:3000](localhost:3000) to see the user side view of the app that lets you book the ticket.
+To see the admin dashboard go to [localhost:3000/admin/dashboard](localhost:3000/admin/dashboard). Enter username and password as "admin" to see the real-time updates on ticket sales.
 
 > Note: Always ensure that your `MASTER_TOKEN` is kept secure. Do not commit this information to your version control system.
 
