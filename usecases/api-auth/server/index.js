@@ -13,7 +13,7 @@ const { Client } = require('pg')
 
 const client = new Client({
     host: '127.0.0.1',
-    port: 5432,
+    port: 5438,
     database: 'omdb',
     user: 'postgres',
     password: 'postgres',
@@ -22,6 +22,7 @@ const client = new Client({
 client.connect();
 
 const MASTER_TOKEN = process.env.MASTER_TOKEN;
+
 app.post('/admin/login', function(req, res){
     console.log(req.body);
     if(!req.body.username || !req.body.password){
@@ -62,7 +63,6 @@ app.get('/public/new_user', function(req, response){
 
     const text = 'INSERT INTO users(id, name) VALUES($1, $2) RETURNING *'
     const values = [uuid, name]
-
     client.query(text, values, (err, res) => {
         if (err) {
             response.status(500).send('Something broke!')

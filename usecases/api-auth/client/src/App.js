@@ -1,8 +1,8 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./components/login";
-import Orders from "./components/orders";
-import Temperature from "./components/temperature";
+// import Orders from "./components/orders";
+// import Temperature from "./components/temperature";
 import Dashboard from "./components/admin/dashboard";
 import Movies from "./components/public/movies";
 

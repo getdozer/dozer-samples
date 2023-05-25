@@ -52,21 +52,17 @@ CREATE TABLE movies (
 
 
 -- create the 'users' table
-CREATE TABLE users (
-  id INT PRIMARY KEY,
-  user_name VARCHAR(255),
-  user_email VARCHAR(255) UNIQUE,
-  user_password VARCHAR(255)
+CREATE TABLE public.users (
+	id varchar NULL,
+	"name" varchar NULL
 );
 
 -- create the 'bookings' table
-CREATE TABLE bookings (
-  id INT PRIMARY KEY,
-  user_id INT,
-  movie_id BIGINT,
-  booking_time TIMESTAMP,
-  FOREIGN KEY(user_id) REFERENCES users(id),
-  FOREIGN KEY(movie_id) REFERENCES movies(id)
+CREATE TABLE public.bookings (
+	id serial4 NOT NULL,
+	user_id varchar NULL,
+	movie_id int4 NULL,
+	CONSTRAINT bookings_pkey PRIMARY KEY (id)
 );
 
 -- insert data into the 'movies' table
