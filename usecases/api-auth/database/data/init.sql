@@ -53,7 +53,7 @@ CREATE TABLE movies (
 
 -- create the 'users' table
 CREATE TABLE users (
-  user_id INT PRIMARY KEY,
+  id INT PRIMARY KEY,
   user_name VARCHAR(255),
   user_email VARCHAR(255) UNIQUE,
   user_password VARCHAR(255)
@@ -61,11 +61,11 @@ CREATE TABLE users (
 
 -- create the 'bookings' table
 CREATE TABLE bookings (
-  booking_id INT PRIMARY KEY,
+  id INT PRIMARY KEY,
   user_id INT,
   movie_id BIGINT,
   booking_time TIMESTAMP,
-  FOREIGN KEY(user_id) REFERENCES users(user_id),
+  FOREIGN KEY(user_id) REFERENCES users(id),
   FOREIGN KEY(movie_id) REFERENCES movies(id)
 );
 
