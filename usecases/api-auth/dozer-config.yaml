@@ -1,0 +1,91 @@
+app_name: movie-booking
+connections:
+  - config: !Postgres
+      user: postgres
+      password: postgres
+      host: 0.0.0.0
+      port: 5438
+      database: omdb
+    name: omdb
+
+
+sql: |
+  SELECT id, name, runtime
+  INTO only_movies
+  FROM movies
+  WHERE runtime > 10;
+
+  SELECT COUNT(id) as count, user_id, movie_id
+  INTO user_bookings
+  FROM bookings
+  GROUP BY user_id, movie_id;
+
+  SELECT COUNT(bookings.id) as count, movies.name, movie_id as id
+  INTO movies_with_bookings
+  FROM bookings
+  left JOIN movies ON bookings.movie_id = movies.id
+  GROUP BY name, movie_id;
+
+
+sources:
+  - name: bookings
+    table_name: bookings
+    columns:
+    connection: !Ref omdb
+
+  - name: users
+    table_name: users
+    columns:
+    connection: !Ref omdb
+
+  - name: movies
+    table_name: movies
+    columns:
+      - id
+      - name
+      - runtime
+    connection: !Ref omdb
+
+
+
+endpoints:
+  - name: bookings
+    path: /bookings
+    table_name: bookings
+    index:
+      primary_key:
+        - id
+
+  - name: only_movies
+    path: /only_movies
+    table_name: only_movies
+    index:
+      primary_key:
+        - id
+
+  - name: user_bookings
+    path: /user_bookings
+    table_name: user_bookings
+    index:
+      primary_key:
+        - user_id
+        - movie_id
+
+  - name: users
+    path: /api/users
+    table_name: users
+    index:
+      primary_key:
+        - id
+
+  - name: movies_with_bookings
+    path: /movies_with_bookings
+    table_name: movies_with_bookings
+    index:
+      primary_key:
+        - name
+        - id
+
+api:
+    api_security: !Jwt
+        my_secret

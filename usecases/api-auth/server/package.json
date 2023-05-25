@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "@dozerjs/dozer": "0.0.6",
+    "@faker-js/faker": "^7.6.0",
+    "axios": "^1.3.5",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "faker": "^6.6.6",
+    "pg": "^8.10.0",
+    "poly": "^0.6.1",
+    "request": "^2.88.2",
+    "xhr-shim": "^0.1.3",
+    "xhr2": "^0.2.1",
+    "xmlhttprequest": "^1.8.0"
+  }
+}
