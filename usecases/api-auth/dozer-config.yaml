@@ -4,7 +4,7 @@ connections:
       user: postgres
       password: postgres
       host: 0.0.0.0
-      port: 5432
+      port: 5438
       database: omdb
     name: omdb
 
@@ -85,6 +85,7 @@ endpoints:
       primary_key:
         - name
         - id
+
 api:
     api_security: !Jwt
         my_secret
