@@ -1,0 +1,66 @@
+connections:
+  - config : !S3Storage
+      details:
+        access_key_id: {{YOUR_ACCESS_KEY}}
+        secret_access_key: {{YOUR_SECRET_KEY}}
+        region: {{YOUR_REGION}}
+        bucket_name: {{YOUR_BUCKET_NAME}}
+      tables:
+        - !Table
+          name: stocks
+          config: !CSV
+            path: . # path to files or folder inside a bucket
+            extension: .csv
+    name: s3
+
+sql: |
+  -- Ticker Analysis
+  SELECT Ticker, AVG(Close) AS average_close_price, SUM(Volume) AS total_volume
+  INTO ticker_analysis
+  FROM stocks
+  WHERE Date >= '2025-01-01' AND Date < '2025-02-01'
+  GROUP BY Ticker;
+
+  -- Daily Analysis
+  SELECT Date, AVG(Close) AS average_close_price, SUM(Volume) AS total_volume
+  INTO daily_analysis
+  FROM stocks
+  GROUP BY Date;
+
+  -- Highest Daily Close Price
+  SELECT Date, MAX(Close) AS highest_close_price
+  INTO highest_daily_close
+  FROM stocks
+  GROUP BY Date;
+
+  -- Lowest Daily Close Price
+  SELECT Date, MIN(Close) AS lowest_close_price
+  INTO lowest_daily_close
+  FROM stocks
+  GROUP BY Date;
+
+sources:
+  - name: stocks
+    table_name: stocks
+    connection: !Ref s3
+    columns:
+
+endpoints:
+  - name: ticker_analysis
+    path: /analysis/ticker
+    table_name: ticker_analysis
+
+  - name: daily_analysis
+    path: /analysis/daily
+    table_name: daily_analysis
+
+  - name: highest_daily_close
+    path: /analysis/highest_daily_close
+    table_name: highest_daily_close
+
+  - name: lowest_daily_close
+    path: /analysis/lowest_daily_close
+    table_name: lowest_daily_close
+
+telemetry:
+  metrics: !Prometheus # You can check the metrics at http://localhost:9000
