@@ -1,4 +1,4 @@
-# Readme - Running Redpanda, Producer, and Dozer
+# Running Redpanda, Producer, and Dozer
 
 This readme provides step-by-step instructions on running Redpanda, a producer for generating sample data, and Dozer for ingesting the Redpanda data and querying it. By following these steps, you will have a local setup where you can produce and consume data using Redpanda and Dozer.
 
@@ -14,7 +14,7 @@ Before starting, ensure that you have the following installed:
 
 ### Step 1: Run Redpanda
 
-1. Create a file named `docker-compose.yaml` with the contents present in `[docker-compose.yml](docker-compose.yml)` from the repo:
+1. Create a file named `docker-compose.yaml` with the contents present in [`docker-compose.yml`](docker-compose.yml) from the repo:
 
 2. Run the following command to start Redpanda:
 
@@ -37,7 +37,7 @@ curl -X POST -H "Content-Type: application/vnd.schemaregistry.v1+json" --data '{
 
 ### Step 3: Run the Producer
 
-1. Create a Python script named `producer.py` with the code to generate sample data and publish it to Redpanda or use `[producer.py](producer.py)` from the repo
+1. Create a Python script named `producer.py` with the code to generate sample data and publish it to Redpanda or use [`producer.py`](producer.py) from the repo
 
 2. Run the following command to start the producer:
 
@@ -49,7 +49,7 @@ The producer will start generating sample data and publish it to Redpanda.
 
 ### Step 4: Run Dozer
 
-1. Create a configuration file named `dozer-config.yaml` with the necessary configuration for Dozer. You can use the same `[dozer-config.yaml](dozer-config.yaml)` from this repo as well.
+1. Create a configuration file named `dozer-config.yaml` with the necessary configuration for Dozer. You can use the same [`dozer-config.yaml`](dozer-config.yaml) from this repo as well.
 
 2. Run the following command to start Dozer:
 
