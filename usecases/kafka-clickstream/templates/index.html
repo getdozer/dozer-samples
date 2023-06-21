@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dozer Clickstream App</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .clickable {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen bg-gray-100">
+    <div class="p-8 bg-white shadow-lg rounded-lg">
+        <h1 class="text-2xl font-bold mb-4">Dozer Clickstream App</h1>
+        <button class="clickable bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="sendClick('button')">Button</button>
+        <a class="clickable text-blue-500 hover:text-blue-800 ml-4" onclick="sendClick('link')">Link</a>
+        <img class="clickable w-16 h-16 mt-4" src="https://via.placeholder.com/150" onclick="sendClick('image')">
+        <form class="mt-4" onsubmit="event.preventDefault(); sendClick('form')">
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Form field">
+            <input class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer" type="submit" value="Submit form">
+        </form>
+        <div class="mt-4">
+            <select class="block appearance-none w-full bg-white border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state" onchange="sendClick('dropdown')">
+                <option>Select an option</option>
+                <option>Option 1</option>
+                <option>Option 2</option>
+                <option>Option 3</option>
+            </select>
+        </div>
+        <div class="mt-4">
+            <video class="w-full" controls onplay="sendClick('video-play')" onpause="sendClick('video-pause')">
+                <source src="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+    <script>
+        function sendClick(type) {
+            fetch('/click', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    timestamp: Date.now(),
+                    type: type
+                })
+            });
+        }
+    </script>
+</body>
+</html>

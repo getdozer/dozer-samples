@@ -1,0 +1,74 @@
+app_name: clickstream-analytics
+cache_max_map_size: 8589934592
+api:
+  internal:
+    port: 50052
+    host: "[::1]"
+  rest:
+    port: 8088
+connections:
+  - config : !Kafka
+      broker: localhost:19092
+      schema_registry_url: http://localhost:18081
+    name: kafka_store
+
+sql: |
+  -- Query 1: Count of event types
+  SELECT
+    t.type,
+    COUNT(*) AS count
+  INTO click_counts
+  FROM clickstream t
+  GROUP BY t.type;
+
+  -- Query 2: Total count of events
+  SELECT COUNT(*) AS total_count INTO total_counts FROM clickstream;
+
+  -- Query 3: Average timestamp by event type
+  SELECT
+    t.type,
+    AVG(t.timestamp) AS average_timestamp
+  INTO average_timestamps
+  FROM clickstream t
+  GROUP BY t.type;
+
+  -- Query 4: Top 5 most frequent event types
+  WITH top_event_types AS (
+    SELECT
+      t.type,
+      COUNT(*) AS count
+    FROM clickstream t
+    GROUP BY t.type
+  )
+  SELECT * INTO top_event_types FROM top_event_types;
+
+
+sources:
+  - name: clickstream
+    table_name: clickstream
+    connection: !Ref kafka_store
+    columns:
+      - timestamp
+      - type
+
+endpoints:
+  - name: click_counts
+    path: /click_counts
+    table_name: click_counts
+    index:
+      primary_key:
+  - name: total_counts
+    path: /total_counts
+    table_name: total_counts
+    index:
+      primary_key:
+  - name: average_timestamps
+    path: /average_timestamps
+    table_name: average_timestamps
+    index:
+      primary_key:
+  - name: top_event_types
+    path: /top_event_types
+    table_name: top_event_types
+    index:
+      primary_key:
