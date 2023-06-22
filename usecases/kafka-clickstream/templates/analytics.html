@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clickstream Analytics</title>
+    <link href="http://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="p-10 bg-gray-100">
+    <div id="clickCounts" class="p-5 bg-white rounded shadow mb-5"></div>
+    <div id="totalCounts" class="p-5 bg-white rounded shadow mb-5"></div>
+    <div id="averageTimestamps" class="p-5 bg-white rounded shadow mb-5"></div>
+    <div id="topEventTypes" class="p-5 bg-white rounded shadow mb-5"></div>
+
+    <script>
+        fetch('http://localhost:8088/click_counts', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            let html = '<h2 class="text-xl font-bold mb-3">Click Counts</h2>';
+            data.forEach(item => {
+                html += `<p>${item.type}: ${item.count}</p>`;
+            });
+            document.getElementById('clickCounts').innerHTML = html;
+        });
+
+        fetch('http://localhost:8088/total_counts', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            let html = '<h2 class="text-xl font-bold mb-3">Total Counts</h2>';
+            html += `<p>Total Count: ${data[0].total_count}</p>`;
+            document.getElementById('totalCounts').innerHTML = html;
+        });
+
+        fetch('http://localhost:8088/average_timestamps', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            let html = '<h2 class="text-xl font-bold mb-3">Average Timestamps</h2>';
+            data.forEach(item => {
+                let date = new Date(Number(item.average_timestamp));
+                let formattedDate = date.toLocaleString(); // format as a string
+                html += `<p>${item.type}: ${formattedDate}</p>`;
+            });
+            document.getElementById('averageTimestamps').innerHTML = html;
+        });
+
+        fetch('http://localhost:8088/top_event_types', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            let html = '<h2 class="text-xl font-bold mb-3">Top Event Types</h2>';
+            data.forEach(item => {
+                html += `<p>${item.type}: ${item.count}</p>`;
+            });
+            document.getElementById('topEventTypes').innerHTML = html;
+        });
+    </script>
+</body>
+</html>

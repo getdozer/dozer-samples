@@ -17,6 +17,10 @@ producer = KafkaProducer(
 def home():
     return render_template('index.html')
 
+@app.route('/analytics')
+def analytics():
+    return render_template('analytics.html')
+
 @app.route('/click', methods=['POST'])
 def click():
     data = request.get_json()
