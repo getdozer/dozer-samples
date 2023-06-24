@@ -1,14 +1,12 @@
 connections:
   - name: ny_taxi
-    config: !LocalStorage
-      details:
-        path: data
-      tables:
-        - !Table
-          name: trips
-          config: !Parquet
-            path: trips
-            extension: .parquet
+    config: !MySQLCDC
+      host: <MySQL_Host>
+      port: <MySQL_Port>
+      database: <MySQL_Database>
+      username: <MySQL_Username>
+      password: <MySQL_Password>
+      server_id: <Server_ID>
 
 sql: |
   SELECT 
