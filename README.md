@@ -39,7 +39,7 @@ Refer to the [Installation section](https://getdozer.io/docs/installation) for i
 |                  | Real Time Model Scoring (Coming soon)                                    | Deploy trained models to get real time insights as APIs                      |
 | Client Libraries | [Dozer React Starter](./usecases/react/)                                        | Instantly start building real time views using Dozer and React               |
 |                  | [Ingest Polars/Pandas Dataframes](./client-samples/ingest-python-sample) | Instantly ingest Polars/Pandas dataframes using Arrow format and deploy APIs |
-| Authorization    | Dozer Authorziation (Coming soon)                                        | How to apply JWT Auth on Dozer APIs                                          |
+| Authorization    | [Dozer Authorziation](./usecases/api-auth/README.md)                                        | How to apply JWT Auth on Dozer APIs                                          |
 
 
 
