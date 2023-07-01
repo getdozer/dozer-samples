@@ -62,5 +62,5 @@ endpoints:
     path: /analysis/lowest_daily_close
     table_name: lowest_daily_close
 
-telemetry:
-  metrics: !Prometheus # You can check the metrics at http://localhost:9000
+# telemetry:
+#   metrics: !Prometheus # You can check the metrics at http://localhost:9000
