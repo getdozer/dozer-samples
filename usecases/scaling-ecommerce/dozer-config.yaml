@@ -1,0 +1,25 @@
+connections:
+  - config: !LocalStorage
+      details:
+        path: spark-warehouse
+      tables:
+        - !Table
+          name: customers
+          config: !Parquet
+            path: customers
+            extension: .parquet
+    name: delta
+
+sources:
+  - name: customers
+    table_name: customers
+    connection: !Ref delta
+    columns:
+
+endpoints:
+  - name: customers_cache
+    path: /customers
+    table_name: customers
+    index:
+      primary_key:
+        - customer_id
