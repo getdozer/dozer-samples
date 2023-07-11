@@ -39,24 +39,7 @@ spark.sql("""
         order_id INT,
         product_id INT,
         quantity INT,
-        price DOUBLE,
-        
-        field_01 STRING,
-        field_02 STRING,
-        field_03 STRING,
-        field_04 STRING,
-        field_05 STRING,
-        field_06 STRING,
-        field_07 STRING,
-        field_08 STRING,
-        field_09 STRING,
-        field_10 STRING,
-        field_11 STRING,
-        field_12 STRING,
-        field_13 STRING,
-        field_14 STRING,
-        field_15 STRING,
-        field_16 STRING
+        price DOUBLE
         
     )
     USING Delta
@@ -68,7 +51,24 @@ spark.sql("""
         name STRING,
         category STRING,
         price DOUBLE,
-        created_at TIMESTAMP
+        created_at TIMESTAMP,
+        
+        special STRING,
+        brand STRING,
+        description STRING,
+        warranty STRING,
+        quantity STRING,
+        weight STRING,
+        color STRING,
+        size STRING,
+        material STRING,
+        country STRING,
+        upc STRING,
+        variants STRING,
+        supplier STRING,
+        availability STRING,
+        rating STRING,
+        release_date STRING
     )
     USING Delta
 """)
@@ -109,22 +109,6 @@ order_items_dataspec = (
         .withColumnSpec("product_id", minValue=20_000_001, maxValue=30_000_000, step=1)
         .withColumnSpec("quantity", minValue=1, maxValue=10)
         .withColumnSpec("price", minValue=10.0, maxValue=100.0)
-        .withColumnSpec("field_01", template=r"\w{32}")
-        .withColumnSpec("field_02", template=r"\w{32}")
-        .withColumnSpec("field_03", template=r"\w{32}")
-        .withColumnSpec("field_04", template=r"\w{32}")
-        .withColumnSpec("field_05", template=r"\w{32}")
-        .withColumnSpec("field_06", template=r"\w{32}")
-        .withColumnSpec("field_07", template=r"\w{32}")
-        .withColumnSpec("field_08", template=r"\w{32}")
-        .withColumnSpec("field_09", template=r"\w{32}")
-        .withColumnSpec("field_10", template=r"\w{32}")
-        .withColumnSpec("field_11", template=r"\w{32}")
-        .withColumnSpec("field_12", template=r"\w{32}")
-        .withColumnSpec("field_13", template=r"\w{32}")
-        .withColumnSpec("field_14", template=r"\w{32}")
-        .withColumnSpec("field_15", template=r"\w{32}")
-        .withColumnSpec("field_16", template=r"\w{32}")
     )
 
 products_dataspec = (
@@ -135,6 +119,22 @@ products_dataspec = (
         .withColumnSpec("category", template=r"\w{5,10}")
         .withColumnSpec("price", minValue=10.0, maxValue=100.0)
         .withColumnSpec("created_at", minValue="2022-01-01", maxValue="2022-12-31")
+        .withColumnSpec("special", template=r"\w{32}")
+        .withColumnSpec("brand", template=r"\w{32}")
+        .withColumnSpec("description", template=r"\w{32}")
+        .withColumnSpec("warranty", template=r"\w{32}")
+        .withColumnSpec("quantity", template=r"\w{32}")
+        .withColumnSpec("weight", template=r"\w{32}")
+        .withColumnSpec("color", template=r"\w{32}")
+        .withColumnSpec("size", template=r"\w{32}")
+        .withColumnSpec("material", template=r"\w{32}")
+        .withColumnSpec("country", template=r"\w{32}")
+        .withColumnSpec("upc", template=r"\w{32}")
+        .withColumnSpec("variants", template=r"\w{32}")
+        .withColumnSpec("supplier", template=r"\w{32}")
+        .withColumnSpec("availability", template=r"\w{32}")
+        .withColumnSpec("rating", template=r"\w{32}")
+        .withColumnSpec("release_date", template=r"\w{32}")
       )
 
 # Generate the data
