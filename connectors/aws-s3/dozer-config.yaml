@@ -1,3 +1,4 @@
+app_name: aws-s3-sample
 connections:
   - config : !S3Storage
       details:
@@ -42,8 +43,7 @@ sql: |
 sources:
   - name: stocks
     table_name: stocks
-    connection: !Ref s3
-    columns:
+    connection: s3
 
 endpoints:
   - name: ticker_analysis

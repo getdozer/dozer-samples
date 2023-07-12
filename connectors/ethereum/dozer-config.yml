@@ -1,8 +1,5 @@
 app_name: eth-smartcontracts-sample
-
-
 connections:
-
   - config: !Ethereum
       provider: !Log
         wss_url: "{{ETH_WSS_URL}}"
@@ -20,30 +17,22 @@ connections:
           addresses:
             - 0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D
             - 0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb
-          topics:
     name: eth_conn
 
-
 sources:
-
   - name: punks_PunkOffered
     table_name: punks_PunkOffered
-    connection: !Ref eth_conn
-    columns:
+    connection: eth_conn
 
   - name: apes_Transfer
     table_name: apes_Transfer
-    connection: !Ref eth_conn
-    columns:
+    connection: eth_conn
 
   - name: eth_logs
     table_name: eth_logs
-    connection: !Ref eth_conn
-    columns:
-
+    connection: eth_conn
 
 sql: |
-
   SELECT punkIndex, minValue, toAddress
   INTO punkoffered
   FROM punks_PunkOffered;
@@ -56,23 +45,15 @@ sql: |
   INTO logs
   FROM eth_logs;
 
-
 endpoints:
-
   - name: punkoffered
     table_name: punkoffered
     path: /punk_offered
-    index:
-      primary_key:
 
   - name: transfers
     table_name: transfers
     path: /transfers
-    index:
-      primary_key:
 
   - name: eth_logs
     table_name: logs
     path: /eth/logs
-    index:
-      primary_key:

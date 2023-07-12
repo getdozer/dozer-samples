@@ -8,7 +8,6 @@ connections:
       database: omdb
     name: omdb
 
-
 sql: |
   SELECT id, name, runtime
   INTO only_movies
@@ -26,27 +25,20 @@ sql: |
   left JOIN movies ON bookings.movie_id = movies.id
   GROUP BY name, movie_id;
 
-
 sources:
   - name: bookings
     table_name: bookings
-    columns:
-    connection: !Ref omdb
-
+    connection: omdb
   - name: users
     table_name: users
-    columns:
-    connection: !Ref omdb
-
+    connection: omdb
   - name: movies
     table_name: movies
     columns:
       - id
       - name
       - runtime
-    connection: !Ref omdb
-
-
+    connection: omdb
 
 endpoints:
   - name: bookings
@@ -55,14 +47,12 @@ endpoints:
     index:
       primary_key:
         - id
-
   - name: only_movies
     path: /only_movies
     table_name: only_movies
     index:
       primary_key:
         - id
-
   - name: user_bookings
     path: /user_bookings
     table_name: user_bookings
@@ -70,14 +60,12 @@ endpoints:
       primary_key:
         - user_id
         - movie_id
-
   - name: users
     path: /api/users
     table_name: users
     index:
       primary_key:
         - id
-
   - name: movies_with_bookings
     path: /movies_with_bookings
     table_name: movies_with_bookings
