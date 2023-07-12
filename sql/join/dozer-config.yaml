@@ -1,4 +1,5 @@
-connections:    
+app_name: sql-join-sample
+connections:
   - config : !LocalStorage
       details:
         path: data
@@ -23,17 +24,13 @@ sql: |
 sources:
   - name: taxi_zone_lookup
     table_name: taxi_zone_lookup
-    connection: !Ref ny_taxi
-    columns:
+    connection: ny_taxi
   - name: trips
     table_name: trips
-    connection: !Ref ny_taxi
-    columns:
+    connection: ny_taxi
 
 endpoints:
   - name: pickup
     path: /pickup
     table_name: pickup
-    index:
-      primary_key: 
 

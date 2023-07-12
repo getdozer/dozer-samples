@@ -17,7 +17,6 @@ connections:
     name: flights_conn
 
 sql: |
-
   -- BOOKING DETAILS
   select passenger_id, passenger_name, 
     b.book_ref, book_date, total_amount, 
@@ -30,7 +29,6 @@ sql: |
   inner join b_ticket_flights tf on tf.ticket_no = t.ticket_no
   inner join f_flights f on tf.flight_id = f.flight_id;
 
-
   -- BOOKING SUMMARY
   select passenger_id, passenger_name, 
     b.book_ref, book_date, total_amount, count(tf.ticket_no) as ticket_count, count(f.flight_no) as flight_count, count(passenger_id) as passenger_count
@@ -40,7 +38,6 @@ sql: |
   inner join b_ticket_flights tf on tf.ticket_no = t.ticket_no
   inner join f_flights f on tf.flight_id = f.flight_id
   group by b.book_ref, book_date, total_amount;
-
 
   -- FLIGHT ROUTES
   WITH tbl AS (
@@ -82,28 +79,23 @@ sql: |
 sources:
   - name: b_tickets
     table_name: tickets
-    columns:
-    connection: !Ref bookings_conn
+    connection: bookings_conn
 
   - name: b_bookings
     table_name: bookings
-    columns:
-    connection: !Ref bookings_conn
+    connection: bookings_conn
 
   - name: b_ticket_flights
     table_name: ticket_flights
-    columns:
-    connection: !Ref bookings_conn
+    connection: bookings_conn
 
   - name: f_airports
     table_name: airports
-    columns:
-    connection: !Ref flights_conn
+    connection: flights_conn
 
   - name: f_flights
     table_name: flights
-    columns:
-    connection: !Ref flights_conn
+    connection: flights_conn
 
 endpoints:
   - name: bookings_details

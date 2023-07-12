@@ -18,12 +18,9 @@ api:
 sources:
   - name: trips
     table_name: trips
-    connection: !Ref trips_arrow
-    columns:
+    connection: trips_arrow
 
 endpoints:
   - name: trips
     path: /trips
     table_name: trips
-    index:
-      primary_key:

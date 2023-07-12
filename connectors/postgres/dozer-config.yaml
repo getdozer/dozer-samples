@@ -1,3 +1,4 @@
+app_name: simple-pg-sample
 connections:
   - name: pagila_conn
     config: !Postgres
@@ -5,17 +6,15 @@ connections:
       password: postgres
       host: localhost
       port: 5433
-      database: pagila
-      name: user
+      database: film
 
 sources:
   - name: actors
     table_name: actor
-    connection: !Ref pagila_conn
-    columns:
+    connection: pagila_conn
   - name: films
     table_name: film
-    connection: !Ref pagila_conn
+    connection: pagila_conn
     columns:
       - film_id
       - title

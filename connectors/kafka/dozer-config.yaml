@@ -12,7 +12,6 @@ connections:
       schema_registry_url: http://localhost:18081
     name: kafka_store
 
-
 sql: |
   SELECT
     t.id,
@@ -26,15 +25,12 @@ sql: |
 sources:
   - name: transactions
     table_name: transactions
-    connection: !Ref kafka_store
-    columns:
+    connection: kafka_store
 
 endpoints:
   - name: tout
     path: /tout
     table_name: tout
-    index:
-      primary_key:
 
 telemetry:
   metrics: !Prometheus
