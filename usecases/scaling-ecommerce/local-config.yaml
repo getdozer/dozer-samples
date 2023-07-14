@@ -1,8 +1,7 @@
-app_name: application
 connections:
   - config: !LocalStorage
       details:
-        path: /usr/app_data
+        path: spark-warehouse
       tables:
         - !Table
           name: customers
@@ -57,3 +56,4 @@ endpoints:
         - customer_id
         - order_id
 
+cache_max_map_size: 8589934592
