@@ -1,110 +1,68 @@
 # Getting Started with Dozer react example
 
 ```yaml
-app_name: flight-microservices
+app_name: snowflake-tutorial
 connections:
-  - name: flights_conn
-    config: !Postgres
-      user: postgres
-      password: postgres
-      host: 0.0.0.0
-      port: 5437
-      database: flights
-
-sql: |
-  select f.arrival_airport as airport, a.coordinates as coordinates, COUNT(t.ticket_no) as tickets
-  INTO airports_count
-  from tickets t
-  join ticket_flights tf on t.ticket_no = tf.ticket_no
-  join flights f on tf.flight_id = f.flight_id
-  join airports a on f.arrival_airport = a.airport_code
-  group by f.arrival_airport, a.coordinates;
-
-  select extract(HOUR FROM f.window_start) as start, count(f.window_start) as dep_count
-  INTO departures_count
-  from TUMBLE(flights, scheduled_departure, '4 HOURS') f
-  group by extract(HOUR FROM f.window_start)
+  - config: !Snowflake
+      server: "{{SN_SERVER}}"
+      port: 443
+      user: "{{SN_USER}}"
+      password: "{{SN_PASSWORD}}"
+      database: "{{SN_DATABASE}}"
+      schema: PUBLIC
+      warehouse: "{{SN_WAREHOUSE}}"
+      driver: "SnowflakeDSIIDriver"
+      role: "{{SN_ROLE}}"
+    name: sn_data
 
 sources:
-  - name: tickets
-    table_name: tickets
+  - name: customers
+    connection: !Ref sn_data
+    table_name: CUSTOMERS
     columns:
-    connection: !Ref flights_conn
 
-  - name: flights
-    table_name: flights
+  - name: orders
+    connection: !Ref sn_data
+    table_name: ORDERS
     columns:
-    connection: !Ref flights_conn
 
-  - name: ticket_flights
-    table_name: ticket_flights
-    columns:
-    connection: !Ref flights_conn
+sql: |
+  SELECT C_CUSTKEY, C_NAME, COUNT(O_CUSTKEY), AVG(O_TOTALPRICE)
+  INTO customers_orders
+  FROM customers
+  JOIN orders on C_CUSTKEY = O_CUSTKEY
+  GROUP BY C_CUSTKEY, C_NAME;
 
-  - name: airports
-    table_name: airports
-    columns:
-    connection: !Ref flights_conn
+  SELECT C_CUSTKEY, C_NAME, C_ADDRESS, C_NATIONKEY, C_PHONE, C_ACCTBAL, C_MKTSEGMENT, C_COMMENT
+  INTO customers_data
+  FROM customers;
 
-  - name: airports_flights_schema
-    table_name: airports
-    columns:
-    schema: flights_schema
-    connection: !Ref flights_conn
+  SELECT O_ORDERKEY, O_CUSTKEY, O_ORDERSTATUS, O_TOTALPRICE, O_ORDERDATE, O_ORDERPRIORITY, O_CLERK, O_SHIPPRIORITY, O_COMMENT
+  INTO orders_data
+  FROM orders;
 
 endpoints:
-
-  - name: tickets
-    path: /bookings/tickets
-    table_name: tickets
+  - name: customers
+    path: /customers
+    table_name: customers_data
     index:
       primary_key:
-        - ticket_no
+        - C_CUSTKEY
 
-  - name: flights
-    path: /bookings/flights
-    table_name: flights
+  - name: orders
+    path: /orders
+    table_name: orders_data
     index:
       primary_key:
-        - flight_id
+        - O_ORDERKEY
 
-  - name: airports
-    path: /bookings/airports
-    table_name: airports
+  - name: customers_orders
+    path: /customers_orders
+    table_name: customers_orders
     index:
       primary_key:
-        - airport_code
-
-
-  - name: airports_flights_schema
-    path: /bookings/airports_flights_schema
-    table_name: airports_flights_schema
-    index:
-      primary_key:
-        - id
-
-  - name: ticket_flights
-    path: /bookings/ticket_flights
-    table_name: ticket_flights
-    index:
-      primary_key:
-        - ticket_no
-        - flight_id
-
-  - name: airports_count
-    path: /airports_count
-    table_name: airports_count
-    index:
-      primary_key:
-        - airport
-        - coordinates
-
-  - name: departures_count
-    path: /departures_count
-    table_name: departures_count
-    index:
-      primary_key:
-        - start
+        - C_CUSTKEY
+        - C_NAME
 ```
 
 ## Available Scripts
