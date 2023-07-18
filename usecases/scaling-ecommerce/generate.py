@@ -40,7 +40,7 @@ spark.sql("""
         product_id INT,
         quantity INT,
         price DOUBLE
-        
+
     )
     USING Delta
 """)
@@ -52,7 +52,7 @@ spark.sql("""
         category STRING,
         price DOUBLE,
         created_at TIMESTAMP,
-        
+
         special STRING,
         brand STRING,
         description STRING,
@@ -79,63 +79,78 @@ orders_schema = spark.table("orders").schema
 order_items_schema = spark.table("order_items").schema
 products_schema = spark.table("products").schema
 
+CUSTOMER_MIN = 1
+CUSTOMER_MAX = 10_000_000
+CUSTOMER_COUNT = 10_000_000
+ORDER_MIN = 1
+ORDER_MAX = 10_000_000
+ORDER_COUNT = 10_000_000
+PRODUCT_MIN = 1
+PRODUCT_MAX = 10_000_000
+PRODUCT_COUNT = 10_000_000
+
+ORDER_ITEMS_MIN = 1
+ORDER_ITEMS_MAX = 100_000_000
+ORDER_ITEMS_COUNT = 100_000_000
+
+
 
 
 # Define column specifications for data generation
 customers_dataspec = (
-        dg.DataGenerator(spark, rows=10_000_000, partitions=8)
-        .withSchema(customers_schema)
-        .withColumnSpec("customer_id", minValue=1, maxValue=10_000_000, step=1)
-        .withColumnSpec("name", template=r"\w{5,10} \w{5,10}")
-        .withColumnSpec("email", template=r"\w{5,10}@\w{5,10}.com")
-        .withColumnSpec("address", template=r"\w{5,10} Street, City")
-        .withColumnSpec("created_at", minValue="2022-01-01", maxValue="2022-12-31")
-      )
+    dg.DataGenerator(spark, rows=CUSTOMER_COUNT, partitions=8)
+    .withSchema(customers_schema)
+    .withColumnSpec("customer_id", minValue=CUSTOMER_MIN, maxValue=CUSTOMER_MAX, step=1)
+    .withColumnSpec("name", template=r"\w{5,10} \w{5,10}")
+    .withColumnSpec("email", template=r"\w{5,10}@\w{5,10}.com")
+    .withColumnSpec("address", template=r"\w{5,10} Street, City")
+    .withColumnSpec("created_at", minValue="2022-01-01", maxValue="2022-12-31")
+)
 
 orders_dataspec = (
-        dg.DataGenerator(spark, rows=10_000_000, partitions=8)
-        .withSchema(orders_schema)
-        .withColumnSpec("order_id", minValue=10_000_001, maxValue=20_000_000, step=1)
-        .withColumnSpec("customer_id", minValue=1, maxValue=10_000_000, step=1)
-        .withColumnSpec("order_date", minValue="2022-01-01", maxValue="2022-12-31")
-        .withColumnSpec("total_amount", minValue=10, maxValue=1000)
-      )
+    dg.DataGenerator(spark, rows=ORDER_COUNT, partitions=8)
+    .withSchema(orders_schema)
+    .withColumnSpec("order_id", minValue=ORDER_MIN, maxValue=ORDER_MAX, step=1)
+    .withColumnSpec("customer_id", minValue=CUSTOMER_MIN, maxValue=CUSTOMER_MAX, step=1)
+    .withColumnSpec("order_date", minValue="2022-01-01", maxValue="2022-12-31")
+    .withColumnSpec("total_amount", minValue=10, maxValue=1000)
+)
 
 order_items_dataspec = (
-        dg.DataGenerator(spark, rows=100_000_000, partitions=8)
-        .withSchema(order_items_schema)
-        .withColumnSpec("order_item_id", minValue=100_000_001, maxValue=200_000_000, step=1)
-        .withColumnSpec("order_id", minValue=10_000_001, maxValue=20_000_000, step=1)
-        .withColumnSpec("product_id", minValue=20_000_001, maxValue=30_000_000, step=1)
-        .withColumnSpec("quantity", minValue=1, maxValue=10)
-        .withColumnSpec("price", minValue=10.0, maxValue=100.0)
-    )
+    dg.DataGenerator(spark, rows=ORDER_ITEMS_COUNT, partitions=8)
+    .withSchema(order_items_schema)
+    .withColumnSpec("order_item_id", minValue=ORDER_ITEMS_MIN, maxValue=ORDER_ITEMS_MAX, step=1)
+    .withColumnSpec("order_id", minValue=ORDER_MIN, maxValue=ORDER_MAX, step=1)
+    .withColumnSpec("product_id", minValue=PRODUCT_MIN, maxValue=PRODUCT_MAX, step=1)
+    .withColumnSpec("quantity", minValue=1, maxValue=10)
+    .withColumnSpec("price", minValue=10.0, maxValue=100.0)
+)
 
 products_dataspec = (
-        dg.DataGenerator(spark, rows=10_000_000, partitions=8)
-        .withSchema(products_schema)
-        .withColumnSpec("product_id", minValue=20_000_001, maxValue=30_000_000, step=1)
-        .withColumnSpec("name", template=r"Product \w{5,10}")
-        .withColumnSpec("category", template=r"\w{5,10}")
-        .withColumnSpec("price", minValue=10.0, maxValue=100.0)
-        .withColumnSpec("created_at", minValue="2022-01-01", maxValue="2022-12-31")
-        .withColumnSpec("special", template=r"\w{32}")
-        .withColumnSpec("brand", template=r"\w{32}")
-        .withColumnSpec("description", template=r"\w{32}")
-        .withColumnSpec("warranty", template=r"\w{32}")
-        .withColumnSpec("quantity", template=r"\w{32}")
-        .withColumnSpec("weight", template=r"\w{32}")
-        .withColumnSpec("color", template=r"\w{32}")
-        .withColumnSpec("size", template=r"\w{32}")
-        .withColumnSpec("material", template=r"\w{32}")
-        .withColumnSpec("country", template=r"\w{32}")
-        .withColumnSpec("upc", template=r"\w{32}")
-        .withColumnSpec("variants", template=r"\w{32}")
-        .withColumnSpec("supplier", template=r"\w{32}")
-        .withColumnSpec("availability", template=r"\w{32}")
-        .withColumnSpec("rating", template=r"\w{32}")
-        .withColumnSpec("release_date", template=r"\w{32}")
-      )
+    dg.DataGenerator(spark, rows=PRODUCT_COUNT, partitions=8)
+    .withSchema(products_schema)
+    .withColumnSpec("product_id", minValue=PRODUCT_MIN, maxValue=PRODUCT_MAX, step=1)
+    .withColumnSpec("name", template=r"Product \w{5,10}")
+    .withColumnSpec("category", template=r"\w{5,10}")
+    .withColumnSpec("price", minValue=10.0, maxValue=100.0)
+    .withColumnSpec("created_at", minValue="2022-01-01", maxValue="2022-12-31")
+    .withColumnSpec("special", template=r"\w{32}")
+    .withColumnSpec("brand", template=r"\w{32}")
+    .withColumnSpec("description", template=r"\w{32}")
+    .withColumnSpec("warranty", template=r"\w{32}")
+    .withColumnSpec("quantity", template=r"\w{32}")
+    .withColumnSpec("weight", template=r"\w{32}")
+    .withColumnSpec("color", template=r"\w{32}")
+    .withColumnSpec("size", template=r"\w{32}")
+    .withColumnSpec("material", template=r"\w{32}")
+    .withColumnSpec("country", template=r"\w{32}")
+    .withColumnSpec("upc", template=r"\w{32}")
+    .withColumnSpec("variants", template=r"\w{32}")
+    .withColumnSpec("supplier", template=r"\w{32}")
+    .withColumnSpec("availability", template=r"\w{32}")
+    .withColumnSpec("rating", template=r"\w{32}")
+    .withColumnSpec("release_date", template=r"\w{32}")
+)
 
 # Generate the data
 customers_data = customers_dataspec.build()

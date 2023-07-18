@@ -1,0 +1,29 @@
+app_name: taxi-data-2-local
+#cache_max_map_size: 8589934592
+connections:
+  - config: !S3Storage
+      details:
+        access_key_id: AKIA2JYZFEFYCINFK6FU
+        secret_access_key: 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
+        region: ap-southeast-1
+        bucket_name: datafusion-dev
+      tables:
+        - !Table
+          name: trips
+          config: !Parquet
+            path: trips
+            extension: .parquet
+    name: ny_taxi_data
+
+sources:
+  - name: trips
+    table_name: trips
+    connection: !Ref ny_taxi_data
+
+endpoints:
+  - name: trips_data
+    path: /trips_data
+    table_name: trips
+
+telemetry:
+  metrics: !Prometheus
