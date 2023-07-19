@@ -27,12 +27,13 @@ connections:
     name: delta
 
 sql: |
-  select c.customer_id, c.name, c.email,  o.order_id, o.order_date, o.total_amount
+  select c.customer_id, c.name, c.email,  o.order_id, o.order_date, o.total_amount, COUNT(*)
   into customer_orders 
   from customers c
   inner join orders o on c.customer_id = o.customer_id
   join order_items i on o.order_id = i.order_id
   join products p on i.product_id = p.product_id
+  group by c.customer_id, c.name, c.email, o.order_id, o.order_date, o.total_amount
 
 endpoints:
   - name: customers
@@ -52,9 +53,11 @@ endpoints:
   - name: customer_orders_cache
     path: /customer_orders
     table_name: customer_orders
-    index:
-      primary_key:
-        - customer_id
-        - order_id
+
 
 cache_max_map_size: 8589934592
+
+app_buffer_size: 48000
+
+telemetry:
+  metrics: !Prometheus
