@@ -54,5 +54,7 @@ endpoints:
     path: /customer_orders
     table_name: customer_orders
 
+# 100gb cache
+cache_max_map_size: 107374182400
 telemetry:
   metrics: !Prometheus

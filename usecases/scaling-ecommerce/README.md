@@ -13,6 +13,9 @@ In this example we demonstrate Dozer's capability of processing large volume of 
 - [Experiment 2](#experiment-2)
   - [Instructions](#instructions-1)
   - [Findings](#findings-1)
+- [API Performance](#api-performance)
+  - [Instructions](#instructions-2)
+  - [Findings](#findings-2)
 
 Running instructions can be [found here](./running.md)
 ## Data Schema and Volume
@@ -101,3 +104,34 @@ dozer run app -c aggregate-config.yaml
 | Start Time | End Time   | Elapsed   |
 | ---------- | ---------- | --------- |
 | 2:32:48 PM | 2:44:51 PM | ~ 12 mins |
+
+
+## API Performance
+
+Dozer really shines when it comes to API performance as views are pre-materialized.
+Dozer automatically generates `gRPC` and `REST`  APIs.
+
+Lets use `ghz` to run a loadtest against the `gRPC` server. You can find the [script here](./load_test_grpc.sh)
+
+### Instructions
+```bash
+`HOST=localhost:50051
+TOTAL=1000000
+CONCURRENCY=50
+echo "Testing common grpc service with $TOTAL requests and $CONCURRENCY concurrency"
+ghz --insecure --proto ./dozer-api/protos/common.proto --call dozer.common.CommonGrpcService.query --total $TOTAL --concurrency $CONCURRENCY --data '{"endpoint":"customers"}' $HOST`
+```
+
+### Findings
+
+At a very high throughput Dozer can still respond with an average of `4.92 ms`
+
+```bash
+Summary:
+  Count:	100000
+  Total:	10.83 s
+  Slowest:	30.56 ms
+  Fastest:	1.27 ms
+  Average:	4.92 ms
+  Requests/sec:	9234.20
+```

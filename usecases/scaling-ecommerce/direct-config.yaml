@@ -56,4 +56,6 @@ endpoints:
         - product_id
 
 telemetry:
-  metrics: !Prometheus
+  metrics: !Prometheus # 100gb cache
+
+cache_max_map_size: 107374182400
