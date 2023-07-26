@@ -35,21 +35,22 @@ Refer to the [Installation section](https://getdozer.io/docs/installation) for i
 |                  | [Using Aggregations](./sql/aggregations)                                 | How to aggregate using Dozer                                                 |
 |                  | [Using Window Functions](./sql/window-functions)                         | Use `Hop` and `Tumble` Windows                                               |
 | Use Cases        | [Flight Microservices](./usecases/pg-flights)                            | Build APIs over multiple microservices.                                      |
+|                  | [Scaling Ecommerce](./usecases/scaling-ecommerce)                        | Profile and benchmark Dozer using an ecommerce data set                      |
 |                  | Use Dozer to Instrument (Coming soon)                                    | Combine Log data to get real time insights                                   |
 |                  | Real Time Model Scoring (Coming soon)                                    | Deploy trained models to get real time insights as APIs                      |
-| Client Libraries | [Dozer React Starter](./usecases/react/)                                        | Instantly start building real time views using Dozer and React               |
+| Client Libraries | [Dozer React Starter](./usecases/react/)                                 | Instantly start building real time views using Dozer and React               |
 |                  | [Ingest Polars/Pandas Dataframes](./client-samples/ingest-python-sample) | Instantly ingest Polars/Pandas dataframes using Arrow format and deploy APIs |
-| Authorization    | [Dozer Authorziation](./usecases/api-auth/README.md)                                        | How to apply JWT Auth on Dozer APIs                                          |
+| Authorization    | [Dozer Authorziation](./usecases/api-auth/README.md)                     | How to apply JWT Auth on Dozer APIs                                          |
 
 
 
 ## Reference
 
 Refer to the following for an exhaustive list of configuration samples.
-| Reference                                                       | Notes                               |
-| --------------------------------------------------------------- | ----------------------------------- |
+| Reference                                                       | Notes                              |
+| --------------------------------------------------------------- | ---------------------------------- |
 | [Connectors](https://getdozer.io/docs/configuration/connectors) | Sample connector config references |
-| [SQL](https://getdozer.io/docs/sql/introduction)                | Sample SQL using Dozer              |
+| [SQL](https://getdozer.io/docs/sql/introduction)                | Sample SQL using Dozer             |
 
 
 ## Contributing
