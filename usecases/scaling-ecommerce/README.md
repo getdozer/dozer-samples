@@ -126,7 +126,7 @@ ghz --insecure --proto .dozer/api/customers/v0001/common.proto --call dozer.comm
 
 Dozer maintains an average of `4.92 ms` at a very high throughput of `10000` total requests at `50` concurrency.
 
-```bash
+```text
 Summary:
   Count:	100000
   Total:	10.83 s
