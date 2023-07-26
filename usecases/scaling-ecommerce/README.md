@@ -115,11 +115,11 @@ Lets use `ghz` to run a loadtest against the `gRPC` server. You can find the [sc
 
 ### Instructions
 ```bash
-`HOST=localhost:50051
-TOTAL=1000000
+HOST=localhost:50051
+TOTAL=100000
 CONCURRENCY=50
-echo "Testing common grpc service with $TOTAL requests and $CONCURRENCY concurrency"
-ghz --insecure --proto ./dozer-api/protos/common.proto --call dozer.common.CommonGrpcService.query --total $TOTAL --concurrency $CONCURRENCY --data '{"endpoint":"customers"}' $HOST`
+echo "Querying count of customers:  $TOTAL requests and $CONCURRENCY concurrency"
+ghz --insecure --proto .dozer/api/customers/v0001/common.proto --call dozer.common.CommonGrpcService.query --total $TOTAL --concurrency $CONCURRENCY --data '{"endpoint":"customers"}' $HOST
 ```
 
 ### Findings
