@@ -1,6 +1,6 @@
 ## Scaling E-Commerce
 
-In this example we demonstrate Dozer's capability of processing large volume of data. This is mainly focused on processing performance. API performance will be published separately. 
+In this example we demonstrate Dozer's capability of processing large volume of data.
 
 ## Table of Contents
 - [Scaling E-Commerce](#scaling-e-commerce)
