@@ -124,7 +124,7 @@ ghz --insecure --proto ./dozer-api/protos/common.proto --call dozer.common.Commo
 
 ### Findings
 
-At a very high throughput Dozer can still respond with an average of `4.92 ms`
+Dozer maintains an average of `4.92 ms` at a very high throughput of `10000` total requests at `50` concurrency.
 
 ```bash
 Summary:
@@ -134,4 +134,29 @@ Summary:
   Fastest:	1.27 ms
   Average:	4.92 ms
   Requests/sec:	9234.20
+
+Response time histogram:
+  1.268  [1]     |
+  4.197  [48567] |∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎
+  7.126  [36274] |∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎∎
+  10.056 [10248] |∎∎∎∎∎∎∎∎
+  12.985 [3135]  |∎∎∎
+  15.915 [1152]  |∎
+  18.844 [414]   |
+  21.773 [104]   |
+  24.703 [73]    |
+  27.632 [26]    |
+  30.561 [6]     |
+
+Latency distribution:
+  10 % in 2.44 ms
+  25 % in 3.18 ms
+  50 % in 4.27 ms
+  75 % in 5.92 ms
+  90 % in 8.11 ms
+  95 % in 10.00 ms
+  99 % in 14.63 ms
+
+Status code distribution:
+  [OK]   100000 responses
 ```
