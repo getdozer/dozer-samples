@@ -1,0 +1,27 @@
+app_name: local-supabase-sample
+
+connections:
+  - config: !Postgres
+      user: "{{PG_USER}}"
+      password: "{{PG_PASSWORD}}"
+      host: "{{PG_HOST}}"
+      port: 5432
+      database: "{{PG_DB}}"
+    name: pg
+
+sources:
+  - name: zones
+    table_name: zones
+    connection: pg
+
+sql: |
+  SELECT * INTO zone_data FROM zones;
+
+endpoints:
+  - name: zone_data
+    path: /zone_data
+    table_name: zone_data
+
+api:
+  app_grpc:
+   host: "{{APP_HOST}}"
