@@ -1,0 +1,61 @@
+app_name: application
+connections:
+  - config: !LocalStorage
+      details:
+        path: 3-full-data
+      tables:
+        - !Table
+          name: customers
+          config: !Parquet
+            path: customers
+            extension: .parquet
+        - !Table
+          name: orders
+          config: !Parquet
+            path: orders
+            extension: .parquet
+        - !Table
+          name: order_items
+          config: !Parquet
+            path: order_items
+            extension: .parquet
+        - !Table
+          name: products
+          config: !Parquet
+            path: products
+            extension: .parquet
+    name: delta
+
+endpoints:
+  - name: customers
+    path: /customers
+    table_name: customers
+    index:
+      primary_key:
+        - customer_id
+
+  - name: orders
+    path: /orders
+    table_name: orders
+    index:
+      primary_key:
+        - order_id
+
+  - name: order_items
+    path: /order_items
+    table_name: order_items
+    index:
+      primary_key:
+        - order_item_id
+
+  - name: products
+    path: /products
+    table_name: products
+    index:
+      primary_key:
+        - product_id
+
+telemetry:
+  metrics: !Prometheus # 100gb cache
+
+cache_max_map_size: 107374182400
