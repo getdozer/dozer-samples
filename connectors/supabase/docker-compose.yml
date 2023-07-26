@@ -1,0 +1,76 @@
+version: '3.9'
+
+x-common-variables: &commonEnvironment
+  PG_USER: ${PG_USER}
+  PG_PASSWORD: ${PG_PASSWORD}
+  PG_HOST: ${PG_HOST}
+  PG_PORT: ${PG_PORT}
+  PG_DB: ${PG_DB}
+  APP_HOST: "0.0.0.0"
+
+services:
+  dozer-build:
+    container_name: dozer-build
+    image: public.ecr.aws/getdozer/dozer:latest
+    environment: *commonEnvironment
+    working_dir: /usr/local/bin
+    volumes:
+      - ./dozer-config.yaml:/usr/local/bin/dozer-config.yaml
+      - ./.dozer:/usr/local/bin/.dozer
+    command:
+      - /bin/sh
+      - -c
+      - dozer build
+
+  dozer-app:
+    container_name: dozer-app
+    image: public.ecr.aws/getdozer/dozer:latest
+    environment: *commonEnvironment
+    ports:
+      # Internal gRPC talks to api
+      - "50053:50053"
+    working_dir: /usr/local/bin
+    volumes:
+      - ./dozer-config.yaml:/usr/local/bin/dozer-config.yaml
+      - ./.dozer:/usr/local/bin/.dozer
+    command:
+      - /bin/sh
+      - -c
+      - dozer run app
+    depends_on:
+      dozer-build:
+        condition: service_completed_successfully
+    stdin_open: true
+    tty: true
+    healthcheck:
+      test: ["CMD", "curl", "0.0.0.0:50053", "--http2-prior-knowledge"]
+      interval: 1s
+      timeout: 20s
+      retries: 90
+
+  dozer-api:
+    container_name: dozer-api
+    links:
+      - dozer-app
+    image: public.ecr.aws/getdozer/dozer:latest
+    environment:
+      <<: *commonEnvironment
+      APP_HOST: 'dozer-app'
+    ports:
+      # REST APIs are published on port 8080
+      - "8080:8080"
+      # gRPC are available over 50051
+      - "50051:50051"
+    depends_on:
+      dozer-app:
+        condition: service_healthy
+    working_dir: /usr/local/bin
+    volumes:
+      - ./dozer-config.yaml:/usr/local/bin/dozer-config.yaml
+      - ./.dozer:/usr/local/bin//.dozer
+    command:
+      - /bin/sh
+      - -c
+      - dozer run api
+    stdin_open: true
+    tty: true
