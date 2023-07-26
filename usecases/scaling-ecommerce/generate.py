@@ -154,22 +154,22 @@ def generate(data_size, output_folder):
 
 if __name__ == '__main__':
 
-    data_size = {
-        'CUSTOMER_MIN': 1,
-        'CUSTOMER_IDS': 400_000,
-        'CUSTOMER_COUNT': 400_000,
-        'ORDER_MIN': 1,
-        'ORDER_IDS': 200_000,
-        'ORDER_COUNT': 200_000,
-        'PRODUCT_MIN': 1,
-        'PRODUCT_IDS': 100_000,
-        'PRODUCT_COUNT': 100_000,
-        'ORDER_ITEMS_MIN': 1,
-        'ORDER_ITEMS_IDS': 10_000_000,
-        'ORDER_ITEMS_COUNT': 10_000_000
-    }
+#    data_size = {
+#        'CUSTOMER_MIN': 1,
+#        'CUSTOMER_IDS': 400_000,
+#        'CUSTOMER_COUNT': 400_000,
+#        'ORDER_MIN': 1,
+#        'ORDER_IDS': 200_000,
+#        'ORDER_COUNT': 200_000,
+#        'PRODUCT_MIN': 1,
+#        'PRODUCT_IDS': 100_000,
+#        'PRODUCT_COUNT': 100_000,
+#        'ORDER_ITEMS_MIN': 1,
+#        'ORDER_ITEMS_IDS': 10_000_000,
+#        'ORDER_ITEMS_COUNT': 10_000_000
+#    }
 
-    generate(data_size, output_folder='./1d-data')
+#    generate(data_size, output_folder='./1d-data')
 
     data_size = {
         'CUSTOMER_MIN': 1,
@@ -182,25 +182,25 @@ if __name__ == '__main__':
         'PRODUCT_IDS': 5_000_000,
         'PRODUCT_COUNT': 5_000_000,
         'ORDER_ITEMS_MIN': 1,
-        'ORDER_ITEMS_IDS': 100_000_000,
-        'ORDER_ITEMS_COUNT': 100_000_000
+        'ORDER_ITEMS_IDS': 50_000_000,
+        'ORDER_ITEMS_COUNT': 50_000_000
     }
 
-    generate(data_size, output_folder='./2a-data')
+    generate(data_size, output_folder='./2-active-data')
 
-    data_size = {
-        'CUSTOMER_MIN': 1,
-        'CUSTOMER_IDS': 11_000_000,
-        'CUSTOMER_COUNT': 11_000_000,
-        'ORDER_MIN': 1,
-        'ORDER_IDS': 11_000_000,
-        'ORDER_COUNT': 11_000_000,
-        'PRODUCT_MIN': 1,
-        'PRODUCT_IDS': 16_000_000,
-        'PRODUCT_COUNT': 16_000_000,
-        'ORDER_ITEMS_MIN': 1,
-        'ORDER_ITEMS_IDS': 100_000_000,
-        'ORDER_ITEMS_COUNT': 100_000_000
-    }
+#    data_size = {
+#        'CUSTOMER_MIN': 1,
+#        'CUSTOMER_IDS': 11_000_000,
+#        'CUSTOMER_COUNT': 11_000_000,
+#        'ORDER_MIN': 1,
+#        'ORDER_IDS': 11_000_000,
+#        'ORDER_COUNT': 11_000_000,
+#        'PRODUCT_MIN': 1,
+#        'PRODUCT_IDS': 16_000_000,
+#        'PRODUCT_COUNT': 16_000_000,
+#        'ORDER_ITEMS_MIN': 1,
+#        'ORDER_ITEMS_IDS': 100_000_000,
+#        'ORDER_ITEMS_COUNT': 100_000_000
+#    }
 
-    generate(data_size, output_folder='./3h-data')
+#    generate(data_size, output_folder='./3h-data')
