@@ -6,13 +6,6 @@ connections:
         host: 0.0.0.0
         ## Default port of upstream dozer internal grpc server
         port: 50053
-      endpoints:
-        - trips_cache
-      log_options:
-        batch_size: 30
-        timeout_in_millis: 1000
-        buffer_size: 1000
-
     name: nested_dozer
 
 # Assigning different ports to not conflict with upstream dozer
