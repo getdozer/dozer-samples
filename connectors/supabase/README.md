@@ -3,10 +3,10 @@
 This example shows how to use sample supabase postgres table as data source in Dozer
 
 ```bash
-export PG_USER=postgres
-export PG_PASSWORD=postgres-dozer-123
-export PG_HOST=db.wlpfvdagkydbanuiqvjy.supabase.co
-export PG_DB=postgres
+export PG_USER=${PG_USER}
+export PG_PASSWORD=${PG_PASSWORD}
+export PG_HOST=${PG_HOST}
+export PG_DB=${PG_DB}
 ```
 
 Running Dozer
