@@ -1,0 +1,87 @@
+connections:
+  - config: !Postgres
+      user: YOUR_USERNAME
+      password: YOUR_PASSWORD
+      host: YOUR_HOSTED_IP_ADDRESS
+      port: 5432
+      database: YOUR_DATABASE_NAME
+    name: YOUR_CHOICE_OF_NAME
+
+sql: |
+  SELECT 
+  Date as Day, high, low, Open, Close, Type, volume
+  INTO eth_cache
+  FROM eth;
+
+  SELECT 
+  Date as Day, high, low, Open, Close, Type, volume
+  INTO btc_cache
+  FROM btc;
+
+  SELECT 
+  Date as Day, high, low, Open, Close, Type, volume
+  INTO doge_cache
+  FROM doge;
+
+  SELECT 
+  Date as Day, high, low, Open, Close, Type, volume
+  INTO solana_cache
+  FROM solana;
+
+sources:
+  - name: btc
+    table_name: btc
+    connection: !Ref dozeruser
+    columns:
+
+  - name: eth
+    table_name: eth
+    connection: !Ref dozeruser
+    columns:
+
+  - name: doge
+    table_name: doge
+    connection: !Ref dozeruser
+    columns:
+
+  - name: solana
+    table_name: solana
+    connection: !Ref dozeruser
+    columns:
+
+endpoints:
+  - name: eth_cache
+    path: /eth
+    table_name: eth_cache
+    index:
+      primary_key:
+        - Day
+
+  - name: btc_cache
+    path: /btc
+    table_name: btc_cache
+    index:
+      primary_key:
+        - Day
+
+  - name: doge_cache
+    path: /doge
+    table_name: doge_cache
+    index:
+      primary_key:
+        - Day
+
+  - name: solana_cache
+    path: /solana
+    table_name: solana_cache
+    index:
+      primary_key:
+        - Day
+
+api:
+  rest:
+    port: 7002 #Any port number as per your choice
+  grpc:
+    port: 7003 #Any port number as per your choice
+  app_grpc:
+    port: 7004 #Any port number as per your choice
