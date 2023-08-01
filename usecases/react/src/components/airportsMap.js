@@ -1,7 +1,6 @@
 import GoogleMapReact from 'google-map-react';
 import { useEffect, useState } from "react";
-import { useOnEvent, useQueryCommon } from "@dozerjs/dozer-react";
-import { OperationType } from "@dozerjs/dozer/lib/esm/generated/protos/types";
+import { useDozerEndpointQuery } from "@dozerjs/dozer-react";
 
 const Marker = ({ text }) => <div style={{
   color: "white",
@@ -15,32 +14,7 @@ const Marker = ({ text }) => <div style={{
 
 function AirportsMap() {
   const [airports, setAirports] = useState([]);
-  const { records } = useQueryCommon('airports_count', {limit: 5000});
-
-  useOnEvent('airports_count', (data, fields, primaryIndexKeys, mapper) => {
-    if (fields.length) {
-      setAirports(records => {
-        if (data.getTyp() === OperationType.UPDATE) {
-          let oldValue = mapper.mapRecord(data.getOld().getValuesList());
-          let existingIndex = records.findIndex(v => v[primaryIndexKeys[0]] === oldValue[primaryIndexKeys[0]])
-
-          if (records.length > 0) {
-            if (existingIndex > -1) {
-              records[existingIndex] = mapper.mapRecord(data.getNew().getValuesList());
-              return [...records];
-            } else {
-              return [...records, mapper.mapRecord(data.getNew().getValuesList())];
-            }
-          }
-        } else if (data.getTyp() === OperationType.INSERT) {
-          return [...records, mapper.mapRecord(data.getNew().getValuesList())];
-        }
-
-        return records
-      });
-    }
-
-  });
+  const { records } = useDozerEndpointQuery('airports_count', { query: { limit: 5000 }, watch: true })
 
   useEffect(() => {
     setAirports(records);
