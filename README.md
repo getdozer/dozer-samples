@@ -30,7 +30,7 @@ Refer to the [Installation section](https://getdozer.io/docs/installation) for i
 |                  | [AWS S3](./connectors/aws-s3)                                            | Load data from AWS S3 bucket                                                 |
 |                  | [Ethereum](./connectors/ethereum)                                        | Load data from Ethereum                                                      |
 |                  | [Kafka](./connectors/kafka)                                              | Load data from kafka stream                                                  |
-|                  | Snowflake (Coming soon)                                                  | Load data using Snowflake table streams                                      |
+|                  | [Snowflake](./connectors/snowflake)                                                  | Load data using Snowflake table streams                                      |
 | SQL              | [Using JOINs](./sql/join)                                                | Dozer APIs over multiple sources using JOIN                                  |
 |                  | [Using Aggregations](./sql/aggregations)                                 | How to aggregate using Dozer                                                 |
 |                  | [Using Window Functions](./sql/window-functions)                         | Use `Hop` and `Tumble` Windows                                               |
