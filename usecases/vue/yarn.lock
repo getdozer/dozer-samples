@@ -274,17 +274,17 @@
     "@babel/helper-validator-identifier" "^7.22.5"
     to-fast-properties "^2.0.0"
 
-"@dozerjs/dozer-vue@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@dozerjs/dozer-vue/-/dozer-vue-0.0.1.tgz#74b9d99c47b05893a9e7dd72477bfe0a70926c71"
-  integrity sha512-XnGL8hP6d5THC9SK6xa3bm70XzpkERE9ZrQ5gB/mXEweEfqznnajTGJHdfQCNkvTHKZA2/9Dx6hUiFeDJWshgQ==
+"@dozerjs/dozer-vue@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@dozerjs/dozer-vue/-/dozer-vue-0.0.2.tgz#85472954535034470ccdc0b6073d4ca8395ccf7c"
+  integrity sha512-t0fdVJrVtitFLkuFZa/CXGaMO4W+754iYEtTudwq3VXxuAUNGXQzltCkMlvpYiwL6QcG/57lKgk678pOb9+zpg==
   dependencies:
-    "@dozerjs/dozer" "0.0.7-beta.0"
+    "@dozerjs/dozer" "0.0.7-beta.2"
 
-"@dozerjs/dozer@0.0.7-beta.0":
-  version "0.0.7-beta.0"
-  resolved "https://registry.yarnpkg.com/@dozerjs/dozer/-/dozer-0.0.7-beta.0.tgz#d9f48043b1e0bdab2c4e2dfde30d5e44410290f7"
-  integrity sha512-YpjMW1KSKFW8kQLDIqb9/9B1iefyGHocgZUziWr/gcgQec4l7rB4JWOc70xA8FBkkgy8mLf7YTsr1Pqs2BtM+w==
+"@dozerjs/dozer@0.0.7-beta.2":
+  version "0.0.7-beta.2"
+  resolved "https://registry.yarnpkg.com/@dozerjs/dozer/-/dozer-0.0.7-beta.2.tgz#7725801b1ccf0ca4e943a070e9ff447dbe1772b7"
+  integrity sha512-5V1xAjYtj9lruh8olkqx6mXNXQMFaakOI7NhJqku/rpf+E8DzHTJbzxVVLT26EoKCp7Z5SRh+3gD81S8u04M2Q==
   dependencies:
     "@types/google-protobuf" "^3.15.6"
     google-protobuf "^3.21.2"
