@@ -1,11 +1,11 @@
 import { useDozerEndpoint } from "@dozerjs/dozer-react";
-import { Type } from "@dozerjs/dozer/lib/esm/generated/protos/types";
-import { Order } from "@dozerjs/dozer/lib/esm/query_helper";
+import { Type, EventType } from "@dozerjs/dozer/lib/esm/generated/protos/types_pb";
+import { Order } from "@dozerjs/dozer";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 
 function DeparturesCount() {
   const query = { orderBy: { start: Order.ASC } };
-  const { records, fields } = useDozerEndpoint('departures_count', { query, watch: 0 });
+  const { records, fields } = useDozerEndpoint('departures_count', { query, watch: EventType.ALL });
 
   if (!fields?.length) {
     return null;
