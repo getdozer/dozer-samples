@@ -29,8 +29,9 @@ Refer to the [Installation section](https://getdozer.io/docs/installation) for i
 |                  | [Local Storage](./connectors/local-storage)                              | Load data from local files                                                   |
 |                  | [AWS S3](./connectors/aws-s3)                                            | Load data from AWS S3 bucket                                                 |
 |                  | [Ethereum](./connectors/ethereum)                                        | Load data from Ethereum                                                      |
+|                  | gRPC (Coming Soon)                                                       | Load data using gRPC                                                         |
 |                  | [Kafka](./connectors/kafka)                                              | Load data from kafka stream                                                  |
-|                  | [Snowflake](./connectors/snowflake)                                                  | Load data using Snowflake table streams                                      |
+|                  | [Snowflake](./connectors/snowflake)                                      | Load data using Snowflake table streams                                      |
 | SQL              | [Using JOINs](./sql/join)                                                | Dozer APIs over multiple sources using JOIN                                  |
 |                  | [Using Aggregations](./sql/aggregations)                                 | How to aggregate using Dozer                                                 |
 |                  | [Using Window Functions](./sql/window-functions)                         | Use `Hop` and `Tumble` Windows                                               |
@@ -41,6 +42,9 @@ Refer to the [Installation section](https://getdozer.io/docs/installation) for i
 | Client Libraries | [Dozer React Starter](./usecases/react/)                                 | Instantly start building real time views using Dozer and React               |
 |                  | [Ingest Polars/Pandas Dataframes](./client-samples/ingest-python-sample) | Instantly ingest Polars/Pandas dataframes using Arrow format and deploy APIs |
 | Authorization    | [Dozer Authorziation](./usecases/api-auth/README.md)                     | How to apply JWT Auth on Dozer APIs                                          |
+|                  | Secrets (Coming soon)                                                    | How to use Secrets in your application                                       |
+|                  | Dozer Mesh (Coming soon)                                                 | How to create a Dozer Mesh application                                       |
+|                  | Workspace (Coming soon)                                                  | How to create an advanced Dozer configuration                                |
 
 
 
