@@ -44,6 +44,8 @@ Refer to the [Installation section](https://getdozer.io/docs/installation) for i
 | Authorization    | [Dozer Authorziation](./usecases/api-auth/README.md)                     | How to apply JWT Auth on Dozer APIs                                          |
 |                  | Secrets (Coming soon)                                                    | How to use Secrets in your application                                       |
 |                  | Dozer Mesh (Coming soon)                                                 | How to create a Dozer Mesh application                                       |
+|                  | Python Data Change Functions (Coming soon)                               | How to execute lambda functions on ingestion logs using Python               |
+|                  | JS Data Change Functions (Coming soon)                                   | How to execute lambda functions on ingestion logs using JS                   |
 |                  | Workspace (Coming soon)                                                  | How to create an advanced Dozer configuration                                |
 
 
