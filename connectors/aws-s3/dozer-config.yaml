@@ -2,10 +2,10 @@ app_name: aws-s3-sample
 connections:
   - config : !S3Storage
       details:
-        access_key_id: {{YOUR_ACCESS_KEY}}
-        secret_access_key: {{YOUR_SECRET_KEY}}
-        region: {{YOUR_REGION}}
-        bucket_name: {{YOUR_BUCKET_NAME}}
+        access_key_id: "{{YOUR_ACCESS_KEY}}"
+        secret_access_key: "{{YOUR_SECRET_KEY}}"
+        region: "{{YOUR_REGION}}"
+        bucket_name: "{{YOUR_BUCKET_NAME}}"
       tables:
         - !Table
           name: stocks
