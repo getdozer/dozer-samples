@@ -4,9 +4,9 @@ connections:
     config: !Postgres
       user: postgres
       password: postgres
-      host: localhost
+      host: ec2-18-141-13-58.ap-southeast-1.compute.amazonaws.com
       port: 5433
-      database: film
+      database: pagila
 
 sources:
   - name: actors
