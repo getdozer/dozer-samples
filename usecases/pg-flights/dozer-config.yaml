@@ -1,5 +1,5 @@
-app_name: flight-microservices
-cache_max_map_size: 2147483648
+app_name: pgflight_supabase
+
 connections:
   - config: !Postgres
       user: postgres
@@ -8,13 +8,27 @@ connections:
       port: 5437
       database: flights
     name: bookings_conn
-  - config: !Postgres
-      user: postgres
-      password: postgres
-      host: 0.0.0.0
-      port: 5437
-      database: flights
-    name: flights_conn
+
+sources:
+  - name: b_tickets
+    table_name: tickets
+    connection: bookings_conn
+
+  - name: b_bookings
+    table_name: bookings
+    connection: bookings_conn
+
+  - name: b_ticket_flights
+    table_name: ticket_flights
+    connection: bookings_conn
+
+  - name: f_airports
+    table_name: airports
+    connection: bookings_conn
+
+  - name: f_flights
+    table_name: flights
+    connection: bookings_conn
 
 sql: |
   -- BOOKING DETAILS
@@ -76,26 +90,7 @@ sql: |
 
 # NOTE: as the table names between the connections are the same,
 #       aliasing is needed to avoid ambiguity
-sources:
-  - name: b_tickets
-    table_name: tickets
-    connection: bookings_conn
 
-  - name: b_bookings
-    table_name: bookings
-    connection: bookings_conn
-
-  - name: b_ticket_flights
-    table_name: ticket_flights
-    connection: bookings_conn
-
-  - name: f_airports
-    table_name: airports
-    connection: flights_conn
-
-  - name: f_flights
-    table_name: flights
-    connection: flights_conn
 
 endpoints:
   - name: bookings_details
@@ -123,3 +118,4 @@ endpoints:
       primary_key:
         - flight_no
         - days_of_week
+
