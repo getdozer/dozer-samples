@@ -49,3 +49,20 @@ else:
   print("No records found")
 
 ```
+
+
+## Run on Dozer Cloud
+
+### Deployment
+
+```sh
+dozer cloud deploy -c dozer-config.yaml -c trips.json
+```
+
+### Ingest Data
+
+
+### Query Data
+
+
+### Working
