@@ -68,5 +68,4 @@ Please refer to [Contributing](https://getdozer.io/docs/contributing/overview) f
 - [ ] Make every connector example work with dozer cloud
 - [ ] Make usecases work with dozer cloud
 - [ ] Make client libraries work with dozer cloud
-- [ ] Automatically deploy to a dev dozer samples account
-
+- [ ] Automatically deploy to a dev dozer samples account 
