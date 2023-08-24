@@ -28,29 +28,24 @@ sql: |
 sources:
   - name: tickets
     table_name: tickets
-    columns:
-    connection: !Ref flights_conn
+    connection: flights_conn
 
   - name: flights
     table_name: flights
-    columns:
-    connection: !Ref flights_conn
+    connection: flights_conn
 
   - name: ticket_flights
     table_name: ticket_flights
-    columns:
-    connection: !Ref flights_conn
+    connection: flights_conn
 
   - name: airports
     table_name: airports
-    columns:
-    connection: !Ref flights_conn
+    connection: flights_conn
 
   - name: airports_flights_schema
     table_name: airports
-    columns:
     schema: flights_schema
-    connection: !Ref flights_conn
+    connection: flights_conn
 
 endpoints:
 
@@ -107,14 +102,46 @@ endpoints:
         - start
 ```
 
-## Available Scripts
+## Setup and Running the Project
 
-In the project directory, you can run:
+1. Navigate to the `usecases/pg-flights` directory in your terminal:
 
-### `yarn start`
+    ```bash
+    cd ../pg-flights
+    ```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+2. Run the following command to execute Dozer with the provided `dozer-config.yaml` configuration:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+    ```bash
+    dozer -c dozer-config.yaml
+    ```
+
+3. Once the Dozer process is running successfully, you can proceed to start the React app.
+
+4. Navigate back to this directory
+
+5. Run the following command to start the React app in development mode:
+
+    ```bash
+    yarn start
+    ```
+
+6. Open your browser and visit [http://localhost:3000](http://localhost:3000) to view the React app.
+
+7. As you make changes to the project code, the page will automatically reload to reflect those changes. Any lint errors will also be displayed in the console.
+
+## Data Sources and Endpoints
+
+The project utilizes various data sources and endpoints defined in the `dozer-config.yaml` file. These include:
+
+- `tickets`: Endpoint for booking tickets.
+- `flights`: Endpoint for flight information.
+- `airports`: Endpoint for airport details.
+- `airports_flights_schema`: Endpoint for airport and flight schema.
+- `ticket_flights`: Endpoint for ticket-flight associations.
+- `airports_count`: Endpoint for counting airports and their coordinates.
+- `departures_count`: Endpoint for counting flight departures.
+
+You can access these endpoints in your React app to display relevant information.
+
+Remember to keep the `dozer-config.yaml` file and the project directory structure consistent to ensure proper functionality.

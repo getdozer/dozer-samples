@@ -62,3 +62,11 @@ Please refer to [Contributing](https://getdozer.io/docs/contributing/overview) f
 - [Documentation](https://getdozer.io/docs/dozer/)
 - [Architecture](https://getdozer.io/docs/dozer/architecture)
 - [Discord channel](https://discord.gg/3eWXBgJaEQ)
+
+
+## TODO
+- [ ] Make every connector example work with dozer cloud
+- [ ] Make usecases work with dozer cloud
+- [ ] Make client libraries work with dozer cloud
+- [ ] Automatically deploy to a dev dozer samples account
+
