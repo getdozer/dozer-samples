@@ -2,11 +2,22 @@ app_name: movie-booking
 connections:
   - config: !Postgres
       user: postgres
-      password: postgres
-      host: 0.0.0.0
-      port: 5438
-      database: omdb
+      password: "{{SUPABASE_PASSWORD}}"
+      host: "{{SUPABASE_HOST}}"
+      port: 5432
+      database: postgres
     name: omdb
+
+sources:
+  - name: bookings
+    table_name: bookings
+    connection: omdb
+  - name: users
+    table_name: users
+    connection: omdb
+  - name: movies
+    table_name: movies
+    connection: omdb
 
 sql: |
   SELECT id, name, runtime
@@ -24,21 +35,6 @@ sql: |
   FROM bookings
   left JOIN movies ON bookings.movie_id = movies.id
   GROUP BY name, movie_id;
-
-sources:
-  - name: bookings
-    table_name: bookings
-    connection: omdb
-  - name: users
-    table_name: users
-    connection: omdb
-  - name: movies
-    table_name: movies
-    columns:
-      - id
-      - name
-      - runtime
-    connection: omdb
 
 endpoints:
   - name: bookings
@@ -75,5 +71,4 @@ endpoints:
         - id
 
 api:
-    api_security: !Jwt
-        my_secret
+  api_security: !Jwt my_secret
