@@ -1,0 +1,10 @@
+grpcio==1.57.0
+grpcio-reflection==1.57.0
+numpy==1.25.2
+polars==0.16.18
+protobuf==4.24.1
+pyarrow==11.0.0
+pydozer==0.1.34
+six==1.16.0
+tqdm==4.66.1
+typing_extensions==4.7.1
