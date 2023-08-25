@@ -60,9 +60,13 @@ dozer cloud deploy -c dozer-config.yaml -c trips.json
 ```
 
 ### Ingest Data
-
+```sh
+python sample.py -a <your_application_id>
+```
 
 ### Query Data
-
+```sh
+python query.py -a <your_application_id>
+```
 
 ### Working
