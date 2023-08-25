@@ -1,120 +1,55 @@
-# Getting Started with Dozer react example
+# Getting Started with Dozer React Cloud example
 
-```yaml
-app_name: flight-microservices
-connections:
-  - name: flights_conn
-    config: !Postgres
-      user: postgres
-      password: postgres
-      host: 0.0.0.0
-      port: 5437
-      database: flights
+## Prerequisites
 
-sql: |
-  select f.arrival_airport as airport, a.coordinates as coordinates, COUNT(t.ticket_no) as tickets
-  INTO airports_count
-  from tickets t
-  join ticket_flights tf on t.ticket_no = tf.ticket_no
-  join flights f on tf.flight_id = f.flight_id
-  join airports a on f.arrival_airport = a.airport_code
-  group by f.arrival_airport, a.coordinates;
+Before you start, ensure you have the following:
 
-  select extract(HOUR FROM f.window_start) as start, count(f.window_start) as dep_count
-  INTO departures_count
-  from TUMBLE(flights, scheduled_departure, '4 HOURS') f
-  group by extract(HOUR FROM f.window_start)
+- Node.js and npm installed.
+- Yarn package manager.
+- An account and credentials for your chosen cloud platform (replace `<cloud-provider>`).
 
-sources:
-  - name: tickets
-    table_name: tickets
-    columns:
-    connection: !Ref flights_conn
+## Cloud Deployment Steps
 
-  - name: flights
-    table_name: flights
-    columns:
-    connection: !Ref flights_conn
+1. Navigate to the `usecases/pg-flights` directory in your terminal:
 
-  - name: ticket_flights
-    table_name: ticket_flights
-    columns:
-    connection: !Ref flights_conn
+    ```bash
+    cd ../pg-flights
+    ```
 
-  - name: airports
-    table_name: airports
-    columns:
-    connection: !Ref flights_conn
+2. Run the following command to deploy the default configuration dozer-config.yaml to the cloud:
 
-  - name: airports_flights_schema
-    table_name: airports
-    columns:
-    schema: flights_schema
-    connection: !Ref flights_conn
+    ```bash
+    dozer cloud deploy
+    ```
+    
+This command will deploy the config file to the cloud, and a new config file named dozer-config.cloud.yaml will be generated. This new config file contains the application ID.
 
-endpoints:
+3. Open the newly generated dozer-config.cloud.yaml file and locate the app_id field. Copy the value of the app_id.
 
-  - name: tickets
-    path: /bookings/tickets
-    table_name: tickets
-    index:
-      primary_key:
-        - ticket_no
+4. In the src directory of your this project, find the config.js file and paste the copied app_id value in place of DOZER_APP_ID. This will connect your React app to the cloud-deployed application.
 
-  - name: flights
-    path: /bookings/flights
-    table_name: flights
-    index:
-      primary_key:
-        - flight_id
+5. Navigate back to the root directory of your project, and run the following command to start the React app in development mode:
 
-  - name: airports
-    path: /bookings/airports
-    table_name: airports
-    index:
-      primary_key:
-        - airport_code
+    ```bash
+    yarn start
+    ```
 
+6. Open your browser and visit [http://localhost:3000](http://localhost:3000) to view the React app.
 
-  - name: airports_flights_schema
-    path: /bookings/airports_flights_schema
-    table_name: airports_flights_schema
-    index:
-      primary_key:
-        - id
+7. The React UI is now linked with the cloud-deployed application. As you make changes to the project code, the page will automatically reload to reflect those changes. Any lint errors will also be displayed in the console.
 
-  - name: ticket_flights
-    path: /bookings/ticket_flights
-    table_name: ticket_flights
-    index:
-      primary_key:
-        - ticket_no
-        - flight_id
+## Data Sources and Endpoints
 
-  - name: airports_count
-    path: /airports_count
-    table_name: airports_count
-    index:
-      primary_key:
-        - airport
-        - coordinates
+The project utilizes various data sources and endpoints defined in the `dozer-config.yaml` file. These include:
 
-  - name: departures_count
-    path: /departures_count
-    table_name: departures_count
-    index:
-      primary_key:
-        - start
-```
+- `tickets`: Endpoint for booking tickets.
+- `flights`: Endpoint for flight information.
+- `airports`: Endpoint for airport details.
+- `airports_flights_schema`: Endpoint for airport and flight schema.
+- `ticket_flights`: Endpoint for ticket-flight associations.
+- `airports_count`: Endpoint for counting airports and their coordinates.
+- `departures_count`: Endpoint for counting flight departures.
 
-## Available Scripts
+You can access these endpoints in your React app to display relevant information.
 
-In the project directory, you can run:
-
-### `yarn start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Remember to keep the `dozer-config.yaml` file and the project directory structure consistent to ensure proper functionality.
