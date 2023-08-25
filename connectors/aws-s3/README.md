@@ -58,6 +58,11 @@ connections:
 dozer cloud`deploy -c dozer-config.yaml
 ```
 
+## Querying data
+
+```bash
+curl -H "x-dozer-app-id: <app-id" https://data.dev.getdozer.io:443  ```
+
 ## Additional Information
 
 If you encounter any issues or have suggestions, please file an issue in the [issue tracker](https://github.com/getdozer/dozer-samples/issues) on our Github page or reach out to us on [discord](https://discord.com/invite/3eWXBgJaEQ).
