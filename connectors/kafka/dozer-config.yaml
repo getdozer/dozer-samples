@@ -1,16 +1,15 @@
 app_name: kafka-transactions
-cache_max_map_size: 8589934592
-api:
-  internal:
-    port: 50052
-    host: "[::1]"
-  rest:
-    port: 8088
+
 connections:
   - config : !Kafka
       broker: localhost:19092
       schema_registry_url: http://localhost:18081
     name: kafka_store
+
+sources:
+  - name: transactions
+    table_name: transactions
+    connection: kafka_store
 
 sql: |
   SELECT
@@ -22,15 +21,7 @@ sql: |
   INTO tout
   FROM transactions t;
 
-sources:
-  - name: transactions
-    table_name: transactions
-    connection: kafka_store
-
 endpoints:
   - name: tout
     path: /tout
     table_name: tout
-
-telemetry:
-  metrics: !Prometheus
