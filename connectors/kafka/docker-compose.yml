@@ -1,4 +1,5 @@
 version: "3.7"
+name: redpanda-quickstart
 networks:
   redpanda_network:
     driver: bridge
@@ -62,6 +63,6 @@ services:
             enabled: true
             urls: ["http://redpanda-0:9644"]
     ports:
-      - 61234:61234
+      - 8080:8080
     depends_on:
       - redpanda-0

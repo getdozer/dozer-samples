@@ -1,5 +1,5 @@
 app_name: kafka-transactions
-
+cache_max_map_size: 8589934592
 connections:
   - config : !Kafka
       broker: localhost:19092
@@ -25,3 +25,6 @@ endpoints:
   - name: tout
     path: /tout
     table_name: tout
+
+telemetry:
+  metrics: !Prometheus
