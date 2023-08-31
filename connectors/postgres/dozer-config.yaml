@@ -1,10 +1,11 @@
+version: 1
 app_name: simple-pg-sample
 connections:
   - name: pagila_conn
     config: !Postgres
       user: postgres
       password: postgres
-      host: ec2-18-141-13-58.ap-southeast-1.compute.amazonaws.com
+      host: "{{EC2_INSTANCE_DNS }}"
       port: 5433
       database: pagila
 

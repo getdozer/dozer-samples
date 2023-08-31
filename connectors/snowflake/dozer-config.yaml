@@ -1,16 +1,17 @@
+version: 1
 app_name: snowflake-tutorial
 
 connections:
   - config: !Snowflake
-      server: "{{SN_SERVER}}"
+      server: "{{SF_SERVER}}"
       port: 443
-      user: "{{SN_USER}}"
-      password: "{{SN_PASSWORD}}"
-      database: "{{SN_DATABASE}}"
+      user: "{{SF_USER}}"
+      password: "{{SF_PASSWORD}}"
+      database: "{{SF_DB}}"
       schema: PUBLIC
-      warehouse: "{{SN_WAREHOUSE}}"
+      warehouse: "{{SF_WAREHOUSE}}"
       driver: "SnowflakeDSIIDriver"
-      role: "{{SN_ROLE}}"
+      role:  "{{SF_ROLE}}"
     name: sn_data
 
 sources:
