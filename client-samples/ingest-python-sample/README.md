@@ -68,6 +68,14 @@ Take note of the application id in the logs, it will be referred as `<your_appli
 
 ### Ingest Data
 
+Prepare the virtual environment to run the python script
+
+```sh
+python -m venv ./venv
+source ./venv/bin/activate
+pip install -r requirements.txt
+```
+
 The `sample.py` file is a simple python script that ingest a parquet file streaming that to the Dozer gRPC connector.
 
 ```sh

@@ -1,4 +1,5 @@
-app_name: dozer-ingest-users
+app_name: grpc-connection-sample
+version: 1
 connections:
   - config: !Grpc
       adapter: arrow
