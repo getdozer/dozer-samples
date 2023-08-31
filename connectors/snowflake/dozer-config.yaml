@@ -3,15 +3,15 @@ app_name: snowflake-tutorial
 
 connections:
   - config: !Snowflake
-      server: "{{SF_SERVER}}"
+      server: "{{SN_SERVER}}"
       port: 443
-      user: "{{SF_USER}}"
-      password: "{{SF_PASSWORD}}"
-      database: "{{SF_DB}}"
+      user: "{{SN_USER}}"
+      password: "{{SN_PASSWORD}}"
+      database: "{{SN_DATABASE}}"
       schema: PUBLIC
-      warehouse: "{{SF_WAREHOUSE}}"
+      warehouse: "{{SN_WAREHOUSE}}"
       driver: "SnowflakeDSIIDriver"
-      role:  "{{SF_ROLE}}"
+      role:  "{{SN_ROLE}}"
     name: sn_data
 
 sources:

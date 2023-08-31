@@ -58,6 +58,12 @@ connections:
 dozer cloud`deploy -c dozer-config.yaml
 ```
 
+### To use environment variables in the config file
+
+```bash
+dozer cloud deploy -s AWS_ACCESS_KEY=$AWS_ACCESS_KEY -s AWS_SECRET_KEY=$AWS_SECRET_KEY -s AWS_REGION_S3=$AWS_REGION_S3 -s AWS_BUCKET_NAME=$AWS_BUCKET_NAME
+```
+
 ## Querying data
 
 ```bash
