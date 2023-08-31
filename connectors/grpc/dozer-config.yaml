@@ -1,0 +1,27 @@
+version: 1
+app_name: grpc-connection-sample
+connections:
+  - config: !Grpc
+      adapter: arrow
+      schemas: !Path "trips.json"
+      port: 7005
+    name: trips_arrow
+
+cache_max_map_size: 1073741824
+
+api:
+  rest:
+    port: 7002
+  grpc:
+    port: 7003
+  app_grpc:
+    port: 7004
+sources:
+  - name: trips
+    table_name: trips
+    connection: trips_arrow
+
+endpoints:
+  - name: trips
+    path: /trips
+    table_name: trips
