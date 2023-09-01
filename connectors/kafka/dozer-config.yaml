@@ -1,4 +1,5 @@
 app_name: kafka-transactions
+version: 1
 cache_max_map_size: 8589934592
 connections:
   - config : !Kafka

@@ -1,4 +1,5 @@
 app_name: snowflake-tutorial
+version: 1
 
 connections:
   - config: !Snowflake
