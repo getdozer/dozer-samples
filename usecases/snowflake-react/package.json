@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@dozerjs/dozer": "^0.0.7-beta.4",
+    "@dozerjs/dozer-react": "^0.0.5-beta.4",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "@dozerjs/dozer": "0.0.5",
-    "@dozerjs/dozer-react": "0.0.4",
     "@mui/material": "^5.11.7",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

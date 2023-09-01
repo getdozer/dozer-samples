@@ -1,9 +1,9 @@
-import {useEffect, useState} from "react";
-import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import { useEffect, useState } from "react";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 
-import {useOnEvent, useQueryCommon} from "@dozerjs/dozer-react";
-import {OperationType} from "@dozerjs/dozer/lib/esm/generated/protos/types";
-import {useNavigate} from "react-router-dom";
+import { useOnEvent, useQueryCommon } from "@dozerjs/dozer-react";
+import { OperationType } from "@dozerjs/dozer/lib/esm/generated/protos/types";
+import { useNavigate } from "react-router-dom";
 
 function pad(num, size) {
     num = num.toString();
@@ -18,7 +18,7 @@ function Dashboard() {
         navigate("/admin");
     }
     const [values, setValues] = useState([]);
-    const query = { limit: 500000};
+    const query = { limit: 500000 };
     const { records: events } = useQueryCommon("movies_with_bookings", query, token);
 
     useOnEvent('movies_with_bookings', (data, _1, primaryIndexKeys, mapper) => {
@@ -58,7 +58,7 @@ function Dashboard() {
 
 
     useEffect(() => {
-        if(values.length === 0) {
+        if (values.length === 0) {
             setValues(events);
         }
     }, [events])
@@ -80,16 +80,16 @@ function Dashboard() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    { values.map(f => (
+                    {values.map(f => (
                         <TableRow
-                            key={ f.id }
-                            sx={ { '&:last-child td, &:last-child th': { border: 0 } } }
+                            key={f.id}
+                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
-                            <TableCell component="th" scope="row">{ f.id }</TableCell>
-                            <TableCell>{ f.name }</TableCell>
-                            <TableCell align="center">{ f.count }</TableCell>
+                            <TableCell component="th" scope="row">{f.id}</TableCell>
+                            <TableCell>{f.name}</TableCell>
+                            <TableCell align="center">{f.count}</TableCell>
                         </TableRow>
-                    )) }
+                    ))}
                 </TableBody>
             </Table>
         </TableContainer>

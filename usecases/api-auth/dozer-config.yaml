@@ -1,4 +1,7 @@
+version: 1
 app_name: movie-booking
+home_dir: ./.dozer
+cache_dir: ./.dozer/cache
 connections:
   - config: !Postgres
       user: postgres
@@ -6,6 +9,8 @@ connections:
       host: 0.0.0.0
       port: 5438
       database: omdb
+      sslmode: null
+      connection_url: null
     name: omdb
 
 sql: |
@@ -75,5 +80,4 @@ endpoints:
         - id
 
 api:
-    api_security: !Jwt
-        my_secret
+  api_security: !Jwt my_secret

@@ -5,7 +5,7 @@ import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 
 function DeparturesCount() {
   const query = { orderBy: { start: Order.ASC } };
-  const { records, fields } = useDozerEndpoint('departures_count', { query, watch: EventType.ALL });
+  const { records, fields } = useDozerEndpoint('pickup', { query, watch: EventType.ALL });
 
   if (!fields?.length) {
     return null;

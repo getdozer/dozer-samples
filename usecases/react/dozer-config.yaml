@@ -1,0 +1,16 @@
+version: 1
+app_name: quick-start-app
+home_dir: ./.dozer
+cache_dir: ./.dozer/cache
+connections:
+- config: !Snowflake
+    server: <account_name>.<region_id>.snowflakecomputing.com
+    port: '443'
+    user: bob
+    password: password
+    database: database
+    schema: schema
+    warehouse: warehouse
+    driver: SnowflakeDSIIDriver
+    role: role
+  name: snowflake

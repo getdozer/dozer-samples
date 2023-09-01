@@ -1,2 +1,2 @@
-export const DOZER_APP_ID = '321be35e-69d3-4d0e-8ccc-4ec94124a7b1';
+export const DOZER_APP_ID = 'b2fffd45-b10f-4331-8cfd-988eb721fc28';
 export const AUTH_TOKEN = null;

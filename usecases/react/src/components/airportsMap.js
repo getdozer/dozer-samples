@@ -8,13 +8,13 @@ const Marker = ({ text }) => <div style={{
   border: '6px solid #b0488c',
   textAlign: 'center',
   backgroundColor: '#b0488c',
-  width: '75px',
-  height: '15px',
+  width: '80px',
+  height: '20px',
 }}>{text}</div>;
 
 function AirportsMap() {
   const [airports, setAirports] = useState([]);
-  const { records } = useDozerEndpointQuery('airports_count', { query: { limit: 5000 }, watch: true })
+  const { records } = useDozerEndpointQuery('pickup', { query: { limit: 5000 }, watch: true })
 
   useEffect(() => {
     setAirports(records);
@@ -36,10 +36,10 @@ function AirportsMap() {
         defaultZoom={defaultProps.zoom}
       >
         {airports.map(airport =>
-          <Marker key={airport.airport}
-                  lat={airport.coordinates?.getY()}
-                  lng={airport.coordinates?.getX()}
-                  text={airport.airport + ' (' + airport.tickets + ')'}/>
+          <Marker key={airport.Zone}
+            lat={Number(airport.latitude)}
+            lng={Number(airport.longitude)}
+            text={airport.Zone + ' (' + airport.trips + ')'} />
         )}
       </GoogleMapReact>
     </div>

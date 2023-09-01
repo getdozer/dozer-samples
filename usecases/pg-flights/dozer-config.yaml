@@ -2,11 +2,11 @@ app_name: pg-supabase
 cache_max_map_size: 2147483648
 connections:
   - config: !Postgres
-      user: "{{USERNAME}}"
-      password: "{{PASSWORD}}"
-      host: "{{HOSTNAME}}"
+      user: postgres
+      password: "4oS7RxaL4354nctR"
+      host: db.mluazabmsyjpviafewqv.supabase.co
       port: 5432
-      database: "{{DATABASE}}"
+      database: postgres
     name: flights_conn
 
 sql: |

@@ -9,8 +9,8 @@ import {
     TableRow,
     TextField
 } from "@mui/material";
-import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 function Login() {
     const navigate = useNavigate();
@@ -45,19 +45,19 @@ function Login() {
     }
     return <div>
         <TextField type="text"
-                   onChange={(newValue) => setUsername(newValue.target.value)}
-                   inputProps={{min: 0, style: {textAlign: 'center', backgroundColor: 'white'}}}
-                   placeholder="Enter username"
+            onChange={(newValue) => setUsername(newValue.target.value)}
+            inputProps={{ min: 0, style: { textAlign: 'center', backgroundColor: 'white' } }}
+            placeholder="Enter username"
         />
-        <br/>
-        <br/>
+        <br />
+        <br />
         <TextField type="password"
-                   onChange={(newValue) => setPassword(newValue.target.value)}
-                   inputProps={{min: 0, style: {textAlign: 'center', backgroundColor: 'white'}}}
-                   placeholder="Enter password"
+            onChange={(newValue) => setPassword(newValue.target.value)}
+            inputProps={{ min: 0, style: { textAlign: 'center', backgroundColor: 'white' } }}
+            placeholder="Enter password"
         />
-        <br/>
-        <br/>
+        <br />
+        <br />
         <Button variant="Contained" onClick={() => doLogin()}>Login</Button>
     </div>;
 }
