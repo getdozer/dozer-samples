@@ -30,30 +30,13 @@ sources:
     table_name: titles
     connection: mysql_data
 
-endpoints:
-  - name: akas_cache
-    path: /akas_cache
-    table_name: akas
+sql: |
 
-  - name: crew_cache
-    path: /crew_cache
-    table_name: crew
+endpoints: 
 
-  - name: episodes_cache
-    path: /episodes_cache
-    table_name: episodes
-
-  - name: people_cache
-    path: /people_cache
-    table_name: people
-
-  - name: ratings_cache
-    path: /ratings_cache
-    table_name: ratings
-
-  - name: titles_cache
-    path: /titles_cache
-    table_name: titles
+  - name: endpoint1
+    path: /endpoint1
+    table_name: table1
 
 cache_max_map_size: 16106127360
 
