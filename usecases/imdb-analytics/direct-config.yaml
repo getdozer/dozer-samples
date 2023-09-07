@@ -1,0 +1,60 @@
+version: 1
+app_name: imdb-analytics
+connections:
+  - config: !MySQL
+      url: mysql://root:1234@localhost:3306/IMDB
+    name: mysql_data
+
+sources:
+  - name: akas
+    table_name: akas
+    connection: mysql_data
+
+  - name: crew
+    table_name: crew
+    connection: mysql_data
+
+  - name: episodes
+    table_name: episodes
+    connection: mysql_data
+
+  - name: people
+    table_name: people
+    connection: mysql_data
+
+  - name: ratings
+    table_name: ratings
+    connection: mysql_data
+
+  - name: titles
+    table_name: titles
+    connection: mysql_data
+
+endpoints:
+  - name: akas_cache
+    path: /akas_cache
+    table_name: akas
+
+  - name: crew_cache
+    path: /crew_cache
+    table_name: crew
+
+  - name: episodes_cache
+    path: /episodes_cache
+    table_name: episodes
+
+  - name: people_cache
+    path: /people_cache
+    table_name: people
+
+  - name: ratings_cache
+    path: /ratings_cache
+    table_name: ratings
+
+  - name: titles_cache
+    path: /titles_cache
+    table_name: titles
+
+cache_max_map_size: 16106127360
+telemetry:
+  metrics: !Prometheus
