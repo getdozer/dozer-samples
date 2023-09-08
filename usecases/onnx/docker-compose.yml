@@ -1,0 +1,21 @@
+version: '3.9'
+
+x-common-variables: &commonEnvironment
+  PG_PASSWORD: "{{PG_PASSWORD}}"
+
+services:
+  dozer-build:
+    container_name: onnx-dozer
+    image: public.ecr.aws/getdozer/dozer-features:latest
+    environment: *commonEnvironment
+    working_dir: /usr/local/bin
+    ports:
+      # REST APIs are published on port 8080
+      - "8080:8080"
+      # gRPC are available over 50051
+      - "50051:50051"
+    volumes:
+      - ./dozer-config.yaml:/usr/local/bin/dozer-config.yaml
+      - ./.dozer:/usr/local/bin/.dozer
+      - ./model/sum.onnx:/usr/local/bin/model/sum.onnx
+    command: run --ignore-pipe
