@@ -1,0 +1,28 @@
+app_name: onnx-sample
+version: 1
+connections:
+  - name: onnx
+    config : !Postgres
+      user: postgres
+      password: postgres-dozer-3
+      host: db.nrbvzqyuwgmmmumfpuil.supabase.co
+      port: 5432
+      database: postgres
+
+sources:
+  - name: onnx_test
+    table_name: onnx_test
+    connection: onnx
+
+sql: |
+  SELECT torch_jit(col1, col2, col3, col4) INTO res FROM onnx_test;
+
+endpoints:
+  - name: res
+    path: /res
+    table_name: res
+
+udfs:
+  - name: torch_jit
+    config: !Onnx
+      path: ./model/sum.onnx
