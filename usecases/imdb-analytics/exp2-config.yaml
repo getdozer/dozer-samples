@@ -38,7 +38,7 @@ endpoints:
     path: /endpoint1
     table_name: table1
 
-cache_max_map_size: 16106127360
+cache_max_map_size: 16106127360 # 15 GB
 
 telemetry:
   metrics: !Prometheus

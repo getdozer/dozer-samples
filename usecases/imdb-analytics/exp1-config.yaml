@@ -55,7 +55,7 @@ endpoints:
     path: /titles_cache
     table_name: titles
 
-cache_max_map_size: 16106127360
+cache_max_map_size: 16106127360 # 15 GB
 
 telemetry:
   metrics: !Prometheus
