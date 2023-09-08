@@ -1,8 +1,8 @@
-#IMDB - Analytics
+# IMDB - Analytics
 
 ## Experiment 1
 
-Running `dozer` direct from `source` to `cache`.
+Running `dozer` direct from `source` to `cache`. The config file can be found [here](../exp1-config.yaml)
 
 ![Diagram](../images/experiment_1_diagram.png)
 
