@@ -36,7 +36,11 @@ The query described can be passed to the REST endpoints `GET:localhost:8080/endp
 
 ### Findings
 
+#### Source
 ![Insights](../images/exp2_source.png)
+
+#### Stores
+![Insights](../images/exp2_stores.png)
 
  - Roughly took `2 mins` to process all the records. 
  - Exp 2 took less time than Exp 1 even with a sql operation. This can be attributed to three reasons,

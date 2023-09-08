@@ -39,4 +39,3 @@ In this section we perform various experiments with different configuration file
 |   2   | [Double JOIN](./description_files/experiment2.md) |      1      |    2    |    0    | Running with two JOIN operation            |
 |   3   | [CTEs & JOIN](./description_files/experiment3.md) |      2      |    2    |    2    | Running with CTE & JOIN operations         |
 |   4   | [CTE & JOIN](./description_files/experiment4.md) |      1      |    1    |    1    | Running with a CTE and a join operation    |
-|   5   | [Multiple ops](./description_files/experiment5.md) |      0      |    5    |    2    | Running with multiple CTEs and JOINs       |

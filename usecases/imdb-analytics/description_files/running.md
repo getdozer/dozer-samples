@@ -18,22 +18,26 @@ bash init.sh
 mysql -u <username> -p IMDB < imdb_data.sql
 ```
 
-## Start the dashboard UI
-
-```bash
-docker-compose up
-```
-
 ## Run dozer
 
 Experiment1: [No ops](./experiment1.md) 
 
-Experiment2: [Single JOIN](./experiment2.md) 
+Experiment2: [Double JOIN](./experiment2.md) 
 
-Experiment3: [Multiple JOINs](./experiment3.md) 
+Experiment3: [ JOINs & CTEs](./experiment3.md) 
 
 Experiment4: [CTE & JOIN](./experiment4.md) 
 
-Experiment5: [Multiple ops](./experiment5.md) 
- 
-Once dozer starts running, you should be able to visit the dashboard UI at <http://localhost:3000>.
+## Start dozer live (Optional)
+
+Note: Dozer live will not be able to start a new instance unless you stop previous instances of Dozer.
+
+```bash
+dozer live -c <config-file>
+```
+
+eg. to run experiment1
+
+```bash
+dozer live -c exp1-config.yaml
+```

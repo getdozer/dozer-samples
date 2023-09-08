@@ -6,30 +6,30 @@ Finding the actors and actresses with the most ACTION movies.
 
 Dozer SQL provides us with CTEs which can improve readability as well as possibly improve performance by truncating the data before JOINs happen.
 
-We can use a similar approach as used in the [previous example](./experiment2.md), or use CTEs as described.
+We can use a similar approach as used in the [previous example](./experiment2.md), or use CTEs as described. The config file can be found in [`exp3-config.yaml`](../exp3-config.yaml).
 
 ```sql
- with reduced_crew as (
-  select person_id
+ with acting_crew as (
+  select person_id, category
   from crew
   where category = 'actor' or category = 'actress'
- )
- with action_titles as (
+ ),
+ 
+ action_titles as (
   select title_id
   from titles
   where genres like '%Action%'
  )
- select p.name, r.category, count(1) as titles
- into endpoint1
- from people p 
- join reduced_crew r on p.person_id = r.person_id  
- join action_titles a on a.title_id = r.title_id  
- group by p.name,c.category;
-```
  
-The sql can also be found in [`join-config.yaml`](../join-config.yaml).
+ select p.name, r.category, count(1) as titles
+ into out_table
+ from people p 
+ join acting_crew r on p.person_id = r.person_id  
+ join action_titles a on a.title_id = r.title_id  
+ group by p.name,r.category;
+```
 
-![Experiement 2](../images/experiment_3_diagram.png)
+![Experiement 3](../images/experiment_3_diagram.png)
 
 ### Instructions
 ```
@@ -38,16 +38,28 @@ dozer build -c exp3-config.yaml
 dozer run app -c exp3-config.yaml
 ```
 
+Dozer should start running after executing the commands, but ordering the data is still left! Dozer API provides the option to add query such as `order by`, `limit` and many more... to improve the visibility of the data on the endpoints.
+
+The query described can be passed to the REST endpoints `GET:localhost:8080/endpoint1` to order the data in descending order w.r.t `titles`.
+```json
+{
+  "order_by":{"titles":"desc"}
+}
+```
+
 ### Findings
 
-![Insights](../images/exp2_source.png)
+#### Source
+![Insights](../images/exp3_source.png)
+
+#### Stores
+![Insights](../images/exp3_stores.png)
 
  - Roughly took `2 mins` to process all the records. 
- - Exp 2 took less time than Exp 1 even with a sql operation. This can be attributed to two reasons,
-   - Less store operations due to one endpoint and less data outputted `103734` rows to be exact.
-   - Less read operations from source due to data being read from three tables. 
- - Pipeline latency stays under `0.25s` even with 2 joins and an aggregation.
+ - Took about the same time as Exp2 since the same data was ingested, and processing of data was less contributing to the overall time.
+ - There were significantly less store operations than Exp2, majorly due to CTEs being introducted.
+ - Pipeline latency stayed under `0.25s`.
  
-| Start Time | End Time   | Elapsed   |
-| ---------- | ---------- | --------- |
-| 1:20:36 PM | 1:22:12 PM | ~ 2 mins  |
+| Start Time  | End Time   | Elapsed    |
+| ----------- | ---------- | ---------- |
+| 11:04:40 PM | 11:06:34 PM | ~ 2 mins  |
