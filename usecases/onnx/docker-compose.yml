@@ -18,4 +18,4 @@ services:
       - ./dozer-config.yaml:/usr/local/bin/dozer-config.yaml
       - ./.dozer:/usr/local/bin/.dozer
       - ./model/sum.onnx:/usr/local/bin/model/sum.onnx
-    command: run --ignore-pipe
+    tty: true # or --ignore-pipe
