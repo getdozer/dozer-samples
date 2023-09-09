@@ -37,6 +37,6 @@ It is also important to note, the experiments are being run on a NVMe SSD which 
 | Sr.no |   Experiment   | Aggregations |  JOINs  |   CTEs  |                  Description                     |
 | ------| -------------- | ----------- | ------- | ------- | ------------------------------------------------ |
 |   1   | [No ops](./description_files/experiment1.md) |      0      |    0    |    0    | Running directly from source to cache      |
-|   2   | [Double JOINs](./description_files/experiment2.md) |      1      |    2    |    0    | Running with two JOIN operation            |
+|   2   | [Double JOINs](./description_files/experiment2.md) |      1      |    2    |    0    | Running with two JOIN operations            |
 |   3   | [CTEs & JOINs](./description_files/experiment3.md) |      1      |    2    |    2    | Running with CTE & JOIN operations         |
 |   4   | [Sub Queries](./description_files/experiment4.md) |      1      |    2    |    0    | Running with sub queires & JOINs    |

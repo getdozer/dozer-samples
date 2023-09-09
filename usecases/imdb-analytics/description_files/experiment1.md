@@ -23,3 +23,5 @@ dozer run app -c exp1-config.yaml
 | Start Time  | End Time    | Elapsed  |
 | ----------- | ----------- | -------- |
 | 11:51:23 AM | 11:58:04 PM | ~ 7 mins |
+
+[Click here](../README.md) to go back to homepage.

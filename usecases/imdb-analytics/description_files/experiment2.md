@@ -52,3 +52,5 @@ The query described can be passed to the REST endpoints `GET:localhost:8080/endp
 | Start Time  | End Time     | Elapsed   |
 | ----------- | ------------ | --------- |
 | 11:51:56 PM | 11:53:50 PM  | ~ 2 mins  |
+
+[Click here](../README.md) to go back to homepage.
