@@ -1,36 +1,60 @@
 #IMDB - Analytics
 
-## Experiment 3 lorem ipsum
+## Experiment 4
 
-Running `dozer` with multiple cte defined as well as multiple aggregation and join operations.
+Lets try out the [previous experiment](./experiment3.md) using sub queries instead of CTEs.
 
-We run 3 cascading JOINs and a COUNT aggregation on the data source. The sql can be found in [`cte-config.yaml`](../cte-config.yaml).
+Find the actors and actresses with the most action movies.
+
+We use two subqueries to filter out the tables before joining all of them. The config file can be found [here](../exp4-config.yaml).
 
 ```sql
-select c.customer_id, c.name, c.email,  o.order_id, o.order_date, o.total_amount, COUNT(*)
-  into customer_orders 
-  from customers c
-  inner join orders o on c.customer_id = o.customer_id
-  join order_items i on o.order_id = i.order_id
-  join products p on i.product_id = p.product_id
-  group by c.customer_id, c.name, c.email, o.order_id, o.order_date, o.total_amount
+ SELECT p.name, r.category, COUNT(1) AS titles
+ INTO out_table
+ FROM (   
+ SELECT person_id, category, title_id   
+ FROM crew   
+ WHERE category = 'actor' OR category = 'actress'
+ ) r
+ JOIN (   
+ SELECT title_id  
+ FROM titles   
+ WHERE genres LIKE '%Action%'
+ ) a ON a.title_id = r.title_id
+ JOIN people p ON p.person_id = r.person_id 
+ GROUP BY p.name, r.category;
 ```
+
+![Experiement 4](../images/experiment_4_diagram.png)
 
 ### Instructions
 ```
-dozer clean -c cte-config.yaml
-dozer build -c cte-config.yaml
-dozer run app -c cte-config.yaml
+dozer clean -c exp4-config.yaml
+dozer build -c exp4-config.yaml
+dozer run app -c exp4-config.yaml
+```
+
+Dozer should start running after executing the commands, but ordering the data is still left! Dozer API provides the option to add query such as `order by`, `limit` and many more... to improve the visibility of the data on the endpoints.
+
+The query described can be passed to the REST endpoints `GET:localhost:8080/endpoint1` to order the data in descending order w.r.t `titles`.
+```json
+{
+  "order_by":{"titles":"desc"}
+}
 ```
 
 ### Findings
 
-![Experiement 2](../images/experiment_2.png)
+#### Source
+![Insights](../images/exp4_source.png)
 
- - Roughly took `12 mins` to process all the records. 
- - Note that here total number of `order_items` increases in conjunction with `products`. This is to due to the dependency of the join. 
- - Pipeline latency stays under `1s` even with 4 joins and an aggregation.
+#### Stores
+![Insights](../images/exp4_stores.png)
+
+ - Roughly took `2 mins` to process all the records. 
+ - The number of store operations are very much similar to Exp3.
+ - Pipeline latency stayed under `0.1s`.
  
-| Start Time | End Time   | Elapsed   |
-| ---------- | ---------- | --------- |
-| 2:32:48 PM | 2:44:51 PM | ~ 12 mins |
+| Start Time  | End Time   | Elapsed    |
+| ----------- | ---------- | ---------- |
+| 11:30:54 PM | 11:32:49 PM | ~ 2 mins  |

@@ -2,17 +2,18 @@
 
 ## Experiment 2
 
-Finding the actors and actresses with the most movies.
+Finding the actors and actresses with the most action movies.
 
 We run 2 cascading JOINs and a COUNT aggregation on the data source. The config file be found [here](../exp2-config.yaml).
 
 ```sql
  select p.name, c.category, count(1) as titles
- into endpoint1
+ into out_table
  from people p 
  join crew c on p.person_id = c.person_id  
  join titles t on t.title_id = c.title_id  
- where c.category = 'actor' or c.category = 'actress'
+ where (c.category = 'actor' or c.category = 'actress')
+ and t.genres like '%Action%'
  group by p.name,c.category;
 ```
 
@@ -44,11 +45,10 @@ The query described can be passed to the REST endpoints `GET:localhost:8080/endp
 
  - Roughly took `2 mins` to process all the records. 
  - Exp 2 took less time than Exp 1 even with a sql operation. This can be attributed to three reasons,
-   - Less store operations due to one endpoint and less data outputted `103734` rows to be exact.
    - Less read operations from source due to data being read from three tables.
    - Excellent pipline latency even with 2 joins and an aggregation. 
- - Pipeline latency stays under `0.25s` even with 2 joins and an aggregation.
+ - Pipeline latency stays under `0.2s` even with 2 joins and an aggregation.
  
-| Start Time | End Time   | Elapsed   |
-| ---------- | ---------- | --------- |
-| 1:20:36 PM | 1:22:12 PM | ~ 2 mins  |
+| Start Time  | End Time     | Elapsed   |
+| ----------- | ------------ | --------- |
+| 11:51:56 PM | 11:53:50 PM  | ~ 2 mins  |

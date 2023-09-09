@@ -32,13 +32,14 @@ sources:
 
 sql: |
 
-  select p.name, c.category, count(1) as titles
-  into out_table
-  from people p 
-  join crew c on p.person_id = c.person_id  
-  join titles t on t.title_id = c.title_id  
-  where category = 'actor' or category = 'actress' 
-  group by p.name,c.category;
+ select p.name, c.category, count(1) as titles
+ into out_table
+ from people p 
+ join crew c on p.person_id = c.person_id  
+ join titles t on t.title_id = c.title_id  
+ where (c.category = 'actor' or c.category = 'actress')
+ and t.genres like '%Action%'
+ group by p.name,c.category;
 
 endpoints: 
 

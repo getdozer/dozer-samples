@@ -32,11 +32,26 @@ sources:
 
 sql: |
 
+ SELECT p.name, r.category, COUNT(1) AS titles
+ INTO out_table
+ FROM (   
+ SELECT person_id, category, title_id   
+ FROM crew   
+ WHERE category = 'actor' OR category = 'actress'
+ ) r
+ JOIN (   
+ SELECT title_id  
+ FROM titles   
+ WHERE genres LIKE '%Action%'
+ ) a ON a.title_id = r.title_id
+ JOIN people p ON p.person_id = r.person_id 
+ GROUP BY p.name, r.category;
+
 endpoints: 
 
   - name: endpoint1
     path: /endpoint1
-    table_name: table1
+    table_name: out_table
 
 cache_max_map_size: 16106127360 # 15 GB
 

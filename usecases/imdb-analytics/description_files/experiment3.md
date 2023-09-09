@@ -2,11 +2,11 @@
 
 ## Experiment 3
 
-Finding the actors and actresses with the most ACTION movies.
+Finding the actors and actresses with the most action movies.
 
-Dozer SQL provides us with CTEs which can improve readability as well as possibly improve performance by truncating the data before JOINs happen.
+Dozer SQL provides us with CTEs which can improve readability, as well as the option to reuse the same query multiple times.
 
-We can use a similar approach as used in the [previous example](./experiment2.md), or use CTEs as described. The config file can be found in [`exp3-config.yaml`](../exp3-config.yaml).
+We can use a similar approach as used in the [previous example](./experiment2.md), or use CTEs as described. The config file can be found [here](../exp3-config.yaml).
 
 ```sql
  with acting_crew as (
@@ -56,8 +56,7 @@ The query described can be passed to the REST endpoints `GET:localhost:8080/endp
 ![Insights](../images/exp3_stores.png)
 
  - Roughly took `2 mins` to process all the records. 
- - Took about the same time as Exp2 since the same data was ingested, and processing of data was less contributing to the overall time.
- - There were significantly less store operations than Exp2, majorly due to CTEs being introducted.
+ - Took about the same time as Exp2 since the same data was ingested.
  - Pipeline latency stayed under `0.25s`.
  
 | Start Time  | End Time   | Elapsed    |
