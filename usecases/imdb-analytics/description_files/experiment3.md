@@ -35,7 +35,7 @@ We can use a similar approach as used in the [previous example](./experiment2.md
 ```
 dozer clean -c exp3-config.yaml
 dozer build -c exp3-config.yaml
-dozer run app -c exp3-config.yaml
+dozer run -c exp3-config.yaml
 ```
 
 Dozer should start running after executing the commands, but ordering the data is still left! Dozer API provides the option to add query such as `order by`, `limit` and many more... to improve the visibility of the data on the endpoints.

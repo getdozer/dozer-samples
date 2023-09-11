@@ -23,7 +23,7 @@ We run 2 cascading JOINs and a COUNT aggregation on the data source. The config 
 ```
 dozer clean -c exp2-config.yaml
 dozer build -c exp2-config.yaml
-dozer run app -c exp2-config.yaml
+dozer run -c exp2-config.yaml
 ``` 
 
 Dozer should start running after executing the commands, but ordering the data is still left! Dozer API provides the option to add query such as `order by`, `limit` and many more... to improve the visibility of the data on the endpoints.
