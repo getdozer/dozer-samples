@@ -1,4 +1,5 @@
 app_name: local-supabase-sample
+version: 1
 
 connections:
   - config: !Postgres
