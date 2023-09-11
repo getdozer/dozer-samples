@@ -10,7 +10,7 @@ Running `dozer` direct from `source` to `cache`. The config file can be found [h
 ```
 dozer clean -c exp1-config.yaml
 dozer build -c exp1-config.yaml
-dozer run app -c exp1-config.yaml
+dozer run -c exp1-config.yaml
 ```
 
 ## Findings

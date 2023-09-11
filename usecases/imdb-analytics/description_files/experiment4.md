@@ -31,7 +31,7 @@ We use two subqueries to filter out the tables before joining all of them. The c
 ```
 dozer clean -c exp4-config.yaml
 dozer build -c exp4-config.yaml
-dozer run app -c exp4-config.yaml
+dozer run -c exp4-config.yaml
 ```
 
 Dozer should start running after executing the commands, but ordering the data is still left! Dozer API provides the option to add query such as `order by`, `limit` and many more... to improve the visibility of the data on the endpoints.
