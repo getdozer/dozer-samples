@@ -33,7 +33,7 @@ dozer cloud deploy
 ### Deploy with environment variables
 
 ```bash
-dozer cloud deploy -s SUPABASE_DB=$SUPABASE_DB -s SUPABASE_USER=$SUPABASE_USER -s SUPABASE_HOST=$SUPABASE_HOST -s SUPABASE_PASSWORD=$SUPABASE_PASSWORD 
+dozer cloud deploy -s PG_USER=$PG_USER -s PG_PASSWORD=$PG_PASSWORD -s PG_HOST=$PG_HOST -s PG_DB=$PG_DB
 ```
 
 ### Query data on cloud
