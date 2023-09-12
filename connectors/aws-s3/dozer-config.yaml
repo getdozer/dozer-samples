@@ -11,7 +11,7 @@ connections:
         - !Table
           name: stocks
           config: !CSV
-            path: stocks/ # path to files or folder inside a bucket
+            path: stock_data_monthly/ # path to files or folder inside a bucket
             extension: .csv
     name: s3
 
@@ -65,3 +65,5 @@ endpoints:
 
 # telemetry:
 #   metrics: !Prometheus # You can check the metrics at http://localhost:9000
+
+
