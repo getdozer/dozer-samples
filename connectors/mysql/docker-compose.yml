@@ -1,19 +1,19 @@
 version: '3.8'
 services:
   mysql:
-    image: mysql:8
-    container_name: dozer-chinook-1
+    container_name: dozer-chinook-mysql
+    build:
+      context: .
     ports:
       - '3306:3306'
     environment:
-      MYSQL_ROOT_PASSWORD: mysql
-      MYSQL_ROOT_HOST: mysql
-      MYSQL_DATABASE: Chinook
-    volumes:
-      - ./mysql:/var/lib/mysql
-      - ./data/init.sql:/docker-entrypoint-initdb.d/init.sql
-    command: --init-file /docker-entrypoint-initdb.d/init.sql
-
-
-volumes:
-  mysql-data:
+      - MYSQL_ROOT_PASSWORD=mysql
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_DATABASE=Chinook
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - is_ready.sh
+      interval: 5s
+      timeout: 5s
+      retries: 15

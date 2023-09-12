@@ -68,7 +68,7 @@ services:
     working_dir: /usr/local/bin
     volumes:
       - ./dozer-config.yaml:/usr/local/bin/dozer-config.yaml
-      - ./.dozer:/usr/local/bin//.dozer
+      - ./.dozer:/usr/local/bin/.dozer
     command:
       - /bin/sh
       - -c

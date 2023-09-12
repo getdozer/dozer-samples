@@ -219,7 +219,7 @@ For more about gRPC in Dozer, see [Using gRPC APIs](https://getdozer.io/docs/que
 
 ## Dozer Cloud
 
-1. Setup MYSQL database
+1. Setup MYSQL database on EC2 Instance using docker compose in dozer-cloud-docker folder.
 2. Pass in the credentials in the config file
 3. Run the following command to deploy the app on Dozer Cloud
 
