@@ -79,7 +79,7 @@ pip install -r requirements.txt
 The `sample.py` file is a simple python script that ingest a parquet file streaming that to the Dozer gRPC connector.
 
 ```sh
-python sample.py -a <your_application_id>
+python sample.py -a <your_application_id> -t <bearer_token>
 ```
 
 ### Query Data
@@ -87,5 +87,5 @@ python sample.py -a <your_application_id>
 The `query.py` file is a simple python script that run a query to the Dozer gRPC APIs to check if some data is there.
 
 ```sh
-python query.py -a <your_application_id>
+python query.py -a <your_application_id> -t <bearer_token>
 ```
