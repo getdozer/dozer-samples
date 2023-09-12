@@ -7,8 +7,4 @@ cat >>./data/init.sql <<'EOSQL'
 CREATE TABLE `ready` (`ready` INT);
 INSERT INTO `ready` (`ready`) VALUES (1);
 
-<<<<<<< HEAD
 EOSQL
-=======
-EOSQL
->>>>>>> main

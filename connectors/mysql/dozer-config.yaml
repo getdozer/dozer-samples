@@ -1,19 +1,10 @@
-<<<<<<< HEAD
 version: 1
 app_name: dozer-chinook-mysql
-=======
-app_name: dozer-chinook-mysql
-version: 1
->>>>>>> main
 
 connections:
   - name: chinook_mysql
     config: !MySQL
-<<<<<<< HEAD
-      url: mysql://Chinook:mysql@{{EC2_INSTANCE_DNS}}:3306/Chinook
-=======
       url: mysql://root:mysql@localhost:3306/Chinook
->>>>>>> main
 
 sources:
   - name: employee
@@ -36,8 +27,4 @@ endpoints:
 
   - name: invoice
     path: /invoice
-<<<<<<< HEAD
     table_name: invoice
-=======
-    table_name: invoice
->>>>>>> main
