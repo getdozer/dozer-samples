@@ -1,16 +1,17 @@
+version: 1
 app_name: aws-s3-sample
 connections:
   - config : !S3Storage
       details:
-        access_key_id: {{YOUR_ACCESS_KEY}}
-        secret_access_key: {{YOUR_SECRET_KEY}}
-        region: {{YOUR_REGION}}
-        bucket_name: {{YOUR_BUCKET_NAME}}
+        access_key_id: "{{ AWS_ACCESS_KEY }}"
+        secret_access_key: "{{ AWS_SECRET_KEY}}"
+        region: "{{ AWS_REGION_S3}}"
+        bucket_name: "{{ AWS_BUCKET_NAME}}"
       tables:
         - !Table
           name: stocks
           config: !CSV
-            path: . # path to files or folder inside a bucket
+            path: stocks/ # path to files or folder inside a bucket
             extension: .csv
     name: s3
 

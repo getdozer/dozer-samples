@@ -15,7 +15,6 @@ Before starting, ensure that you have the following installed:
 ### Step 1: Run Redpanda
 
 1. Create a file named `docker-compose.yaml` with the contents present in [`docker-compose.yml`](docker-compose.yml) from the repo:
-
 2. Run the following command to start Redpanda:
 
 ```bash
@@ -38,7 +37,6 @@ curl -X POST -H "Content-Type: application/vnd.schemaregistry.v1+json" --data '{
 ### Step 3: Run the Producer
 
 1. Create a Python script named `producer.py` with the code to generate sample data and publish it to Redpanda or use [`producer.py`](producer.py) from the repo
-
 2. Run the following command to start the producer:
 
 ```bash
@@ -50,7 +48,6 @@ The producer will start generating sample data and publish it to Redpanda.
 ### Step 4: Run Dozer
 
 1. Create a configuration file named `dozer-config.yaml` with the necessary configuration for Dozer. You can use the same [`dozer-config.yaml`](dozer-config.yaml) from this repo as well.
-
 2. Run the following command to start Dozer:
 
 ```bash
@@ -62,5 +59,30 @@ Dozer will ingest the data from Redpanda and perform the specified operations ba
 ### Step 5: Querying Dozer
 
 1. Once Dozer is running, you can query the ingested data.
-
 2. Use the specified endpoints or methods provided by Dozer to access the ingested data and perform queries as needed.
+
+## Dozer Cloud
+
+To deploy Dozer on the cloud, you can use the following steps:
+
+1. Setup EC2 instances on AWS.
+2. Install Docker on the EC2 instances.
+3. Make changes in the docker-compose file:
+   1. ```
+
+        - --advertise-kafka-addr internal://redpanda-0:9092,external://<your instance external ip>:19092
+4. Run the following command to start Redpanda:
+
+```bash
+docker-compose up -d
+```
+5. Register the schema with the Schema Registry.
+6. Run the producer.
+7. Run Dozer.
+   ```bash
+   dozer cloud deploy```
+
+8. Querying Dozer.
+
+    ```bash
+    curl -H "x-dozer-app-id: <app-id" https://data.dev.getdozer.io:443  ```

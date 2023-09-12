@@ -1,12 +1,13 @@
+version: 1
 app_name: local-supabase-sample
-
+cache_max_map_size: 2147483648
 connections:
   - config: !Postgres
-      user: "{{PG_USER}}"
-      password: "{{PG_PASSWORD}}"
-      host: "{{PG_HOST}}"
+      user: "{{SUPABASE_USER}}"
+      password: "{{SUPABASE_PASSWORD}}"
+      host: "{{SUPABASE_HOST}}"
       port: 5432
-      database: "{{PG_DB}}"
+      database: "{{SUPABASE_DB}}"
     name: pg
 
 sources:
@@ -21,7 +22,3 @@ endpoints:
   - name: zone_data
     path: /zone_data
     table_name: zone_data
-
-api:
-  app_grpc:
-   host: "{{APP_HOST}}"
