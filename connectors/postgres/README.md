@@ -85,3 +85,27 @@ Response
 Postman
 
 ![Postman Actor](./images/actor.png)
+
+
+## Dozer Cloud
+
+To deploy Dozer on the cloud, you can use the following steps:
+
+1. Setup your database on AWS EC2/ or you can use supabase  
+2. Put the details in the `dozer-config.yaml` file
+3. Run the following command to start Dozer:
+
+```bash
+dozer cloud deploy -s 
+```
+
+To use environment variables while deployinh
+```bash
+dozer cloud deploy -s EC2_INSTANCE_DNS=$EC2_INSTANCE_DNS
+```
+
+4. To query the data
+
+```bash
+curl -H "x-dozer-app-id: <app-id" https://data.dev.getdozer.io:443 ```
+
