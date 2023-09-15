@@ -1,8 +1,7 @@
 version: 1
 app_name: aws-s3-sample
-version: 1
 connections:
-  - config : !S3Storage
+  - config: !S3Storage
       details:
         access_key_id: "{{ AWS_ACCESS_KEY }}"
         secret_access_key: "{{ AWS_SECRET_KEY}}"
@@ -63,8 +62,6 @@ endpoints:
   - name: lowest_daily_close
     path: /analysis/lowest_daily_close
     table_name: lowest_daily_close
-
 # telemetry:
 #   metrics: !Prometheus # You can check the metrics at http://localhost:9000
-
 
