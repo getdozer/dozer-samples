@@ -12,6 +12,9 @@ docker compose up
 
 Running Dozer
 ```bash
+
+export MYSQL_URL="mysql://root:mysql@localhost:3306/Chinook"
+
 dozer
 ```
 
