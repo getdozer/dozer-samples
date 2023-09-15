@@ -4,11 +4,11 @@ version: 1
 connections:
   - name: pagila_conn
     config: !Postgres
-      user: postgres
-      password: postgres
-      host: "{{EC2_INSTANCE_DNS }}"
+      user: "{{ POSTGRES_USER }}"
+      password: "{{ POSTGRES_PASSWORD }}"
+      host: "{{ POSTGRES_HOST }}"
       port: 5433
-      database: pagila
+      database: "{{ POSTGRES_DATABASE }}"
 
 sources:
   - name: actors
