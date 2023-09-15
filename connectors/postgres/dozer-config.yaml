@@ -1,6 +1,5 @@
 version: 1
 app_name: simple-pg-sample
-version: 1
 connections:
   - name: pagila_conn
     config: !Postgres
