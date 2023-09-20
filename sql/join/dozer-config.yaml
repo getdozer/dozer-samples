@@ -3,7 +3,7 @@ version: 1
 connections:
   - config : !LocalStorage
       details:
-        path: data
+        path: ../data
       tables:
         - !Table
           name: taxi_zone_lookup
