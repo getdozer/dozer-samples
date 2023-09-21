@@ -3,9 +3,13 @@
 This example shows how to use the `TUMBLE` and `HOP` functions using Dozer SQL. These functions are often useful with real time analytics over vast streams of incoming data. To read more about window functions read the [documentation](https://getdozer.io/docs/transforming-data/windowing).
 
 Here we describe two queries,
-- Query to calculate the sum of tips obtained for a particular Pickup location over a 5 minutes window. `TUMBLE` will help us do the same.
+- Query to calculate the sum of tips obtained for a particular Pickup location over a 5 minutes window.
 
-- Query to calculate the sum of tips obtained for a particular Pickup location over a 5 minutes window but the windows overlap by 2 minutes, i.e. the 5 minutes are divided into 2 minutes overlapping with past window, 1 minute non overlapping and 2 minutes overlapping with next window. `HOP` will help us do the same.
+- Query to calculate the sum of tips obtained for a particular Pickup location over a 5 minutes window but the windows overlap by 2 minutes.
+  i.e. the 5 minutes is divided into,
+  - 2 minutes overlapping with past window
+  - 1 minute non overlapping
+  - 2 minutes overlapping with next window
 
 ## SQL Query and Structure
 

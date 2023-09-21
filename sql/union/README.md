@@ -1,4 +1,4 @@
-# Sub queries example
+# Union example
 
 This example shows how to use the `UNION` clause in Dozer SQL.
 

@@ -2,7 +2,7 @@
 
 This example shows how to write nested sub queries.
 
-Let us write a query to calculate the average `tips` for rides taken from a particular `Zone`. The outermost query JOINs the `taxi_zone_lookup` with a nested subquery `hfz` which does the job of filtering and grouping the `trips` table. `hfz` contains another sub query which ensures prior filtering of license plates that end with 3.  
+Let us write a query to calculate the average `tips` for rides taken from a particular `Zone`. The outermost query JOINs the `taxi_zone_lookup` with a nested subquery `hfz` which does the job of filtering and grouping the `trips` table. `hfz` contains another sub query which ensures prior filtering of trips with license plates that end with 3.  
 
 ## SQL Query and Structure
 

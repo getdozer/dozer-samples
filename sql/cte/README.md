@@ -2,7 +2,7 @@
 
 This example shows CTE functions which potentially improve readability, as well as give us the option to reuse queries.
 
-Let us write a query to calculate the average `tips` as well as number of pickups in high frequency zones. Notice how we can have both the CTEs i.e. `good_tip_pickups` & `high_frequency_pickups` in one CTE as well, but this example is meant to describe how to write multiple CTE functions.
+Let us write a query to calculate the average `tips` as well as number of pickups in high frequency zones. Notice how we can have both the CTEs i.e. `good_tip_pickups` & `high_frequency_pickups` in one CTE as well, but in this example let us go ahead with two CTEs to describe how to write multiple CTE functions.
 
 ## SQL Query and Structure
 

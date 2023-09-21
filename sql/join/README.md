@@ -2,7 +2,7 @@
 
 This example shows how to JOIN two sources with Dozer. The two tables i.e. `taxi_zone_lookup` and `trips` can be JOINed over the `LocationID`.
 
-Let us write a query to calculate the average `tips` for rides taken from a particular `Zone`. Afterwards we will order this to find where the customers have higher chances of tipping a good amount. Additionally a `HAVING` clause is also added to filter out the results. 
+Let us write a query to calculate the average `tips` for rides taken from a particular `Zone`. Afterwards we will order this to find the zones where the customers have higher chances of tipping a good amount. Additionally a `HAVING` clause is also added to filter out the results. 
 
 ## SQL Query and Structure
 
