@@ -1,0 +1,466 @@
+{
+  "version": 1,
+  "pipeline": {
+    "nodes": [
+      {
+        "handle": {
+          "ns": 1,
+          "id": "pv"
+        },
+        "kind": "Sink"
+      },
+      {
+        "handle": {
+          "ns": 1,
+          "id": "peformance"
+        },
+        "kind": "Sink"
+      },
+      {
+        "handle": {
+          "ns": null,
+          "id": "web-analytics"
+        },
+        "kind": {
+          "Source": {
+            "typ": "Grpc",
+            "port_names": {
+              "1001": "peformance",
+              "1000": "pv"
+            }
+          }
+        }
+      }
+    ],
+    "node_holes": [],
+    "edge_property": "directed",
+    "edges": [
+      [
+        2,
+        0,
+        {
+          "from_port": 1000,
+          "to_port": 65535,
+          "schema": {
+            "fields": [
+              {
+                "name": "vid",
+                "typ": "String",
+                "nullable": false,
+                "source": {
+                  "Table": {
+                    "connection": "web-analytics",
+                    "name": "pv"
+                  }
+                }
+              },
+              {
+                "name": "datetime",
+                "typ": "Int",
+                "nullable": false,
+                "source": {
+                  "Table": {
+                    "connection": "web-analytics",
+                    "name": "pv"
+                  }
+                }
+              },
+              {
+                "name": "path",
+                "typ": "String",
+                "nullable": false,
+                "source": {
+                  "Table": {
+                    "connection": "web-analytics",
+                    "name": "pv"
+                  }
+                }
+              },
+              {
+                "name": "tp",
+                "typ": "Int",
+                "nullable": false,
+                "source": {
+                  "Table": {
+                    "connection": "web-analytics",
+                    "name": "pv"
+                  }
+                }
+              }
+            ],
+            "primary_index": []
+          }
+        }
+      ],
+      [
+        2,
+        1,
+        {
+          "from_port": 1001,
+          "to_port": 65535,
+          "schema": {
+            "fields": [
+              {
+                "name": "vid",
+                "typ": "String",
+                "nullable": false,
+                "source": {
+                  "Table": {
+                    "connection": "web-analytics",
+                    "name": "peformance"
+                  }
+                }
+              },
+              {
+                "name": "datetime",
+                "typ": "Int",
+                "nullable": false,
+                "source": {
+                  "Table": {
+                    "connection": "web-analytics",
+                    "name": "peformance"
+                  }
+                }
+              },
+              {
+                "name": "fp",
+                "typ": "Int",
+                "nullable": false,
+                "source": {
+                  "Table": {
+                    "connection": "web-analytics",
+                    "name": "peformance"
+                  }
+                }
+              },
+              {
+                "name": "fcp",
+                "typ": "Int",
+                "nullable": false,
+                "source": {
+                  "Table": {
+                    "connection": "web-analytics",
+                    "name": "peformance"
+                  }
+                }
+              },
+              {
+                "name": "lcp",
+                "typ": "Int",
+                "nullable": false,
+                "source": {
+                  "Table": {
+                    "connection": "web-analytics",
+                    "name": "peformance"
+                  }
+                }
+              },
+              {
+                "name": "fid",
+                "typ": "Int",
+                "nullable": false,
+                "source": {
+                  "Table": {
+                    "connection": "web-analytics",
+                    "name": "peformance"
+                  }
+                }
+              },
+              {
+                "name": "cls",
+                "typ": "Int",
+                "nullable": false,
+                "source": {
+                  "Table": {
+                    "connection": "web-analytics",
+                    "name": "peformance"
+                  }
+                }
+              },
+              {
+                "name": "tbt",
+                "typ": "Int",
+                "nullable": false,
+                "source": {
+                  "Table": {
+                    "connection": "web-analytics",
+                    "name": "peformance"
+                  }
+                }
+              },
+              {
+                "name": "ua",
+                "typ": "String",
+                "nullable": false,
+                "source": {
+                  "Table": {
+                    "connection": "web-analytics",
+                    "name": "peformance"
+                  }
+                }
+              }
+            ],
+            "primary_index": []
+          }
+        }
+      ]
+    ]
+  },
+  "endpoints": {
+    "peformance": {
+      "path": "/peformance",
+      "schema": {
+        "fields": [
+          {
+            "name": "vid",
+            "typ": "String",
+            "nullable": false,
+            "source": {
+              "Table": {
+                "connection": "web-analytics",
+                "name": "peformance"
+              }
+            }
+          },
+          {
+            "name": "datetime",
+            "typ": "Int",
+            "nullable": false,
+            "source": {
+              "Table": {
+                "connection": "web-analytics",
+                "name": "peformance"
+              }
+            }
+          },
+          {
+            "name": "fp",
+            "typ": "Int",
+            "nullable": false,
+            "source": {
+              "Table": {
+                "connection": "web-analytics",
+                "name": "peformance"
+              }
+            }
+          },
+          {
+            "name": "fcp",
+            "typ": "Int",
+            "nullable": false,
+            "source": {
+              "Table": {
+                "connection": "web-analytics",
+                "name": "peformance"
+              }
+            }
+          },
+          {
+            "name": "lcp",
+            "typ": "Int",
+            "nullable": false,
+            "source": {
+              "Table": {
+                "connection": "web-analytics",
+                "name": "peformance"
+              }
+            }
+          },
+          {
+            "name": "fid",
+            "typ": "Int",
+            "nullable": false,
+            "source": {
+              "Table": {
+                "connection": "web-analytics",
+                "name": "peformance"
+              }
+            }
+          },
+          {
+            "name": "cls",
+            "typ": "Int",
+            "nullable": false,
+            "source": {
+              "Table": {
+                "connection": "web-analytics",
+                "name": "peformance"
+              }
+            }
+          },
+          {
+            "name": "tbt",
+            "typ": "Int",
+            "nullable": false,
+            "source": {
+              "Table": {
+                "connection": "web-analytics",
+                "name": "peformance"
+              }
+            }
+          },
+          {
+            "name": "ua",
+            "typ": "String",
+            "nullable": false,
+            "source": {
+              "Table": {
+                "connection": "web-analytics",
+                "name": "peformance"
+              }
+            }
+          }
+        ],
+        "primary_index": [
+          0
+        ]
+      },
+      "secondary_indexes": [
+        {
+          "SortedInverted": [
+            0
+          ]
+        },
+        {
+          "FullText": 0
+        },
+        {
+          "SortedInverted": [
+            1
+          ]
+        },
+        {
+          "SortedInverted": [
+            2
+          ]
+        },
+        {
+          "SortedInverted": [
+            3
+          ]
+        },
+        {
+          "SortedInverted": [
+            4
+          ]
+        },
+        {
+          "SortedInverted": [
+            5
+          ]
+        },
+        {
+          "SortedInverted": [
+            6
+          ]
+        },
+        {
+          "SortedInverted": [
+            7
+          ]
+        },
+        {
+          "SortedInverted": [
+            8
+          ]
+        },
+        {
+          "FullText": 8
+        }
+      ],
+      "enable_token": false,
+      "enable_on_event": true,
+      "connections": [
+        "web-analytics"
+      ]
+    },
+    "pv": {
+      "path": "/pv",
+      "schema": {
+        "fields": [
+          {
+            "name": "vid",
+            "typ": "String",
+            "nullable": false,
+            "source": {
+              "Table": {
+                "connection": "web-analytics",
+                "name": "pv"
+              }
+            }
+          },
+          {
+            "name": "datetime",
+            "typ": "Int",
+            "nullable": false,
+            "source": {
+              "Table": {
+                "connection": "web-analytics",
+                "name": "pv"
+              }
+            }
+          },
+          {
+            "name": "path",
+            "typ": "String",
+            "nullable": false,
+            "source": {
+              "Table": {
+                "connection": "web-analytics",
+                "name": "pv"
+              }
+            }
+          },
+          {
+            "name": "tp",
+            "typ": "Int",
+            "nullable": false,
+            "source": {
+              "Table": {
+                "connection": "web-analytics",
+                "name": "pv"
+              }
+            }
+          }
+        ],
+        "primary_index": [
+          0,
+          2
+        ]
+      },
+      "secondary_indexes": [
+        {
+          "SortedInverted": [
+            0
+          ]
+        },
+        {
+          "FullText": 0
+        },
+        {
+          "SortedInverted": [
+            1
+          ]
+        },
+        {
+          "SortedInverted": [
+            2
+          ]
+        },
+        {
+          "FullText": 2
+        },
+        {
+          "SortedInverted": [
+            3
+          ]
+        }
+      ],
+      "enable_token": false,
+      "enable_on_event": true,
+      "connections": [
+        "web-analytics"
+      ]
+    }
+  }
+}

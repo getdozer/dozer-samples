@@ -1,0 +1,32 @@
+## Getting Started
+
+### install dependency
+```bash
+# npm
+npm install @dozerjs/dozer
+
+# yarn
+yarn add @dozerjs/dozer
+
+# pnpm
+pnpm add @dozerjs/dozer
+```
+
+### create ingest client
+```typescript
+import { IngestArrowRequest } from '@dozerjs/dozer/lib/esm/generated/protos/ingest_pb';
+import { Record, Value } from '@dozerjs/dozer/lib/esm/generated/protos/types_pb';
+import { DozerIngestClient } from '@dozerjs/dozer/lib/esm/ingest_client';
+
+const client = new DozerIngestClient('endpoint', 'http://127.0.0.1:8085');
+
+const request = new IngestArrowRequest();
+request.setSchemaName('endpoint');
+
+const record = new Record();
+record.setVersion(1);
+
+request.setRecords(record.serializeBinary());
+
+client.ingest_arrow(request);
+```

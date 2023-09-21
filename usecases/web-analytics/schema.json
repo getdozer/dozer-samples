@@ -1,0 +1,122 @@
+[
+  {
+    "name": "pv",
+    "schema": {
+      "fields": [
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Utf8",
+          "name": "vid",
+          "nullable": false
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Int64",
+          "name": "datetime",
+          "nullable": false
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Utf8",
+          "name": "path",
+          "nullable": false
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": true,
+          "metadata": {},
+          "data_type": "Int64",
+          "name": "tp",
+          "nullable": false
+        }
+      ],
+      "metadata": {}
+    }
+  },
+  {
+    "name": "peformance",
+    "schema": {
+      "fields": [
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Utf8",
+          "name": "vid",
+          "nullable": false
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {},
+          "data_type": "Int64",
+          "name": "datetime",
+          "nullable": false
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": true,
+          "metadata": {},
+          "data_type": "Int64",
+          "name": "fp",
+          "nullable": false
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": true,
+          "metadata": {},
+          "data_type": "Int64",
+          "name": "fcp",
+          "nullable": false
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": true,
+          "metadata": {},
+          "data_type": "Int64",
+          "name": "lcp",
+          "nullable": false
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": true,
+          "metadata": {},
+          "data_type": "Int64",
+          "name": "fid",
+          "nullable": false
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": true,
+          "metadata": {},
+          "data_type": "Int64",
+          "name": "cls",
+          "nullable": false
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": true,
+          "metadata": {},
+          "data_type": "Int64",
+          "name": "tbt",
+          "nullable": false
+        },
+        {
+          "dict_id": 0,
+          "dict_is_ordered": true,
+          "metadata": {},
+          "data_type": "Utf8",
+          "name": "ua",
+          "nullable": false
+        }
+      ],
+      "metadata": {}
+    }
+  }
+]
