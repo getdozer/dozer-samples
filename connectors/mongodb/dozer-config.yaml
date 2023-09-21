@@ -6,14 +6,14 @@ connections:
   name: mongodb_conn
   
 sql: | 
-   SELECT JSON_QUERY(data,'$.name') as Name, JSON_Query(data,'$.email') as email, JSON_QUERY(data,'$.address') as address, JSON_QUERY(data,'$.birthdate') as birthdate 
+   SELECT JSON_VALUE(data,'$.name') as Name, JSON_VALUE(data,'$.email') as email, JSON_VALUE(data,'$.address') as address, JSON_QUERY(data,'$.birthdate') as birthdate 
    INTO temp2 FROM src; 
    
    WITH temptable AS 
 
-   (SELECT JSON_QUERY( '$._id') as id, JSON_QUERY(data,'$.name') as Name, JSON_QUERY(data,'$.email') as email, JSON_QUERY(data,'$.address') as address,  JSON_QUERY(data,'$.birthdate') as birth_date FROM src ) ,
+   (SELECT JSON_QUERY( '$._id') as id, JSON_VALUE(data,'$.name') as Name, JSON_VALUE(data,'$.email') as email, JSON_VALUE(data,'$.address') as address,  JSON_QUERY(data,'$.birthdate') as birth_date FROM src ) ,
 
-   source AS (  SELECT JSON_QUERY( '$._id') as id, JSON_QUERY(data, '$.limit') as limit  FROM src2)
+   source AS (  SELECT JSON_QUERY( '$._id') as id, JSON_VALUE(data, '$.limit') as limit  FROM src2)
 
    SELECT Name, limit, address
 
