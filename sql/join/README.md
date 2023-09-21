@@ -1,83 +1,70 @@
-## SQL JOIN example
+# Join example
 
-This example shows how to JOIN two sources with Dozer
+This example shows how to JOIN two sources with Dozer. The two tables i.e. `taxi_zone_lookup` and `trips` can be JOINed over the `LocationID`.
 
-## Initialization
-Refer to [Installation](https://getdozer.io/docs/installation) for instructions.
+Let us write a query to calculate the average `tips` for rides taken from a particular `Zone`. Afterwards we will order this to find where the customers have higher chances of tipping a good amount. Additionally a `HAVING` clause is also added to filter out the results. 
 
-Download the sample dataset from [NYC - TLC Trip Record Data](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page).
+## SQL Query and Structure
+
+```sql
+  SELECT zp.Zone, ROUND(AVG(t.tips),2) as avg_tips, COUNT(1) as trip_count
+  INTO table1
+  FROM trips t
+  JOIN taxi_zone_lookup zp ON t.PULocationID = zp.LocationID
+  GROUP BY zp.Zone
+  HAVING ROUND(AVG(t.tips),2) > 1.50;
+```
+
+![join_graph](../images/join_graph.png)
+
+
+## Running
+
+
+### Dozer
+
+To run Dozer navigate to the join folder `/sql/join` & use the following command
+
 ```bash
-./download.sh
+dozer run
 ```
 
-Running Dozer
-```
-dozer
-```
+To remove the cache directory, use
 
-That's all to it. You have APIs instantly available over REST and gRPC.
-
-```
- dozer
-
-____   ___ __________ ____
-|  _ \ / _ \__  / ____|  _ \
-| | | | | | |/ /|  _| | |_) |
-| |_| | |_| / /_| |___|  _ <
-|____/ \___/____|_____|_| \_\
-
-
-Dozer Version: 0.1.11
-
-2023-03-12T10:09:20.046054Z  INFO Starting Rest Api Server on http://0.0.0.0:8080 with security: None
-2023-03-12T10:09:20.046217Z  INFO Starting gRPC server on http://0.0.0.0:50051 with security: None
+```bash
+dozer clean
 ```
 
 
-### Querying Dozer
+### Dozer Live
 
-**REST**
+To run with Dozer live, replace `run` with `live`
 
-Filter with limit of 3
+```bash
+dozer live
 ```
-curl -X POST  http://localhost:8080/pickup/query \
+
+Dozer live automatically deletes the cache upon stopping the program.
+
+
+## Querying Dozer 
+
+Dozer API lets us use `filter`,`limit`,`order_by` and `skip` at the endpoints. For this example lets order the data in descending order of avg_tips.
+
+Execute the following commands over bash to get the results from `REST` and `gRPC` APIs.
+
+**`REST`**
+
+```bash
+curl -X POST  http://localhost:8080/intrazone-trips/query \
 --header 'Content-Type: application/json' \
---data-raw '{"$limit":10}'
-```
-
-```
-[
-    {"pickup_time":"2022-01-01T00:35:40.000Z","zone":"Lincoln Square East","__dozer_record_id":0,"__dozer_record_version":1},
-    {"pickup_time":"2022-01-02T05:34:05.000Z","zone":"JFK Airport","__dozer_record_id":65536,"__dozer_record_version":1},
-    {"pickup_time":"2022-01-03T09:45:59.000Z","zone":"Central Park","__dozer_record_id":131072,"__dozer_record_version":1},
-    {"pickup_time":"2022-01-04T08:52:31.000Z","zone":"Yorkville East","__dozer_record_id":196608,"__dozer_record_version":1},
-    {"pickup_time":"2022-01-04T23:02:57.000Z","zone":"Greenwich Village North","__dozer_record_id":262144,"__dozer_record_version":1},
-    {"pickup_time":"2022-01-05T20:18:47.000Z","zone":"Gramercy","__dozer_record_id":327680,"__dozer_record_version":1},
-    {"pickup_time":"2022-01-06T18:42:39.000Z","zone":"LaGuardia Airport","__dozer_record_id":393216,"__dozer_record_version":1},
-    {"pickup_time":"2022-01-07T18:51:43.000Z","zone":"Lenox Hill East","__dozer_record_id":458752,"__dozer_record_version":1},
-    {"pickup_time":"2022-01-08T15:36:24.000Z","zone":"Midtown North","__dozer_record_id":524288,"__dozer_record_version":1},
-    {"pickup_time":"2022-01-09T12:36:18.000Z","zone":"East Elmhurst","__dozer_record_id":589824,"__dozer_record_version":1}]
+--data-raw '{"$order_by": {"avg_tips": "desc"}}'
 ```
 
 **`gRPC`**
 
-Filter with limit of 1
-```
-grpcurl -d '{"query": "{\"$limit\": 1}"}' \
+```bash
+grpcurl -d '{"endpoint": "intrazone-tips", "query": "{\"$order_by\": {\"avg_tips\": \"desc\"}}"}' \
 -plaintext localhost:50051 \
-dozer.generated.pickup.Pickups/query
-```
-Response
-```
-{
-  "records": [
-    {
-      "record": {
-        "pickupTime": "2022-01-01T00:35:40Z",
-        "zone": "Lincoln Square East",
-        "DozerRecordVersion": 1
-      }
-    }
-  ]
-}
+dozer.common.CommonGrpcService/query
 ```

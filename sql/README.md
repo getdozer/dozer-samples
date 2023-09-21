@@ -36,10 +36,9 @@ Hence, the basic statement structure is,
 ```sql
  SELECT A INTO C FROM B;
 ```
-The datatypes and casting compatible with Dozer SQL is described in the [documentation for datatypes and casting](https://getdozer.io/docs/transforming-data/data-types).
+The datatypes and casting compatible with Dozer SQL are described in the [documentation for datatypes and casting](https://getdozer.io/docs/transforming-data/data-types).
 
-Dozer SQL supports primitive scalar function described in [documentation for scalar functions](https://getdozer.io/docs/transforming-data/scalar-functions).
-
+Dozer SQL also supports primitive scalar function described in [documentation for scalar functions](https://getdozer.io/docs/transforming-data/scalar-functions).
 
 ## Table of contents
 
@@ -54,31 +53,3 @@ Let us start with basic Dozer SQL queries and move towards more complex queries.
 |   5   |   [Sub queries](./sub-queries/README.md)   |  Multiple queries describing nested `SELECT` statements |
 |   6   |   [UNION](./union/README.md)   |  A `UNION` peformed inside a CTE, followed by a `JOIN` |
 |   7   |   [Window functions](./window-functions/README.md)   |  Queries describing the use of `TUMBLE` and `HOP` |
-
-## Running
-
-
-### Dozer
-
-To run Dozer navigate to the folder with the configuration you want to run, and use the command,
-
-```bash
-dozer run
-```
-
-To remove the cache directory, use
-
-```bash
-dozer clean
-```
-
-
-### Dozer Live
-
-To run with Dozer live, replace `run` with `live`
-
-```bash
-dozer live
-```
-
-Dozer live automatically deletes the cache upon stopping the program.
