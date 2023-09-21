@@ -49,3 +49,43 @@ else:
   print("No records found")
 
 ```
+
+
+## Run on Dozer Cloud
+
+### Deployment
+
+To deploy the application on Dozer cloud, first login with the cli
+```sh
+dozer cloud login --organisation_slug <my_organisation_slug> --profile_name <my_profile_name> --client_id <my_dozer_client_id> --client_secret <my_dozer_client_secret>
+```
+
+once the login is successful it's possible to deploy the sample application.
+```sh
+dozer cloud deploy -c dozer-config.yaml -c trips.json
+```
+Take note of the application id in the logs, it will be referred as `<your_application_id>` in the following commands.
+
+### Ingest Data
+
+Prepare the virtual environment to run the python script
+
+```sh
+python -m venv ./venv
+source ./venv/bin/activate
+pip install -r requirements.txt
+```
+
+The `sample.py` file is a simple python script that ingest a parquet file streaming that to the Dozer gRPC connector.
+
+```sh
+python sample.py -a <your_application_id> -t <bearer_token>
+```
+
+### Query Data
+
+The `query.py` file is a simple python script that run a query to the Dozer gRPC APIs to check if some data is there.
+
+```sh
+python query.py -a <your_application_id> -t <bearer_token>
+```

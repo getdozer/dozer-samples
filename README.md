@@ -62,3 +62,5 @@ Please refer to [Contributing](https://getdozer.io/docs/contributing/overview) f
 - [Documentation](https://getdozer.io/docs/dozer/)
 - [Architecture](https://getdozer.io/docs/dozer/architecture)
 - [Discord channel](https://discord.gg/3eWXBgJaEQ)
+
+

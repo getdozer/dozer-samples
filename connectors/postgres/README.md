@@ -85,3 +85,24 @@ Response
 Postman
 
 ![Postman Actor](./images/actor.png)
+
+
+## Dozer Cloud
+
+To deploy Dozer on the cloud, you can use the following steps:
+
+1. Setup your database on a postgres
+2. Setup your enviroment variables as mention in .env.sample file
+3. Put the details in the `dozer-config.yaml` file
+4. Run the following command to start Dozer:
+
+To use environment variables while deploying
+```bash
+dozer cloud deploy -s POSTGRES_HOST=$POSTGRES_HOST -s POSTGRES_USER=$POSTGRES_USER -s POSTGRES_PASSWORD=$POSTGRES_PASSWORD -s POSTGRES_DATABASE=$POSTGRES_DATABASE
+```
+
+4. To query the data
+
+```bash
+curl -H "x-dozer-app-id: <app-id>" https://data.dev.getdozer.io:443 ```
+
