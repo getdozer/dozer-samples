@@ -12,7 +12,7 @@ bash download.sh
 
 ### Table 1: trips
 
-This table is contained in a parquet file under `data/trips/yellow_tripdata_2022-01.parquet`.
+This table is contained in a parquet file under `data/trips/fhvhv_tripdata_2022-01.parquet`.
 
 ![table_1_image](/sql/images/table_1.png)
 
@@ -52,7 +52,8 @@ Let us start with basic Dozer SQL queries and move towards more complex queries.
 |   3   |   [JOIN](./join/README.md)   |  Query to JOIN the tables based on `LocationID` |
 |   4   |   [CTEs](./cte/README.md)   |  Query with two CTE tables JOINed after filtering |
 |   5   |   [Sub queries](./sub-queries/README.md)   |  Multiple queries describing nested `SELECT` statements |
-|   6   |   [Window functions](./window-functions/README.md)   |  Queries describing the use of `TUMBLE` and `HOP` |
+|   6   |   [UNION](./union/README.md)   |  A `UNION` peformed inside a CTE, followed by a `JOIN` |
+|   7   |   [Window functions](./window-functions/README.md)   |  Queries describing the use of `TUMBLE` and `HOP` |
 
 ## Running
 
