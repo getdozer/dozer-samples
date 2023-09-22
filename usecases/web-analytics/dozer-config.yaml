@@ -4,7 +4,7 @@ home_dir: ./.dozer
 cache_dir: ./.dozer/cache
 connections:
   - config: !Grpc
-      adapter: arrow
+      adapter: default
       schemas: !Path "schema.json"
       port: 8085
     name: web-analytics
