@@ -11,7 +11,7 @@ connections:
         - !Table
           name: stocks
           config: !CSV
-            path: stock_data_monthly/ # path to files or folder inside a bucket
+            path: stock_data_monthly_small/ # path to files or folder inside a bucket
             extension: .csv
     name: s3
 
