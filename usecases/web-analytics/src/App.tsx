@@ -1,16 +1,17 @@
 import Box from "@mui/material/Box";
 import { ThemeProvider } from "@mui/material/styles";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { DozerProvider } from "@dozerjs/dozer-react";
 import { NavBar } from "./components/NavBar";
 import { darkTheme } from "./components/Theme";
-import { Home } from './routes/Home';
+import { usePerformance } from "./hooks/usePerformance";
 import { Config } from "./routes/Config";
+import { Home } from './routes/Home';
+import { Monitor } from "./routes/Monitor";
 import { Schema } from "./routes/Schema";
-import { Performance } from "./components/Performance";
-import { PageView } from "./components/PageView";
+
 
 function App() {
+  usePerformance();
   return (
     <ThemeProvider theme={darkTheme}>
       <BrowserRouter>
@@ -25,15 +26,8 @@ function App() {
                   <Route element={<Schema />} path={"/schema"} />
                 </Routes>
               </Box>
-              <Box sx={{ flex: '3', minWidth: 0 }}>
-                <DozerProvider value={{
-                  serverAddress: 'http://127.0.0.1:62998',
-                }}>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                    <Performance />
-                    <PageView />
-                  </Box>
-                </DozerProvider>
+              <Box sx={{ flex: '3', minWidth: 0, height: '100%', overflow: 'overlay' }}>
+                <Monitor />
               </Box>
             </Box>
           </Box>

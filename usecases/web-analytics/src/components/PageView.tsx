@@ -1,6 +1,6 @@
 import { useDozerEndpoint } from '@dozerjs/dozer-react';
 import { EventType, FieldDefinition } from "@dozerjs/dozer/lib/esm/generated/protos/types_pb";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { BarElement, CategoryScale, Chart as ChartJS, LinearScale, Title, Tooltip } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
@@ -21,6 +21,7 @@ function PageViewChart(props: {
   const options = {
     indexAxis: 'y' as const,
     responsive: true,
+    maintainAspectRatio: false,
     elements: {
       bar: {
         borderWidth: 6,
@@ -41,17 +42,20 @@ function PageViewChart(props: {
           if (index === -1) {
             return data;
           } else {
-            data[index] += item['tp'];
+            data[index] += 1;
             return data;
           }
         }, [0, 0, 0]),
         backgroundColor: '#A73D82',
+        barThickness: 20,
       },
     ],
   };
-  return <Bar options={options} data={data} height={120} style={{
-    height: 120
-  }}/>
+  return <Box style={{
+    height: 140
+  }}>
+    <Bar options={options} data={data}/>
+  </Box>
 }
 
 
@@ -68,7 +72,7 @@ function PageViewTable(props: {
           <TableRow>
             {
               fields?.map((field, idx) => (
-                <TableCell key={idx}>{field.getName()}</TableCell>
+                <TableCell key={idx}>{field.getName().toUpperCase()}</TableCell>
               ))
             }
           </TableRow>
@@ -80,7 +84,10 @@ function PageViewTable(props: {
               return (
                 <TableRow key={idx}>
                   {fields?.map(field => {
-                    let val = data[field.getName()]
+                    let val = data[field.getName()];
+                    if (field.getName() === 'datetime') {
+                      val = new Date(val).toLocaleString();
+                    }
                     return (<TableCell component="th" scope="row" key={field.getName()}>
                       {val && val.toString()}
                     </TableCell>)
@@ -101,13 +108,15 @@ export function PageView() {
     watch: EventType.ALL,
   });
 
+  const rows = [...records].reverse();
+
   return (
     <>
       <Typography variant="h3" color="inherit" component={'h3'}>
         Page View
       </Typography>
-      <PageViewTable records={records} fields={fields} />
-      <PageViewChart records={records} fields={fields} />
+      <PageViewTable records={rows} fields={fields} />
+      <PageViewChart records={rows} fields={fields} />
     </>
   )
 }

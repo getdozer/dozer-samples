@@ -9,6 +9,7 @@ function PerformanceTable(props: {
   const { fields, records } = props;
 
   const columns = fields?.filter(field => field.getName() !== 'ua') ?? [];
+  records.reverse();
 
   return (
     <TableContainer sx={{ maxHeight: 200 }}>
@@ -17,7 +18,7 @@ function PerformanceTable(props: {
           <TableRow>
             {
               columns.map((field, idx) => (
-                <TableCell key={idx}>{field.getName()}</TableCell>
+                <TableCell key={idx}>{field.getName().toUpperCase()}</TableCell>
               ))
             }
           </TableRow>
@@ -27,21 +28,17 @@ function PerformanceTable(props: {
             records.map((row, idx) => {
               const data = row as Record<string, any>;
               return (
-                <>
-                  <TableRow key={idx}>
-                    {fields?.map(field => {
-                      let val = data[field.getName()]
-                      return (<TableCell component="th" scope="row" key={field.getName()}>
-                        {val && val.toString()}
-                      </TableCell>)
-                    })}
-                  </TableRow>
-                  <TableRow>
-                    <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={columns.length}>
-                      {data['ua']}
-                    </TableCell>
-                  </TableRow>
-                </>
+                <TableRow key={idx}>
+                  {columns?.map(field => {
+                    let val = data[field.getName()]
+                    if (field.getName() === 'datetime') {
+                      val = new Date(val).toLocaleString();
+                    }
+                    return (<TableCell component="th" scope="row" key={field.getName()}>
+                      {val && val.toString()}
+                    </TableCell>)
+                  })}
+                </TableRow>
               )
             })
           }
@@ -52,16 +49,18 @@ function PerformanceTable(props: {
 }
 
 export function Performance() {
-  const { records, fields } = useDozerEndpoint('peformance', {
+  const { records, fields } = useDozerEndpoint('performance', {
     watch: EventType.ALL,
   });
+
+  const rows = [...records].reverse();
 
   return (
     <>
       <Typography variant="h3" color="inherit" component={'h3'}>
-        Performance Table
+        Performance
       </Typography>
-      <PerformanceTable records={records} fields={fields} />
+      <PerformanceTable records={rows} fields={fields} />
     </>
   )
 }

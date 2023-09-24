@@ -13,6 +13,7 @@ export function Home() {
         height: '100%',
         boxSizing: 'border-box',
         padding: '1rem',
+        overflow: 'overlay',
       }} {...props} />;
     },
   }}/>;

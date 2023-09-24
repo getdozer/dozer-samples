@@ -1,32 +1,48 @@
 ## Getting Started
 
-### install dependency
+### install
+
+
+#### npm
+
 ```bash
-# npm
 npm install @dozerjs/dozer
+```
 
-# yarn
+#### yarn
+
+```bash
 yarn add @dozerjs/dozer
+```
 
-# pnpm
+#### pnpm
+```
 pnpm add @dozerjs/dozer
 ```
 
-### create ingest client
+### ingest
 ```typescript
-import { IngestArrowRequest } from '@dozerjs/dozer/lib/esm/generated/protos/ingest_pb';
-import { Record, Value } from '@dozerjs/dozer/lib/esm/generated/protos/types_pb';
+import { IngestRequest } from '@dozerjs/dozer/lib/esm/generated/protos/ingest_pb';
+import { OperationType, Record, Value } from '@dozerjs/dozer/lib/esm/generated/protos/types_pb';
 import { DozerIngestClient } from '@dozerjs/dozer/lib/esm/ingest_client';
+import { useRef } from 'react';
+
+const now = useRef(Date.now());
 
 const client = new DozerIngestClient('endpoint', 'http://127.0.0.1:8085');
 
-const request = new IngestArrowRequest();
-request.setSchemaName('endpoint');
+const request = new IngestRequest();
+request.setSchemaName('pv');
+request.setTyp(OperationType.INSERT);
 
 const record = new Record();
+record.addValues(new Value().setStringValue(vid));
+record.addValues(new Value().setIntValue(now.current));
+record.addValues(new Value().setStringValue(pathname));
+record.addValues(new Value().setIntValue(Date.now() - now.current));
 record.setVersion(1);
 
-request.setRecords(record.serializeBinary());
+request.setNew(record);
 
 client.ingest_arrow(request);
 ```

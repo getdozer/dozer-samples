@@ -13,8 +13,8 @@ sources:
   - name: pv
     table_name: pv
     connection: web-analytics
-  - name: peformance
-    table_name: peformance
+  - name: performance
+    table_name: performance
     connection: web-analytics
 
 endpoints:
@@ -26,10 +26,12 @@ endpoints:
       primary_key:
         - vid
         - path
-  - name: peformance
-    path: /peformance
-    source: peformance
-    table_name: peformance
+        - datetime
+  - name: performance
+    path: /performance
+    source: performance
+    table_name: performance
     index:
       primary_key:
         - vid
+        - datetime

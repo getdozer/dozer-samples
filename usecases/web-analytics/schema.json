@@ -19,13 +19,13 @@
         },
         {
           "typ": "Int",
-          "name": "tp",
+          "name": "sd",
           "nullable": false
         }
       ]
     }
   },
-  "peformance": {
+  "performance": {
     "schema": {
       "fields": [
         {
@@ -39,39 +39,39 @@
           "nullable": false
         },
         {
-          "typ": "Int",
-          "name": "fp",
-          "nullable": false
-        },
-        {
-          "typ": "Int",
-          "name": "fcp",
-          "nullable": false
-        },
-        {
-          "typ": "Int",
-          "name": "lcp",
-          "nullable": false
-        },
-        {
-          "typ": "Int",
-          "name": "fid",
-          "nullable": false
-        },
-        {
-          "typ": "Int",
-          "name": "cls",
-          "nullable": false
-        },
-        {
-          "typ": "Int",
-          "name": "tbt",
-          "nullable": false
-        },
-        {
           "typ": "String",
           "name": "ua",
           "nullable": false
+        },
+        {
+          "typ": "Float",
+          "name": "cls",
+          "nullable": true
+        },
+        {
+          "typ": "Float",
+          "name": "fid",
+          "nullable": true
+        },
+        {
+          "typ": "Float",
+          "name": "lcp",
+          "nullable": true
+        },
+        {
+          "typ": "Float",
+          "name": "inp",
+          "nullable": true
+        },
+        {
+          "typ": "Float",
+          "name": "fcp",
+          "nullable": true
+        },
+        {
+          "typ": "Float",
+          "name": "ttfb",
+          "nullable": true
         }
       ]
     }

@@ -1,11 +1,8 @@
 import AppBar from '@mui/material/AppBar';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Toolbar from '@mui/material/Toolbar';
-import Tooltip from '@mui/material/Tooltip';
 import * as React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -42,14 +39,6 @@ export function NavBar() {
             <Tab component={Link} label="Config" to="/config" />
             <Tab component={Link} label="Schema" to="/schema" />
           </Tabs>
-        </Box>
-
-        <Box sx={{ flexGrow: 0 }}>
-          <Tooltip title="Open settings">
-            <IconButton sx={{ p: 0 }}>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-            </IconButton>
-          </Tooltip>
         </Box>
       </Toolbar>
     </AppBar>
