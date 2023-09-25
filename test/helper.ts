@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 
 import assert from 'assert';
-import { ChildProcess, execSync, spawn } from 'child_process';
+import { ChildProcess, spawn } from 'child_process';
 import { credentials, Metadata } from '@grpc/grpc-js';
 import { promisify } from 'util';
 import { CommonGrpcServiceClient, GetEndpointsRequest, GetEndpointsResponse } from './generated/common';
