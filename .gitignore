@@ -214,3 +214,5 @@ sketch
 # .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/react,python,yarn
+
+dozer.lock
