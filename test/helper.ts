@@ -19,7 +19,7 @@ export const initProcessHandler = (childProcess: ChildProcess) => {
   });
 };
 export const initDozer = async () => {
-  const dozer = spawn('dozer', ['run'], { stdio: 'inherit' });
+  const dozer = spawn('dozer', ['run', '--ignore-pipe'], { stdio: 'inherit' });
   initProcessHandler(dozer);
   return dozer;
 };
