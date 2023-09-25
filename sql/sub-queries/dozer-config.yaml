@@ -1,0 +1,53 @@
+app_name: sql-join-sample
+version: 1
+
+connections:
+  - config : !LocalStorage
+      details:
+        path: ../data
+      tables:
+        - !Table
+          name: taxi_zone_lookup
+          config: !CSV
+            path: zones
+            extension: .csv
+        - !Table
+          name: trips
+          config: !Parquet
+            path: trips
+            extension: .parquet
+    name: ny_taxi
+
+sources:
+  - name: taxi_zone_lookup
+    table_name: taxi_zone_lookup
+    connection: ny_taxi
+
+  - name: trips
+    table_name: trips
+    connection: ny_taxi
+
+sql: |
+
+ -- This query will return the average tips and trip count for each zone with more than 100 trips
+ -- and an average tip greater than $1.00 for the license number ending in 3
+
+ SELECT tzl.Zone, hfz.avg_tips, hfz.trip_count
+ INTO table1
+ FROM taxi_zone_lookup tzl
+ JOIN (
+   SELECT PULocationID, COUNT(1) AS trip_count, AVG(tips) AS avg_tips
+   FROM (
+    SELECT PULocationID, tips
+    FROM trips
+    WHERE hvfhs_license_num LIKE '%3'
+   )
+   GROUP BY PULocationID
+   HAVING COUNT(1) > 100 AND AVG(tips) > 1.00
+ ) hfz ON tzl.LocationID = hfz.PULocationID
+
+
+endpoints:
+  - name: hfz-tips
+    path: /hfz-tips
+    table_name: table1
