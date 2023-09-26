@@ -33,6 +33,10 @@ export class CommonGrpc {
   ): Promise<GetEndpointsResponse> {
     return promisify(this.client.getEndpoints.bind(this.client, params, metadata, {}))();
   }
+
+  public close() {
+    this.client.close();
+  }
 }
 
 export async function checkEndpoints() {
@@ -43,6 +47,7 @@ export async function checkEndpoints() {
     const { endpoints } = endpointsRes;
     console.log(endpoints);
     assert(endpoints.length > 0);
+    client.close();
     return true;
   } catch (err) {
     console.log('dozer is not up yet, retrying...');
@@ -51,8 +56,8 @@ export async function checkEndpoints() {
 }
 
 export async function assertEndpointsWithRetry(
-  maxRetries: number = 10,
-  retryInterval: number = 500,
+  maxRetries: number = 60,
+  retryInterval: number = 1000,
 ) {
   let i = 0;
   let endpointsReady = false;

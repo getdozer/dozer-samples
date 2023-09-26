@@ -45,5 +45,17 @@ jobs:
           sudo dpkg -i dozer-linux-amd64.deb
 
       - name: Run tests
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+          BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+          SN_SERVER: ${{ secrets.SN_SERVER }}
+          SN_USER: ${{ secrets.SN_USER }}
+          SN_PASSWORD: ${{ secrets.SN_PASSWORD }}
+          SN_DATABASE: ${{ secrets.SN_DATABASE }}
+          SN_WAREHOUSE: ${{ secrets.SN_WAREHOUSE }}
+          SN_ROLE: ${{ secrets.SN_ROLE }}
+          ETH_WSS_URL: ${{ secrets.ETH_WSS_URL }}
         run: |
           pnpm test

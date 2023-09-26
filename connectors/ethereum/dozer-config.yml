@@ -1,4 +1,5 @@
 app_name: eth-smartcontracts-sample
+version: 1
 connections:
   - config: !Ethereum
       provider: !Log
