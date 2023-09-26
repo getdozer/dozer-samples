@@ -25,7 +25,7 @@ For this example we are loading the data into a MySQL database. Steps to do the 
 
 |      CPU       | Cores |   Memory   |
 | -------------- | ----- | ---------- |
-| Ryzen7 4800H   |  16   |    16GB    |
+| Ryzen7 4800H   |  8   |    16GB    |
 
 It is also important to note, the experiments are being run on a NVMe SSD which offers a higher read speed than conventional SATA storage systems.
 
