@@ -1,4 +1,5 @@
 app_name: taxi-data-2-local
+version: 1
 #cache_max_map_size: 8589934592
 connections:
   - config: !S3Storage

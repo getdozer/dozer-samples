@@ -1,0 +1,63 @@
+version: 1
+app_name: imdb-analytics
+connections:
+  - config: !MySQL
+      url: mysql://root:1234@localhost:3306/IMDB
+    name: mysql_data
+
+sources:
+  - name: akas
+    table_name: akas
+    connection: mysql_data
+
+  - name: crew
+    table_name: crew
+    connection: mysql_data
+
+  - name: episodes
+    table_name: episodes
+    connection: mysql_data
+
+  - name: people
+    table_name: people
+    connection: mysql_data
+
+  - name: ratings
+    table_name: ratings
+    connection: mysql_data
+
+  - name: titles
+    table_name: titles
+    connection: mysql_data
+
+sql: |
+
+ with acting_crew as (
+  select person_id, category
+  from crew
+  where category = 'actor' or category = 'actress'
+ ),
+ 
+ action_titles as (
+  select title_id
+  from titles
+  where genres like '%Action%'
+ )
+ 
+ select p.name, r.category, count(1) as titles
+ into out_table
+ from people p 
+ join acting_crew r on p.person_id = r.person_id  
+ join action_titles a on a.title_id = r.title_id  
+ group by p.name,r.category;
+
+endpoints: 
+
+  - name: endpoint1
+    path: /endpoint1
+    table_name: out_table
+
+cache_max_map_size: 16106127360 # 15 GB
+
+telemetry:
+  metrics: !Prometheus

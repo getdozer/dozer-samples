@@ -1,103 +1,107 @@
-## SQL WINDOW functions example
+# Window function example
 
-This example shows how to apply WINDOW functions to a source in Dozer
+This example shows how to use the `TUMBLE` and `HOP` functions using Dozer SQL. These functions are often useful with real time analytics over vast streams of incoming data. To read more about window functions read the [documentation](https://getdozer.io/docs/transforming-data/windowing).
 
-## Initialization
-Refer to [Installation](https://getdozer.io/docs/installation) for instructions.
+Here we describe two queries,
+- Query to calculate the sum of tips obtained for a particular Pickup location over a 5 minutes window.
 
-Download the sample dataset from [NYC - TLC Trip Record Data](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page).
+- Query to calculate the sum of tips obtained for a particular Pickup location over a 5 minutes window but the windows overlap by 2 minutes.
+  i.e. the 5 minutes is divided into,
+  - 2 minutes overlapping with past window
+  - 1 minute non overlapping
+  - 2 minutes overlapping with next window
+
+## SQL Query and Structure
+
+### Query 1
+
+```sql
+  SELECT t.PULocationID as location, SUM(t.tips) AS total_tips, t.window_start as start, t.window_end AS end
+  INTO table1
+  FROM TUMBLE(trips, pickup_datetime, '5 MINUTES') t
+  GROUP BY t.PULocationID, t.window_start, t.window_end;
+```
+
+### Query 2
+
+```sql
+  SELECT t.PULocationID as location, SUM(t.tips) AS total_tips, t.window_start as start, t.window_end AS end
+  INTO table2
+  FROM HOP(trips, pickup_datetime, '2 MINUTE', '5 MINUTES') t
+  GROUP BY t.PULocationID, t.window_start, t.window_end;
+```
+
+
+![wfunctions_graph](../images/wfunction_graph.png)
+
+
+## Running
+
+
+### Dozer
+
+To run Dozer navigate to the join folder `/sql/window-functions` & use the following command
+
 ```bash
-./download.sh
+dozer run
 ```
 
-Running Dozer
-```
-dozer
-```
+To remove the cache directory, use
 
-That's all to it. You have APIs instantly available over REST and gRPC.
-
-```
- dozer
-
-____   ___ __________ ____
-|  _ \ / _ \__  / ____|  _ \
-| | | | | | |/ /|  _| | |_) |
-| |_| | |_| / /_| |___|  _ <
-|____/ \___/____|_____|_| \_\
-
-
-Dozer Version: 0.1.11
-
-2023-03-12T10:09:20.046054Z  INFO Starting Rest Api Server on http://0.0.0.0:8080 with security: None
-2023-03-12T10:09:20.046217Z  INFO Starting gRPC server on http://0.0.0.0:50051 with security: None
+```bash
+dozer clean
 ```
 
 
-### Querying Dozer
+### Dozer Live
 
-**REST**
+To run with Dozer live, replace `run` with `live`
 
-Get the result for tumble window
+```bash
+dozer live
 ```
+
+Dozer live automatically deletes the cache upon stopping the program.
+
+
+## Querying Dozer 
+
+Dozer API lets us use `filter`,`limit`,`order_by` and `skip` at the endpoints. For this example lets order the data in descending order of the sum of `tips`.
+
+Execute the following commands over bash to get the results from `REST` and `gRPC` APIs.
+
+### Query 1
+
+**`REST`**
+
+```bash
 curl -X POST  http://localhost:8080/tumble/query \
 --header 'Content-Type: application/json' \
---data-raw '{"$limit":5}'
+--data-raw '{"$order_by": {"total_tips": "desc"}}'
 ```
-
-```
-[
-    {"location":142,"pickup_time":"2022-01-01T00:35:40.000Z","start":"2022-01-01T00:35:00.000Z","end":"2022-01-01T00:40:00.000Z","__dozer_record_id":0,"__dozer_record_version":1},
-    {"location":132,"pickup_time":"2022-01-02T05:34:05.000Z","start":"2022-01-02T05:30:00.000Z","end":"2022-01-02T05:35:00.000Z","__dozer_record_id":65536,"__dozer_record_version":1},
-    {"location":43,"pickup_time":"2022-01-03T09:45:59.000Z","start":"2022-01-03T09:45:00.000Z","end":"2022-01-03T09:50:00.000Z","__dozer_record_id":131072,"__dozer_record_version":1},
-    {"location":262,"pickup_time":"2022-01-04T08:52:31.000Z","start":"2022-01-04T08:50:00.000Z","end":"2022-01-04T08:55:00.000Z","__dozer_record_id":196608,"__dozer_record_version":1},
-    {"location":113,"pickup_time":"2022-01-04T23:02:57.000Z","start":"2022-01-04T23:00:00.000Z","end":"2022-01-04T23:05:00.000Z","__dozer_record_id":262144,"__dozer_record_version":1}
-]
-```
-
-Get the result for hop window
-```
-curl -X POST  http://localhost:8080/hop/query \
---header 'Content-Type: application/json' \
---data-raw '{"$limit":5}'
-```
-
-```
-[
-    {"location":142,"pickup_time":"2022-01-01T00:35:40.000Z","start":"2022-01-01T00:34:00.000Z","end":"2022-01-01T00:36:00.000Z","__dozer_record_id":0,"__dozer_record_version":1},
-    {"location":246,"pickup_time":"2022-01-01T14:47:53.000Z","start":"2022-01-01T14:46:00.000Z","end":"2022-01-01T14:48:00.000Z","__dozer_record_id":65536,"__dozer_record_version":1},
-    {"location":132,"pickup_time":"2022-01-02T05:34:05.000Z","start":"2022-01-02T05:33:00.000Z","end":"2022-01-02T05:35:00.000Z","__dozer_record_id":131072,"__dozer_record_version":1},
-    {"location":24,"pickup_time":"2022-01-02T17:31:18.000Z","start":"2022-01-02T17:30:00.000Z","end":"2022-01-02T17:32:00.000Z","__dozer_record_id":196608,"__dozer_record_version":1},
-    {"location":43,"pickup_time":"2022-01-03T09:45:59.000Z","start":"2022-01-03T09:44:00.000Z","end":"2022-01-03T09:46:00.000Z","__dozer_record_id":262144,"__dozer_record_version":1}
-]
-```
-
 
 **`gRPC`**
 
-Filter with limit of 1
-```
-grpcurl -d '{"query": "{\"$limit\": 1}"}' \
+```bash
+grpcurl -d '{"endpoint": "tumble", "query": "{\"$order_by\": {\"total_tips\": \"desc\"}}"}' \
 -plaintext localhost:50051 \
-dozer.generated.tumble.Tumbles/query
-```
-Response
-```
-{
-  "records": [
-    {
-      "record": {
-        "location": "142",
-        "pickupTime": "2022-01-01T00:35:40Z",
-        "start": "2022-01-01T00:35:00Z",
-        "end": "2022-01-01T00:40:00Z",
-        "DozerRecordVersion": 1
-      }
-    }
-  ]
-}
+dozer.common.CommonGrpcService/query
 ```
 
+### Query 2
 
- 
+**`REST`**
 
+```bash
+curl -X POST  http://localhost:8080/hop/query \
+--header 'Content-Type: application/json' \
+--data-raw '{"$order_by": {"total_tips": "desc"}}'
+```
+
+**`gRPC`**
+
+```bash
+grpcurl -d '{"endpoint": "hop", "query": "{\"$order_by\": {\"total_tips\": \"desc\"}}"}' \
+-plaintext localhost:50051 \
+dozer.common.CommonGrpcService/query
+```
