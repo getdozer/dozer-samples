@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  mysql:
+    container_name: dozer-chinook-mysql
+    build:
+      context: .
+    ports:
+      - '3306:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysql
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_DATABASE=Chinook
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - is_ready.sh
+      interval: 5s
+      timeout: 5s
+      retries: 15

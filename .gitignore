@@ -4,9 +4,10 @@ pg-flights/.dozer
 .dozer
 connectors/**/data/
 .ipynb_checkpoints/
-sql/join/data/
+sql/data
 connectors/snowflake/env.sh
-
+sql/**/dozer.lock
+sql/**/.dozer
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
@@ -213,3 +214,5 @@ sketch
 # .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/react,python,yarn
+
+dozer.lock
