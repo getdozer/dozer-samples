@@ -12,8 +12,8 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@dozerjs/dozer": "0.0.7-beta.2",
-    "@dozerjs/dozer-vue": "^0.0.2",
+    "@dozerjs/dozer": "^0.0.8",
+    "@dozerjs/dozer-vue": "^0.0.4",
     "vue": "^3.3.4",
     "vue-google-maps-community-fork": "^0.3.1",
     "vue-router": "^4.2.4",

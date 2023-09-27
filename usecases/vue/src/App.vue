@@ -9,7 +9,7 @@ import { RouterView } from 'vue-router';
   </header>
   <main class="app-content">
     <DozerProvider :value="{
-      serverAddress: 'http://localhost:50051',
+      serverAddress: 'http://localhost:62998',
     }">
       <RouterView />
     </DozerProvider>
@@ -33,6 +33,7 @@ import { RouterView } from 'vue-router';
   text-align: center;
   margin-bottom: 16px;
 }
+
 .app-content {
   flex: 1;
 }
