@@ -10,12 +10,12 @@ function App() {
       <header className="App-header">
         <img src="https://getdozer.io/img/logo.svg" className="App-logo" alt="logo" />
         <DozerProvider value={{
-          serverAddress: 'http://localhost:50051',
+          serverAddress: 'http://localhost:62998',
         }}>
           <BrowserRouter>
             <Routes>
               <Route index element={<Airports />} />
-              <Route element={<AirportsWrapper />} path={"/airports"}/> />
+              <Route element={<AirportsWrapper />} path={"/airports"} />
             </Routes>
           </BrowserRouter>
         </DozerProvider>
