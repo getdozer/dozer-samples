@@ -60,7 +60,8 @@ jobs:
       - name: Create directory structure for Dozer binary
         run: |
           mkdir -p $HOME/.cargo/bin
-          cp $HOME/dozer-bin/dozer $HOME/.cargo/bin/dozer
+          (cd $HOME/dozer-samples/dozer-samples/ && ls)
+          cp $HOME/dozer-samples/dozer-samples/dozer-bin/dozer $HOME/.cargo/bin/dozer
           chmod +x $HOME/.cargo/bin/dozer
 
       - name: Install pnpm
