@@ -1,4 +1,5 @@
 name: CI
+
 on:
   pull_request:
     branches: [main]
@@ -8,12 +9,57 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - uses: pnpm/action-setup@v2
+      - name: Install Dozer dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pkg-config
+          sudo apt-get install -y build-essential
+
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          export PATH="$HOME/.cargo/bin:$PATH"
+
+          curl -sLO https://github.com/protocolbuffers/protobuf/releases/download/v22.2/protoc-22.2-linux-x86_64.zip
+          unzip protoc-22.2-linux-x86_64.zip -d $HOME/.local
+          export PATH="$PATH:$HOME/.local/bin"
+
+      - name: Clone Dozer repository
+        run: git clone https://github.com/getdozer/dozer.git
+
+      - name: Install Dozer
+        run: |
+          cd dozer
+          cargo install --path dozer-cli --locked --root $HOME/dozer-bin
+
+      - name: Archive Dozer artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: dozer-artifact
+          path: $HOME/dozer-bin
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Download Dozer artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: dozer-artifact
+
+      - name: Set up Dozer binary
+        run: |
+          export PATH="$PATH:$GITHUB_WORKSPACE/dozer-bin/bin"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
         with:
           version: 8
           run_install: false
@@ -23,8 +69,8 @@ jobs:
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
+      - name: Restore pnpm cache
+        uses: actions/cache@v3
         with:
           path: ${{ env.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -33,16 +79,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-
-      - name: Install Dozer
-        run: |
-          # Install protoc
-          curl -sLO https://github.com/protocolbuffers/protobuf/releases/download/v22.2/protoc-22.2-linux-x86_64.zip
-          unzip protoc-22.2-linux-x86_64.zip -d $HOME/.local
-          export PATH="$PATH:$HOME/.local/bin"
-
-          curl -sLO https://github.com/getdozer/dozer/releases/latest/download/dozer-linux-amd64.deb 
-          sudo dpkg -i dozer-linux-amd64.deb
 
       - name: Run tests
         env:
@@ -57,5 +93,4 @@ jobs:
           SN_WAREHOUSE: ${{ secrets.SN_WAREHOUSE }}
           SN_ROLE: ${{ secrets.SN_ROLE }}
           ETH_WSS_URL: ${{ secrets.ETH_WSS_URL }}
-        run: |
-          pnpm test
+        run: pnpm test
