@@ -15,32 +15,31 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Install Rust
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          export PATH="$HOME/.cargo/bin:$PATH"
+
       - name: Install Dozer dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y pkg-config
           sudo apt-get install -y build-essential
 
-          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-          export PATH="$HOME/.cargo/bin:$PATH"
-
           curl -sLO https://github.com/protocolbuffers/protobuf/releases/download/v22.2/protoc-22.2-linux-x86_64.zip
           unzip protoc-22.2-linux-x86_64.zip -d $HOME/.local
           export PATH="$PATH:$HOME/.local/bin"
 
-      - name: Clone Dozer repository
-        run: git clone https://github.com/getdozer/dozer.git
-
-      - name: Install Dozer
+      - name: Build Dozer
         run: |
           cd dozer
-          cargo install --path dozer-cli --locked --root $HOME/dozer-bin
+          cargo build
 
-      - name: Archive Dozer artifact
+      - name: Archive Dozer project
         uses: actions/upload-artifact@v2
         with:
           name: dozer-artifact
-          path: $HOME/dozer-bin
+          path: dozer
 
   test:
     runs-on: ubuntu-latest
@@ -53,10 +52,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: dozer-artifact
-
-      - name: Set up Dozer binary
-        run: |
-          export PATH="$PATH:$GITHUB_WORKSPACE/dozer-bin/bin"
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
