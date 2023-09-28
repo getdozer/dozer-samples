@@ -35,7 +35,7 @@ jobs:
       - name: Install and export Dozer binary
         run: |
           cd dozer
-          cargo install --path --locked
+          cargo install --path dozer-cli --locked
           mkdir -p $GITHUB_WORKSPACE/dozer-bin
           cp $HOME/.cargo/bin/dozer $GITHUB_WORKSPACE/dozer-bin/dozer
 
