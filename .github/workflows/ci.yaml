@@ -16,29 +16,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install Rust
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+
+      - name: Build dozer
         run: |
-          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-          export PATH="$HOME/.cargo/bin:$PATH"
-
-      - name: Install Dozer and dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y pkg-config
-          sudo apt-get install -y build-essential
-
-          curl -sLO https://github.com/protocolbuffers/protobuf/releases/download/v22.2/protoc-22.2-linux-x86_64.zip
-          unzip protoc-22.2-linux-x86_64.zip -d $HOME/.local
-          export PATH="$PATH:$HOME/.local/bin"
-
           git clone https://github.com/getdozer/dozer.git
-
-      - name: Install and export Dozer binary
-        run: |
           cd dozer
-          cargo install --path dozer-cli --locked
+          cargo build --features ethereum,snowflake --bin dozer
+
+      - name: Export Dozer binary
+        run: |
           mkdir -p $GITHUB_WORKSPACE/dozer-bin
-          cp $HOME/.cargo/bin/dozer $GITHUB_WORKSPACE/dozer-bin/dozer
+          cp /target/debug/dozer $GITHUB_WORKSPACE/dozer-bin/dozer
 
       - name: Archive Dozer binary
         uses: actions/upload-artifact@v2
@@ -47,7 +42,7 @@ jobs:
           path: dozer-bin/dozer
 
   test:
-    runs-on: ubuntu-latest-16-cores
+    runs-on: ubuntu-latest
     needs: build
     steps:
       - name: Checkout code
