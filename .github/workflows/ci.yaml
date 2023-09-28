@@ -32,62 +32,70 @@ jobs:
 
           git clone https://github.com/getdozer/dozer.git
 
-      - name: Build Dozer
+      - name: Install and export Dozer binary
         run: |
           cd dozer
-          cargo build
+          cargo install --path . --locked
+          mkdir -p $GITHUB_WORKSPACE/dozer-bin
+          cp $HOME/.cargo/bin/dozer $GITHUB_WORKSPACE/dozer-bin/dozer
 
-      - name: Archive Dozer project
+      - name: Archive Dozer binary
         uses: actions/upload-artifact@v2
         with:
-          name: dozer-artifact
-          path: dozer
+          name: dozer-bin-artifact
+          path: dozer-bin
 
   test:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  runs-on: ubuntu-latest
+  needs: build
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Download Dozer artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: dozer-artifact
+    - name: Download Dozer binary artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: dozer-bin-artifact
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-          run_install: false
+    - name: Create directory structure for Dozer binary
+      run: |
+        mkdir -p $HOME/.cargo/bin
+        cp dozer-bin/dozer $HOME/.cargo/bin/dozer
+      working-directory: $GITHUB_WORKSPACE
 
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+    - name: Install pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+        run_install: false
 
-      - name: Restore pnpm cache
-        uses: actions/cache@v3
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+    - name: Get pnpm store directory
+      shell: bash
+      run: |
+        echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
-      - name: Install dependencies
-        run: pnpm install
+    - name: Restore pnpm cache
+      uses: actions/cache@v3
+      with:
+        path: ${{ env.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
 
-      - name: Run tests
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-          BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
-          SN_SERVER: ${{ secrets.SN_SERVER }}
-          SN_USER: ${{ secrets.SN_USER }}
-          SN_PASSWORD: ${{ secrets.SN_PASSWORD }}
-          SN_DATABASE: ${{ secrets.SN_DATABASE }}
-          SN_WAREHOUSE: ${{ secrets.SN_WAREHOUSE }}
-          SN_ROLE: ${{ secrets.SN_ROLE }}
-          ETH_WSS_URL: ${{ secrets.ETH_WSS_URL }}
-        run: pnpm test
+    - name: Install dependencies
+      run: pnpm install
+
+    - name: Run tests
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+        BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+        SN_SERVER: ${{ secrets.SN_SERVER }}
+        SN_USER: ${{ secrets.SN_USER }}
+        SN_PASSWORD: ${{ secrets.SN_PASSWORD }}
+        SN_DATABASE: ${{ secrets.SN_DATABASE }}
+        SN_WAREHOUSE: ${{ secrets.SN_WAREHOUSE }}
+        SN_ROLE: ${{ secrets.SN_ROLE }}
+        ETH_WSS_URL: ${{ secrets.ETH_WSS_URL }}
+      run: pnpm test
