@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: dozer-bin-artifact
-          path: dozer-bin
+          path: dozer-bin/dozer
 
   test:
     runs-on: ubuntu-latest
@@ -56,12 +56,12 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: dozer-bin-artifact
+          path: dozer-bin
 
       - name: Create directory structure for Dozer binary
         run: |
           mkdir -p $HOME/.cargo/bin
-          (cd $HOME/dozer-samples/dozer-samples/ && ls)
-          cp $HOME/dozer-samples/dozer-samples/dozer-bin/dozer $HOME/.cargo/bin/dozer
+          cp ./build/dozer $HOME/.cargo/bin/
           chmod +x $HOME/.cargo/bin/dozer
 
       - name: Install pnpm
