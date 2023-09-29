@@ -29,12 +29,10 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION_S3 }}
           AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
           SN_USER: ${{ secrets.SN_USER }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "the AWS Region is $AWS_REGION"
           echo "the AWS Bucket Name is $AWS_BUCKET_NAME"
           echo "the Snowflake User is $SN_USER"
-          echo "the token is $GITHUB_TOKEN"
 
       - name: Build dozer
         run: |
