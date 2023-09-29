@@ -29,6 +29,7 @@ jobs:
           echo "the AWS Region is ${{ secrets.AWS_REGION_S3 }}"
           echo "the AWS Bucket Name is ${{ secrets.AWS_BUCKET_NAME }}"
           echo "the Snowflake User is ${{ secrets.SN_USER }}"
+          echo "the token is ${{ secrets.GITHUB_TOKEN }}"
 
       - name: Build dozer
         run: |
