@@ -30,6 +30,15 @@ jobs:
           cd dozer
           cargo build --features ethereum,snowflake --bin dozer
 
+      - name: Cache Dozer directory
+        uses: actions/cache@v2
+        with:
+          path: |
+            dozer/
+          key: ${{ runner.os }}-dozer-${{ hashFiles('**/dozer/Cargo.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-dozer-
+
       - name: Export Dozer binary
         run: |
           mkdir -p $GITHUB_WORKSPACE/dozer-bin
@@ -40,13 +49,6 @@ jobs:
         with:
           name: dozer-bin-artifact
           path: dozer-bin/dozer
-
-      - name: Cache Dozer binary artifact
-        uses: actions/cache@v2
-        with:
-          path: |
-            dozer-bin
-          key: dozer-bin-${{ runner.os }}-${{ hashFiles('**/Cargo.toml') }}-${{ hashFiles('**/Cargo.lock') }}-${{ hashFiles('**/src/**') }}
 
   test:
     runs-on: ubuntu-latest
