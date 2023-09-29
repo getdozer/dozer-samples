@@ -24,6 +24,11 @@ jobs:
       - name: Rust cache
         uses: swatinem/rust-cache@v2
 
+      - name: Install Snowflake ODBC driver
+        run: curl ${SNOWFLAKE_DRIVER_URL} -o snowflake_driver.deb && sudo dpkg -i snowflake_driver.deb
+        env:
+          SNOWFLAKE_DRIVER_URL: https://sfc-repo.snowflakecomputing.com/odbc/linux/2.25.7/snowflake-odbc-2.25.7.x86_64.deb
+
       - name: Build dozer
         run: |
           git clone https://github.com/getdozer/dozer.git
@@ -60,6 +65,11 @@ jobs:
           unzip protoc-22.2-linux-x86_64.zip -d $HOME/.local
           export PATH="$PATH:$HOME/.local/bin"
 
+      - name: Install Snowflake ODBC driver
+        run: curl ${SNOWFLAKE_DRIVER_URL} -o snowflake_driver.deb && sudo dpkg -i snowflake_driver.deb
+        env:
+          SNOWFLAKE_DRIVER_URL: https://sfc-repo.snowflakecomputing.com/odbc/linux/2.25.7/snowflake-odbc-2.25.7.x86_64.deb
+
       - name: Create directory structure for Dozer binary
         run: |
           mkdir -p $HOME/.cargo/bin
@@ -90,10 +100,10 @@ jobs:
 
       - name: Run tests
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-          BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+          AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+          AWS_REGION_S3: ${{ secrets.AWS_REGION_S3 }}
+          AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
           SN_SERVER: ${{ secrets.SN_SERVER }}
           SN_USER: ${{ secrets.SN_USER }}
           SN_PASSWORD: ${{ secrets.SN_PASSWORD }}
