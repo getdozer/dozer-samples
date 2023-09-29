@@ -24,10 +24,13 @@ jobs:
       - name: Rust cache
         uses: swatinem/rust-cache@v2
 
-      - name: Build dozer
+      - name: Temp
         run: |
           echo "the AWS Region is ${{ secrets.AWS_REGION_S3 }}"
           echo "the AWS Bucket Name is ${{ secrets.AWS_BUCKET_NAME }}"
+
+      - name: Build dozer
+        run: |
           git clone https://github.com/getdozer/dozer.git
           cd dozer
           cargo build --features ethereum,snowflake --bin dozer
