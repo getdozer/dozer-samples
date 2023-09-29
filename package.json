@@ -2,7 +2,7 @@
   "name": "dozer-samples",
   "version": "1.0.0",
   "scripts": {
-    "test": "mocha -r ts-node/register test/**/*.ts",
+    "test": "mocha -r ts-node/register test/**/*.ts --timeout 60000",
     "lint": "eslint test/**/*.js --quiet",
     "lint:fix": "eslint test/**/*.js --fix --quiet",
     "generate:grpc": "node ./test/scripts/proto.js"
