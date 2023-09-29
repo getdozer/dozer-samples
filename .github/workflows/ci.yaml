@@ -33,8 +33,6 @@ jobs:
       - name: Export Dozer binary
         run: |
           mkdir -p $GITHUB_WORKSPACE/dozer-bin
-          echo "current path: $(pwd)"
-          (cd dozer && ls)
           cp dozer/target/debug/dozer $GITHUB_WORKSPACE/dozer-bin/dozer
 
       - name: Archive Dozer binary
