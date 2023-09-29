@@ -18,10 +18,14 @@ describe('Connectors: aws-s3', async () => {
     execSync('rm -rf .dozer && rm -f dozer.lock', { stdio: 'inherit' });
   });
 
-  it('should run and return API endpoints', async () => {
-    const dozer = await initDozer();
-    await assertEndpointsWithRetry();
-    dozer.kill(9);
-    console.log('Killed dozer aws-s3');
+  it('should run and return API endpoints', (done) => {
+    let dozer;
+    (async () => {
+      dozer = await initDozer();
+      await assertEndpointsWithRetry();
+      dozer.kill(9);
+      console.log('AWS-S3 Finished!');
+      done();
+    })();
   });
 });
