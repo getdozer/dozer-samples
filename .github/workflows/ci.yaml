@@ -1,4 +1,5 @@
 name: CI
+
 on:
   pull_request:
     branches: [main]
@@ -8,12 +9,82 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+
+      - name: Temp
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION_S3 }}
+          AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+          SN_USER: ${{ secrets.SN_USER }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "the AWS Region is $AWS_REGION"
+          echo "the AWS Bucket Name is $AWS_BUCKET_NAME"
+          echo "the Snowflake User is $SN_USER"
+          echo "the token is $GITHUB_TOKEN"
+
+      - name: Build dozer
+        run: |
+          git clone https://github.com/getdozer/dozer.git
+          cd dozer
+          cargo build --features ethereum,snowflake --bin dozer
+
+      - name: Export Dozer binary
+        run: |
+          mkdir -p $GITHUB_WORKSPACE/dozer-bin
+          cp dozer/target/debug/dozer $GITHUB_WORKSPACE/dozer-bin/dozer
+
+      - name: Archive Dozer binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: dozer-bin-artifact
+          path: dozer-bin/dozer
+
   test:
     runs-on: ubuntu-latest
+    needs: build
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - uses: pnpm/action-setup@v2
+      - name: Download Dozer binary artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: dozer-bin-artifact
+          path: dozer-bin
+
+      - name: Install Protoc
+        run: |
+          curl -sLO https://github.com/protocolbuffers/protobuf/releases/download/v22.2/protoc-22.2-linux-x86_64.zip
+          unzip protoc-22.2-linux-x86_64.zip -d $HOME/.local
+          export PATH="$PATH:$HOME/.local/bin"
+
+      - name: Install Snowflake ODBC driver
+        run: curl ${SNOWFLAKE_DRIVER_URL} -o snowflake_driver.deb && sudo dpkg -i snowflake_driver.deb
+        env:
+          SNOWFLAKE_DRIVER_URL: https://sfc-repo.snowflakecomputing.com/odbc/linux/2.25.7/snowflake-odbc-2.25.7.x86_64.deb
+
+      - name: Create directory structure for Dozer binary
+        run: |
+          mkdir -p $HOME/.cargo/bin
+          cp dozer-bin/dozer $HOME/.cargo/bin/
+          chmod +x $HOME/.cargo/bin/dozer
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
         with:
           version: 8
           run_install: false
@@ -23,8 +94,8 @@ jobs:
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
+      - name: Restore pnpm cache
+        uses: actions/cache@v3
         with:
           path: ${{ env.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -34,16 +105,17 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Install Dozer
-        run: |
-          # Install protoc
-          curl -sLO https://github.com/protocolbuffers/protobuf/releases/download/v22.2/protoc-22.2-linux-x86_64.zip
-          unzip protoc-22.2-linux-x86_64.zip -d $HOME/.local
-          export PATH="$PATH:$HOME/.local/bin"
-
-          curl -sLO https://github.com/getdozer/dozer/releases/latest/download/dozer-linux-amd64.deb 
-          sudo dpkg -i dozer-linux-amd64.deb
-
       - name: Run tests
-        run: |
-          pnpm test
+        env:
+          AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+          AWS_REGION_S3: ${{ secrets.AWS_REGION_S3 }}
+          AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+          SN_SERVER: ${{ secrets.SN_SERVER }}
+          SN_USER: ${{ secrets.SN_USER }}
+          SN_PASSWORD: ${{ secrets.SN_PASSWORD }}
+          SN_DATABASE: ${{ secrets.SN_DATABASE }}
+          SN_WAREHOUSE: ${{ secrets.SN_WAREHOUSE }}
+          SN_ROLE: ${{ secrets.SN_ROLE }}
+          ETH_WSS_URL: ${{ secrets.ETH_WSS_URL }}
+        run: pnpm test

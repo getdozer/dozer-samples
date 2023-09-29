@@ -57,7 +57,3 @@ endpoints:
       primary_key:
         - C_CUSTKEY
         - C_NAME
-
-api:
-  app_grpc:
-    host: "{{APP_HOST}}"
