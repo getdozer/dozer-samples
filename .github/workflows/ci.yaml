@@ -24,12 +24,6 @@ jobs:
       - name: Rust cache
         uses: swatinem/rust-cache@v2
 
-      - name: Build Dozer
-        run: |
-          git clone https://github.com/getdozer/dozer.git
-          cd dozer
-          cargo build --features ethereum,snowflake --bin dozer
-
       - name: Cache Dozer directory
         uses: actions/cache@v2
         with:
@@ -38,6 +32,12 @@ jobs:
           key: ${{ runner.os }}-dozer-${{ hashFiles('**/dozer/Cargo.toml') }}
           restore-keys: |
             ${{ runner.os }}-dozer-
+
+      - name: Build Dozer
+        run: |
+          git clone https://github.com/getdozer/dozer.git
+          cd dozer
+          cargo build --features ethereum,snowflake --bin dozer
 
       - name: Export Dozer binary
         run: |
