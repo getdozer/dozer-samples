@@ -26,7 +26,7 @@ jobs:
 
       - name: Temp
         env:
-          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_REGION: ${{ secrets.AWS_REGION_S3 }}
           AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
           SN_USER: ${{ secrets.SN_USER }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
