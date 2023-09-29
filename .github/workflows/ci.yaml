@@ -34,14 +34,12 @@ jobs:
             ${{ runner.os }}-dozer-
 
       - name: Build Dozer
-        if: steps.check-dozer-directory.outputs.result != 'success' && steps.restore-pnpm-cache.outputs.cache-hit != 'true'
         run: |
-          echo "check-dozer-directory result: ${{ steps.check-dozer-directory.outputs.result }}"
-          echo "restore-pnpm-cache cache-hit: ${{ steps.restore-pnpm-cache.outputs.cache-hit }}"
-          ls
-          git clone https://github.com/getdozer/dozer.git
-          cd dozer
-          cargo build --features ethereum,snowflake --bin dozer
+          if [ ! -d "dozer" ]; then
+            git clone https://github.com/getdozer/dozer.git
+            cd dozer
+            cargo build --features ethereum,snowflake --bin dozer
+          fi
 
       - name: Export Dozer binary
         run: |
