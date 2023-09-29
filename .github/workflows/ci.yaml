@@ -24,7 +24,7 @@ jobs:
       - name: Rust cache
         uses: swatinem/rust-cache@v2
 
-      - name: Build dozer
+      - name: Build Dozer
         run: |
           git clone https://github.com/getdozer/dozer.git
           cd dozer
