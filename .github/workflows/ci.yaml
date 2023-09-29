@@ -28,6 +28,7 @@ jobs:
         run: |
           echo "the AWS Region is ${{ secrets.AWS_REGION_S3 }}"
           echo "the AWS Bucket Name is ${{ secrets.AWS_BUCKET_NAME }}"
+          echo "the Snowflake User is ${{ secrets.SN_USER }}"
 
       - name: Build dozer
         run: |
