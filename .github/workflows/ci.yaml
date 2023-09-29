@@ -38,6 +38,7 @@ jobs:
           if [ ! -d "dozer" ]; then
             git clone https://github.com/getdozer/dozer.git
             cd dozer
+            ls
             cargo build --features ethereum,snowflake --bin dozer
           fi
 
