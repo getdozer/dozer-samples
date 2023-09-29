@@ -33,14 +33,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-dozer-
 
-      - name: Check if Dozer directory exists
-        run: test -d dozer
-        continue-on-error: true
-        id: check-dozer-directory
-
       - name: Build Dozer
-        if: steps.check-dozer-directory.outputs.result != 'success'
+        if: steps.check-dozer-directory.outputs.result != 'success' && steps.restore-pnpm-cache.outputs.cache-hit != 'true'
         run: |
+          ls
           git clone https://github.com/getdozer/dozer.git
           cd dozer
           cargo build --features ethereum,snowflake --bin dozer
