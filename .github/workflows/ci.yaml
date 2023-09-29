@@ -33,7 +33,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-dozer-
 
+      - name: Check if Dozer directory exists
+        run: test -d dozer
+        continue-on-error: true
+        id: check-dozer-directory
+
       - name: Build Dozer
+        if: steps.check-dozer-directory.outputs.result != 'success'
         run: |
           git clone https://github.com/getdozer/dozer.git
           cd dozer
