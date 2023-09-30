@@ -27,7 +27,6 @@ jobs:
       - name: Clone Dozer
         run: |
           git clone http://github.com/getdozer/dozer.git
-          cd dozer
 
       - name: Restore Dozer cache
         uses: actions/cache@v3
@@ -40,6 +39,7 @@ jobs:
 
       - name: Build Dozer
         run: |
+          cd dozer
           cargo build --features ethereum,snowflake --bin dozer
           mkdir -p $GITHUB_WORKSPACE/dozer-bin
           cp dozer/target/debug/dozer $GITHUB_WORKSPACE/dozer-bin/dozer
