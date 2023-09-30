@@ -39,9 +39,9 @@ jobs:
             git clone https://github.com/getdozer/dozer.git
             cd dozer
             cargo build --features ethereum,snowflake --bin dozer
-            mkdir -p $GITHUB_WORKSPACE/dozer-bin
-          cp dozer/target/debug/dozer $GITHUB_WORKSPACE/dozer-bin/dozer
           fi
+          mkdir -p $GITHUB_WORKSPACE/dozer-bin
+          cp dozer/target/debug/dozer $GITHUB_WORKSPACE/dozer-bin/dozer
 
       - name: Archive Dozer binary
         uses: actions/upload-artifact@v2
