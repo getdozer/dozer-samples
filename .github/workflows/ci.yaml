@@ -24,8 +24,13 @@ jobs:
       - name: Rust cache
         uses: swatinem/rust-cache@v2
 
+      - name: Clone Dozer
+        run: |
+          git clone http://github.com/getdozer/dozer.git
+          cd dozer
+
       - name: Restore Dozer cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             dozer/
@@ -35,11 +40,7 @@ jobs:
 
       - name: Build Dozer
         run: |
-          if [ ! -d "dozer" ]; then
-            git clone https://github.com/getdozer/dozer.git
-            cd dozer
-            cargo build --features ethereum,snowflake --bin dozer
-          fi
+          cargo build --features ethereum,snowflake --bin dozer
           mkdir -p $GITHUB_WORKSPACE/dozer-bin
           cp dozer/target/debug/dozer $GITHUB_WORKSPACE/dozer-bin/dozer
 
