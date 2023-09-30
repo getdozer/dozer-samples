@@ -24,7 +24,7 @@ jobs:
       - name: Rust cache
         uses: swatinem/rust-cache@v2
 
-      - name: Cache Dozer directory
+      - name: Restore Dozer cache
         uses: actions/cache@v2
         with:
           path: |
@@ -38,14 +38,10 @@ jobs:
           if [ ! -d "dozer" ]; then
             git clone https://github.com/getdozer/dozer.git
             cd dozer
-            ls
             cargo build --features ethereum,snowflake --bin dozer
-          fi
-
-      - name: Export Dozer binary
-        run: |
-          mkdir -p $GITHUB_WORKSPACE/dozer-bin
+            mkdir -p $GITHUB_WORKSPACE/dozer-bin
           cp dozer/target/debug/dozer $GITHUB_WORKSPACE/dozer-bin/dozer
+          fi
 
       - name: Archive Dozer binary
         uses: actions/upload-artifact@v2
@@ -66,18 +62,16 @@ jobs:
           name: dozer-bin-artifact
           path: dozer-bin
 
-      - name: Install Protoc
+      - name: Install Protoc & Snowflake ODBC Driver
         run: |
           curl -sLO https://github.com/protocolbuffers/protobuf/releases/download/v22.2/protoc-22.2-linux-x86_64.zip
           unzip protoc-22.2-linux-x86_64.zip -d $HOME/.local
           export PATH="$PATH:$HOME/.local/bin"
-
-      - name: Install Snowflake ODBC driver
-        run: curl ${SNOWFLAKE_DRIVER_URL} -o snowflake_driver.deb && sudo dpkg -i snowflake_driver.deb
+          curl ${SNOWFLAKE_DRIVER_URL} -o snowflake_driver.deb && sudo dpkg -i snowflake_driver.deb
         env:
           SNOWFLAKE_DRIVER_URL: https://sfc-repo.snowflakecomputing.com/odbc/linux/2.25.7/snowflake-odbc-2.25.7.x86_64.deb
 
-      - name: Create directory structure for Dozer binary
+      - name: Setup Dozer binary
         run: |
           mkdir -p $HOME/.cargo/bin
           cp dozer-bin/dozer $HOME/.cargo/bin/
