@@ -11,7 +11,7 @@ connections:
         - !Table
           name: stocks
           config: !CSV
-            path: stock_data_monthly_100_rows
+            path: stock_data_monthly_100_rows #Change this to stock_data_monthly
             extension: .csv
     name: s3
 
