@@ -22,7 +22,3 @@ endpoints:
   - name: zone_data
     path: /zone_data
     table_name: zone_data
-
-api:
-  app_grpc:
-   host: "{{APP_HOST}}"

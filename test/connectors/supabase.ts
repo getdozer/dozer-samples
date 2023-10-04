@@ -1,16 +1,14 @@
 import { execSync } from 'child_process';
 import path from 'path';
+
 import {
   assertEndpointsWithRetry, initDozer,
 } from '../helper';
 
-const TEST_PATH = './connectors/local-storage';
+const TEST_PATH = './connectors/supabase';
 
-describe('Connectors: Local Storage', async () => {
+describe('Connectors: Supabase', async () => {
   beforeEach(async () => {
-    // Copy test data to local-storage connector
-    execSync(`${__dirname}/init.sh`, { stdio: 'inherit' });
-
     const baseDir = path.join(__dirname, '../../');
     const fullPath = path.join(baseDir, TEST_PATH);
     process.chdir(fullPath);
@@ -24,6 +22,6 @@ describe('Connectors: Local Storage', async () => {
     const dozer = await initDozer();
     await assertEndpointsWithRetry();
     dozer.kill();
-    console.log('Killed Dozer Local Storage');
+    console.log('Killed Dozer Supabase');
   });
 });
