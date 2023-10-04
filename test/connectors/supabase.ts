@@ -5,9 +5,9 @@ import {
   assertEndpointsWithRetry, initDozer,
 } from '../helper';
 
-const TEST_PATH = './connectors/aws-s3';
+const TEST_PATH = './connectors/supabase';
 
-describe('Connectors: aws-s3', async () => {
+describe('Connectors: Supabase', async () => {
   beforeEach(async () => {
     const baseDir = path.join(__dirname, '../../');
     const fullPath = path.join(baseDir, TEST_PATH);
@@ -22,6 +22,6 @@ describe('Connectors: aws-s3', async () => {
     const dozer = await initDozer();
     await assertEndpointsWithRetry();
     dozer.kill();
-    console.log('Killed Dozer aws-s3');
+    console.log('Killed Dozer Supabase');
   });
 });

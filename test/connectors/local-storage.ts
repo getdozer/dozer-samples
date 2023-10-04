@@ -24,6 +24,6 @@ describe('Connectors: Local Storage', async () => {
     const dozer = await initDozer();
     await assertEndpointsWithRetry();
     dozer.kill();
-    console.log('Killed dozer local-storage');
+    console.log('Killed Dozer Local Storage');
   });
 });

@@ -22,6 +22,6 @@ describe('Connectors: Snowflake', async () => {
     const dozer = await initDozer();
     await assertEndpointsWithRetry();
     dozer.kill();
-    console.log('Killed dozer snowflake');
+    console.log('Killed Dozer Snowflake');
   });
 });

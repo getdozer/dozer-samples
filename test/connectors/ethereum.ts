@@ -22,6 +22,6 @@ describe('Connectors: ethereum', async () => {
     const dozer = await initDozer();
     await assertEndpointsWithRetry();
     dozer.kill();
-    console.log('Killed dozer ethereum');
+    console.log('Killed Dozer Ethereum');
   });
 });
