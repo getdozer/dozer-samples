@@ -40,7 +40,7 @@ jobs:
       - name: Build Dozer binary
         run: |
           cd dozer
-          cargo build --features ethereum,snowflake --bin dozer
+          cargo build --features ethereum,snowflake,kafka --bin dozer
           mkdir -p $GITHUB_WORKSPACE/dozer-bin
           cp target/debug/dozer $GITHUB_WORKSPACE/dozer-bin/dozer
 
@@ -65,12 +65,10 @@ jobs:
 
       - name: Install Protoc, Snowflake ODBC Driver and Python3
         run: |
-          sudo apt-get update
           curl -sLO https://github.com/protocolbuffers/protobuf/releases/download/v22.2/protoc-22.2-linux-x86_64.zip
           unzip protoc-22.2-linux-x86_64.zip -d $HOME/.local
           export PATH="$PATH:$HOME/.local/bin"
           curl ${SNOWFLAKE_DRIVER_URL} -o snowflake_driver.deb && sudo dpkg -i snowflake_driver.deb
-          sudo apt-get install -y python3 python3-pip
         env:
           SNOWFLAKE_DRIVER_URL: https://sfc-repo.snowflakecomputing.com/odbc/linux/2.25.7/snowflake-odbc-2.25.7.x86_64.deb
 
