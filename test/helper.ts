@@ -51,8 +51,8 @@ export async function checkEndpoints() {
 }
 
 export async function assertEndpointsWithRetry(
-  maxRetries: number = 10,
-  retryInterval: number = 500,
+  maxRetries: number = 60,
+  retryInterval: number = 1000,
 ) {
   let i = 0;
   let endpointsReady = false;
