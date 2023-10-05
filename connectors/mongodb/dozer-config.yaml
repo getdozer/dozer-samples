@@ -43,5 +43,3 @@ endpoints:
    path: /accounts
    table_name: joincache
    
-Telemetry:
- - metrics: !Prometheus
