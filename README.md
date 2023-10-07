@@ -30,44 +30,41 @@ Refer to the [Installation section](https://getdozer.io/docs/installation) for i
 |                  | [AWS S3](./connectors/aws-s3)                                            | Load data from AWS S3 bucket                                                 |
 |                  | [Ethereum](./connectors/ethereum)                                        | Load data from Ethereum                                                      |
 |                  | [Kafka](./connectors/kafka)                                              | Load data from kafka stream                                                  |
-|                  | [Snowflake](./connectors/snowflake)                                      | Load data using Snowflake table  streams                                     |
-|                  | [MySQL](./connectors/mysql)                                      | Load data from MySQL Server                                     |
-||||
-| SQL              | [Using Filtering](./sql/filtering)                                                | How to filter using Dozer                               |
+|                  | [Snowflake](./connectors/snowflake)                                      | Load data using Snowflake table streams                                      |
+|                  | [MySQL](./connectors/mysql)                                              | Load data from MySQL Server                                                  |
+|                  |                                                                          |                                                                              |
+| SQL              | [Using Filtering](./sql/filtering)                                       | How to filter using Dozer                                                    |
 |                  | [Using Aggregations](./sql/aggregations)                                 | How to aggregate using Dozer                                                 |
-|                  | [Using JOINs](./sql/join)                                 | How to JOIN data in Dozer                                                 |
-|                  | [Using CTEs](./sql/cte)                                 | How to use CTEs in Dozer                                                 |
-|                  | [Using Sub queries](./sql/sub-queries)                                 | How to use sub queries in Dozer                                                 |
-|                  | [Using UNIONs](./sql/union)                                 | How to combine data using `UNION` in Dozer                                               |
+|                  | [Using JOINs](./sql/join)                                                | How to JOIN data in Dozer                                                    |
+|                  | [Using CTEs](./sql/cte)                                                  | How to use CTEs in Dozer                                                     |
+|                  | [Using Sub queries](./sql/sub-queries)                                   | How to use sub queries in Dozer                                              |
+|                  | [Using UNIONs](./sql/union)                                              | How to combine data using `UNION` in Dozer                                   |
 |                  | [Using Window Functions](./sql/window-functions)                         | Use `Hop` and `Tumble` Windows                                               |
-||||
+|                  |                                                                          |                                                                              |
 | Use Cases        | [Flight Microservices](./usecases/pg-flights)                            | Build APIs over multiple microservices.                                      |
 |                  | [Scaling Ecommerce](./usecases/scaling-ecommerce)                        | Profile and benchmark Dozer using an ecommerce data set                      |
-|                  | [IMDB Analytics](./usecases/imdb-analytics)                        | Use Dozer to get interesting analytics using an IMDb dataset                      |
+|                  | [IMDB Analytics](./usecases/imdb-analytics)                              | Use Dozer to get interesting analytics using an IMDb dataset                 |
 |                  | Use Dozer to Instrument (Coming soon)                                    | Combine Log data to get real time insights                                   |
 |                  | Real Time Model Scoring (Coming soon)                                    | Deploy trained models to get real time insights as APIs                      |
-||||
+|                  |                                                                          |                                                                              |
 | Client Libraries | [Dozer React Starter](./usecases/react/)                                 | Instantly start building real time views using Dozer and React               |
 |                  | [Ingest Polars/Pandas Dataframes](./client-samples/ingest-python-sample) | Instantly ingest Polars/Pandas dataframes using Arrow format and deploy APIs |
 | Authorization    | [Dozer Authorziation](./usecases/api-auth/README.md)                     | How to apply JWT Auth on Dozer APIs                                          |
 
-
-
 ## Reference
 
 Refer to the following for an exhaustive list of configuration samples.
-| Reference                                                       | Notes                              |
+| Reference | Notes |
 | --------------------------------------------------------------- | ---------------------------------- |
-| [Connectors](https://getdozer.io/docs/configuration/connectors) | Sample connector config references |
-| [SQL](https://getdozer.io/docs/sql/introduction)                | Sample SQL using Dozer             |
-
+| [Connectors](https://getdozer.io/docs/category/data-sources) | Sample connector config references |
+| [SQL](https://getdozer.io/docs/transforming-data) | Sample SQL using Dozer |
 
 ## Contributing
-Please refer to [Contributing](https://getdozer.io/docs/contributing/overview) for more details.
 
+Please refer to [Contributing](https://getdozer.io/docs/contributing/overview) for more details.
 
 ## Links
 
 - [Documentation](https://getdozer.io/docs/dozer/)
-- [Architecture](https://getdozer.io/docs/dozer/architecture)
+- [Architecture](https://getdozer.io/docs/architecture)
 - [Discord channel](https://discord.gg/3eWXBgJaEQ)
