@@ -13,7 +13,7 @@ kafka_topic = 'transactions'
 producer = KafkaProducer(bootstrap_servers=kafka_bootstrap_servers)
 
 # Generate mock transaction data and send it to the Kafka topic
-for index in range(10000000):
+for index in range(10):
     # Generate mock transaction data using the Faker library
     transaction_data = {
         'id': index,
