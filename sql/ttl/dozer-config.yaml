@@ -1,0 +1,46 @@
+app_name: ttl-sample
+version: 1
+
+connections:
+  - config: !LocalStorage
+      details:
+        path: ../data
+      tables:
+        - !Table
+          name: trips
+          config: !Parquet
+            path: trips
+            extension: .parquet
+    name: ny_taxi
+
+sources:
+  - name: trips
+    table_name: trips
+    connection: ny_taxi
+
+sql: |
+
+  -- get the total tips for each location in a 5 minute window
+
+  SELECT t.PULocationID as location, SUM(t.tips) AS total_tips, t.window_start as start, t.window_end AS end
+  INTO table1
+  FROM TTL(TUMBLE(trips, pickup_datetime, '5 MINUTES'), pickup_datetime, '10 MINUTES') t
+  GROUP BY t.PULocationID, t.window_start, t.window_end;
+
+  -- get the total tips for each location where every window of 5 minutes overlaps by 2 minutes
+
+  SELECT t.PULocationID as location, SUM(t.tips) AS total_tips, t.window_start as start, t.window_end AS end
+  INTO table2
+  FROM TTL(HOP(trips, pickup_datetime, '2 MINUTE', '5 MINUTES'), pickup_datetime, '10 MINUTES') t
+  GROUP BY t.PULocationID, t.window_start, t.window_end;
+
+endpoints:
+  - name: tumble_ttl
+    path: /tumble_ttl
+    table_name: table1
+
+  - name: hop_ttl
+    path: /hop_ttl
+    table_name: table2
+
+cache_max_map_size: 2147483648
