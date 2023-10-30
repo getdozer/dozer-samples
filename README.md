@@ -40,6 +40,7 @@ Refer to the [Installation section](https://getdozer.io/docs/installation) for i
 |                  | [Using Sub queries](./sql/sub-queries)                                   | How to use sub queries in Dozer                                              |
 |                  | [Using UNIONs](./sql/union)                                              | How to combine data using `UNION` in Dozer                                   |
 |                  | [Using Window Functions](./sql/window-functions)                         | Use `Hop` and `Tumble` Windows                                               |
+|                  | [Using TTL](./sql/ttl)                                                   | Use `TTL` to manage memory usage                                             |
 |                  |                                                                          |                                                                              |
 | Use Cases        | [Flight Microservices](./usecases/pg-flights)                            | Build APIs over multiple microservices.                                      |
 |                  | [Scaling Ecommerce](./usecases/scaling-ecommerce)                        | Profile and benchmark Dozer using an ecommerce data set                      |
