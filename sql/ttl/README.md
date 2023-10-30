@@ -2,28 +2,28 @@
 
 This example shows how to use the Time To Live(TTL) function using Dozer SQL.
 
-The TTL function provides a way to manage the memory usage in Dozer, particularly when dealing with vast streams of data. By setting a TTL, it ensures that only relevant (or recent) data is held in memory, providing a balance between data retention and memory efficiency. The TTL is based on the record's timestamp, ensuring that data eviction is contextually relevant.
+The TTL function provides a way to manage the memory usage in Dozer, particularly when dealing with vast streams of data. By setting up a TTL, it ensures that only relevant (or recent) data is held in memory, providing a balance between data retention and memory efficiency. TTL is based on the record's timestamp, ensuring that data eviction is contextually relevant.
 
 To read more about window functions read the [documentation](https://getdozer.io/docs/transforming-data/windowing#ttl).
 
-Here we describe two queries that will only use fresh data obtained over a 10 minute window,
+Here we describe two queries that will only use fresh data obtained over a 5 minute window,
 
-- Query to calculate the sum of tips obtained for a particular Pickup location over a 5 minutes window.
+- Query to calculate the sum of tips obtained for a particular Pickup location over a 2 minutes window.
 
-- Query to calculate the sum of tips obtained for a particular Pickup location over a 5 minutes window but the windows overlap by 2 minutes.
-  i.e. the 5 minutes is divided into,
-  - 2 minutes overlapping with past window
+- Query to calculate the sum of tips obtained for a particular Pickup location over a 3 minutes window but the windows overlap by 1 minutes.
+  i.e. the 3 minutes is divided into,
+  - 1 minutes overlapping with past window
   - 1 minute non overlapping
-  - 2 minutes overlapping with next window
+  - 1 minutes overlapping with next window
 
 ## SQL Query and Structure
 
 ### Query 1
 
 ```sql
- SELECT t.PULocationID as location, SUM(t.tips) AS total_tips, t.window_start as start, t.window_end AS end
+  SELECT t.PULocationID as location, SUM(t.tips) AS total_tips, t.window_start as start, t.window_end AS end
   INTO table1
-  FROM TTL(TUMBLE(trips, pickup_datetime, '5 MINUTES'), pickup_datetime, '10 MINUTES') t
+  FROM TTL(TUMBLE(trips, pickup_datetime, '2 MINUTES'), pickup_datetime, '5 MINUTES') t
   GROUP BY t.PULocationID, t.window_start, t.window_end;
 ```
 
@@ -32,7 +32,7 @@ Here we describe two queries that will only use fresh data obtained over a 10 mi
 ```sql
   SELECT t.PULocationID as location, SUM(t.tips) AS total_tips, t.window_start as start, t.window_end AS end
   INTO table2
-  FROM TTL(HOP(trips, pickup_datetime, '2 MINUTE', '5 MINUTES'), pickup_datetime, '10 MINUTES') t
+  FROM TTL(HOP(trips, pickup_datetime, '1 MINUTE', '3 MINUTES'), pickup_datetime, '5 MINUTES') t
   GROUP BY t.PULocationID, t.window_start, t.window_end;
 ```
 

@@ -20,18 +20,18 @@ sources:
 
 sql: |
 
-  -- get the total tips for each location in a 5 minute window
+  -- get the total tips for each location in a 2 minute window
 
   SELECT t.PULocationID as location, SUM(t.tips) AS total_tips, t.window_start as start, t.window_end AS end
   INTO table1
-  FROM TTL(TUMBLE(trips, pickup_datetime, '5 MINUTES'), pickup_datetime, '10 MINUTES') t
+  FROM TTL(TUMBLE(trips, pickup_datetime, '2 MINUTES'), pickup_datetime, '5 MINUTES') t
   GROUP BY t.PULocationID, t.window_start, t.window_end;
 
-  -- get the total tips for each location where every window of 5 minutes overlaps by 2 minutes
+  -- get the total tips for each location where every window of 3 minutes overlaps by 1 minutes
 
   SELECT t.PULocationID as location, SUM(t.tips) AS total_tips, t.window_start as start, t.window_end AS end
   INTO table2
-  FROM TTL(HOP(trips, pickup_datetime, '2 MINUTE', '5 MINUTES'), pickup_datetime, '10 MINUTES') t
+  FROM TTL(HOP(trips, pickup_datetime, '1 MINUTE', '3 MINUTES'), pickup_datetime, '5 MINUTES') t
   GROUP BY t.PULocationID, t.window_start, t.window_end;
 
 endpoints:
