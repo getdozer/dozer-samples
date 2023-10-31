@@ -5,7 +5,7 @@ import polars as pl
 from pydozer.ingest import IngestClient
 from pydozer.api import ApiClient
 
-DOZER_CLOUD_HOST = "data.dev.getdozer.io:443"
+DOZER_CLOUD_HOST = "data.getdozer.io:443"
 
 
 def get_api_client(app_id=None, token=None):
