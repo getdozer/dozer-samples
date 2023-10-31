@@ -1,0 +1,79 @@
+{
+  "pv": {
+    "schema": {
+      "fields": [
+        {
+          "typ": "String",
+          "name": "vid",
+          "nullable": false
+        },
+        {
+          "typ": "Int",
+          "name": "datetime",
+          "nullable": false
+        },
+        {
+          "typ": "String",
+          "name": "path",
+          "nullable": false
+        },
+        {
+          "typ": "Int",
+          "name": "sd",
+          "nullable": false
+        }
+      ]
+    }
+  },
+  "performance": {
+    "schema": {
+      "fields": [
+        {
+          "typ": "String",
+          "name": "vid",
+          "nullable": false
+        },
+        {
+          "typ": "Int",
+          "name": "datetime",
+          "nullable": false
+        },
+        {
+          "typ": "String",
+          "name": "ua",
+          "nullable": false
+        },
+        {
+          "typ": "Float",
+          "name": "cls",
+          "nullable": true
+        },
+        {
+          "typ": "Float",
+          "name": "fid",
+          "nullable": true
+        },
+        {
+          "typ": "Float",
+          "name": "lcp",
+          "nullable": true
+        },
+        {
+          "typ": "Float",
+          "name": "inp",
+          "nullable": true
+        },
+        {
+          "typ": "Float",
+          "name": "fcp",
+          "nullable": true
+        },
+        {
+          "typ": "Float",
+          "name": "ttfb",
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

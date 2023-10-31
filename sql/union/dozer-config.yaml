@@ -1,0 +1,60 @@
+app_name: sql-join-sample
+version: 1
+
+connections:
+  - config : !LocalStorage
+      details:
+        path: ../data
+      tables:
+        - !Table
+          name: taxi_zone_lookup
+          config: !CSV
+            path: zones
+            extension: .csv
+        - !Table
+          name: trips
+          config: !Parquet
+            path: trips
+            extension: .parquet
+    name: ny_taxi
+
+sources:
+  - name: taxi_zone_lookup
+    table_name: taxi_zone_lookup
+    connection: ny_taxi
+
+  - name: trips
+    table_name: trips
+    connection: ny_taxi
+
+sql: |
+
+  -- Query to find the average tip amount and trip count for each taxi zone
+  -- that has an average tip amount greater than $1.00 and more than 100 trips
+  -- The trip is said to be in a specific zone if the either of the pickup or dropoff location match with zone
+
+  WITH all_trips AS (
+    SELECT PULocationID as LocationID, SUM(tips) AS sum_tip, COUNT(1) AS total_count
+    FROM trips
+    WHERE PULocationID != DOLocationID
+    GROUP BY PULocationID
+    HAVING COUNT(1) > 100 AND AVG(tips) > 1.00
+
+    UNION
+
+    SELECT DOLocationID as LocationID, SUM(tips) AS sum_tip, COUNT(1) AS total_count
+    FROM trips
+    GROUP BY DOLocationID
+    HAVING COUNT(1) > 100 AND AVG(tips) > 1.00
+  )
+  SELECT tzl.Zone, SUM(sum_tip)/SUM(total_count) AS avg_tips, SUM(total_count) AS trip_count
+  INTO table1
+  FROM taxi_zone_lookup tzl
+  JOIN all_trips at ON tzl.LocationID = at.LocationID
+  GROUP BY tzl.Zone;
+
+endpoints:
+  - name: zone-tips
+    path: /zone-tips
+    table_name: table1
+

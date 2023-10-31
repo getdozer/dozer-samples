@@ -1,0 +1,34 @@
+app_name: filtering-sample
+version: 1
+
+connections:
+  - config : !LocalStorage
+      details:
+        path: ../data
+      tables:
+        - !Table
+          name: trips
+          config: !Parquet
+            path: trips
+            extension: .parquet
+    name: ny_taxi
+
+sources:
+  - name: trips
+    table_name: trips
+    connection: ny_taxi
+
+sql: |
+
+  -- Query that calculates the tips and trip count where the trip miles are greater than 100 and the license number ends with 03
+  
+  SELECT tips, trip_miles
+  INTO table1
+  FROM trips 
+  WHERE trip_miles > 100 
+  AND hvfhs_license_num LIKE '%03';
+
+endpoints:
+  - name: tip_amount
+    path: /tip_amount
+    table_name: table1

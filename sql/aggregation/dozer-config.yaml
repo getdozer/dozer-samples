@@ -1,0 +1,42 @@
+app_name: sql-aggregation-sample
+version: 1
+connections:
+  - config : !LocalStorage
+      details:
+        path: ../data
+      tables:
+        - !Table
+          name: trips
+          config: !Parquet
+            path: trips
+            extension: .parquet
+    name: ny_taxi
+
+sources:
+  - name: trips
+    table_name: trips
+    connection: ny_taxi
+
+sql: |
+
+  -- Query that calculates the average tips and trip count for each pickup location
+
+  SELECT PULocationID, ROUND(AVG(tips),2) as avg_tips, COUNT(1) as trip_count
+  INTO table1
+  FROM trips
+  GROUP BY PULocationID;
+
+  -- Query that calculates the maximum and minimum tips for each pickup location
+  
+  SELECT MAX_VALUE(tips,PULocationID) as max_tipping_location, MIN_VALUE(tips,PULocationID) as min_tipping_location
+  INTO table2
+  FROM trips;
+
+endpoints:
+  - name: average_tips
+    path: /average_tips
+    table_name: table1
+
+  - name: max_min_tips_location
+    path: /max_min_tips_location
+    table_name: table2

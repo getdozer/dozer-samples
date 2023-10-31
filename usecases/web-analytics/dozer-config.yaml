@@ -1,0 +1,37 @@
+version: 1
+app_name: web-analytics
+home_dir: ./.dozer
+cache_dir: ./.dozer/cache
+connections:
+  - config: !Grpc
+      adapter: default
+      schemas: !Path "schema.json"
+      port: 8085
+    name: web-analytics
+
+sources:
+  - name: pv
+    table_name: pv
+    connection: web-analytics
+  - name: performance
+    table_name: performance
+    connection: web-analytics
+
+endpoints:
+  - name: pv
+    path: /pv
+    source: pv
+    table_name: pv
+    index:
+      primary_key:
+        - vid
+        - path
+        - datetime
+  - name: performance
+    path: /performance
+    source: performance
+    table_name: performance
+    index:
+      primary_key:
+        - vid
+        - datetime

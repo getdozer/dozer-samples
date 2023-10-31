@@ -1,0 +1,53 @@
+{
+  "name": "dozer-samples",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "mocha -r ts-node/register test/**/*.ts --timeout 60000 --exit",
+    "lint": "eslint test/**/*.js --quiet",
+    "lint:fix": "eslint test/**/*.js --fix --quiet",
+    "generate:grpc": "node ./test/scripts/proto.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.9.3",
+    "grpc_tools_node_protoc_ts": "^5.3.3",
+    "long": "^5.2.3",
+    "mocha": "^10.2.0",
+    "protobufjs": "^7.2.5",
+    "ts-proto": "^1.158.0"
+  },
+  "devDependencies": {
+    "@types/google-protobuf": "^3.15.7",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^20.6.5",
+    "@typescript-eslint/eslint-plugin": "^6.7.2",
+    "@typescript-eslint/parser": "^6.7.2",
+    "eslint": "^7.32.0 || ^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.25.2",
+    "grpc-tools": "^1.12.4",
+    "protoc-gen-grpc": "^2.0.4",
+    "rimraf": "^5.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "mocha": {
+    "diff": true,
+    "extension": [
+      "js",
+      "cjs",
+      "mjs"
+    ],
+    "reporter": "spec",
+    "slow": "75",
+    "timeout": "30000",
+    "watch-files": [
+      "lib/**/*.js",
+      "test/**/*.js"
+    ],
+    "recursive": "test/**/*.js"
+  }
+}
