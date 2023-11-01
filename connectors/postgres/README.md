@@ -16,13 +16,13 @@ docker-compose up
 
 Running Dozer
 ```
-dozer
+dozer run
 ```
 
 That's all to it. You have APIs instantly available over REST and gRPC.
 
 ```
- dozer
+ dozer run
 
 ____   ___ __________ ____
 |  _ \ / _ \__  / ____|  _ \
