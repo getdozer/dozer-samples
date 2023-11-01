@@ -96,7 +96,16 @@ To deploy Dozer on the cloud, you can use the following steps:
 3. Put the details in the `dozer-config.yaml` file
 4. Run the following command to start Dozer:
 
+
+### Validate the Config file before deploying
+
+```bash
+dozer build
+```
+
+
 To use environment variables while deploying
+
 ```bash
 dozer cloud deploy -s POSTGRES_HOST=$POSTGRES_HOST -s POSTGRES_USER=$POSTGRES_USER -s POSTGRES_PASSWORD=$POSTGRES_PASSWORD -s POSTGRES_DATABASE=$POSTGRES_DATABASE
 ```
@@ -104,6 +113,5 @@ dozer cloud deploy -s POSTGRES_HOST=$POSTGRES_HOST -s POSTGRES_USER=$POSTGRES_US
 4. To query the data
 
 ```bash
-curl -H "X-Dozer-App-Id: <app-id" -H "Authorization: Bearer <bearer-token>" https://dataW.getdozer.io:443
+curl -H "X-Dozer-App-Id: <app-id" -H "Authorization: Bearer <bearer-token>" https://data.getdozer.io:443
 ```
-

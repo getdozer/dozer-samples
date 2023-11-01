@@ -26,7 +26,7 @@ connections:
         access_key_id: {{YOUR_ACCESS_KEY}}
         secret_access_key: {{YOUR_SECRET_KEY}}
         region: {{YOUR_REGION}}
-        bucket_name: aws-s3-sample-stock-data-dozer
+        bucket_name: dozer-samples
       tables:
         - !Table
           name: stocks
@@ -39,7 +39,7 @@ connections:
 3. **Running Dozer**: Start Dozer by running the following command in the terminal:
 
    ```bash
-   dozer -c dozer-config.yaml
+   dozer run -c dozer-config.yaml
    ```
 
 4. **Querying the Dozer APIs**: Query the Dozer endpoints to get the results of your SQL queries. You can query the cache using gRPC or REST.
@@ -74,7 +74,7 @@ dozer cloud deploy -s AWS_ACCESS_KEY=$AWS_ACCESS_KEY -s AWS_SECRET_KEY=$AWS_SECR
 ## Querying data
 
 ```bash
-curl -H "X-Dozer-App-Id: <app-id" -H "Authorization: Bearer <bearer-token>" https://dataW.getdozer.io:443  ```
+curl -H "X-Dozer-App-Id: <app-id" -H "Authorization: Bearer <bearer-token>" https://data.getdozer.io:443  ```
 
 ## Additional Information
 

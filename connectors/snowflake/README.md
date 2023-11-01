@@ -14,6 +14,14 @@ export SN_ROLE=
 
 ## Dozer Cloud
 
+### Validate the Config file before deploying
+
+```bash
+dozer build
+```
+
+### To deploy
+
 ```bash
 dozer cloud deploy
 ```

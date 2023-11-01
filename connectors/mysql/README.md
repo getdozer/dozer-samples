@@ -226,19 +226,23 @@ For more about gRPC in Dozer, see [Using gRPC APIs](https://getdozer.io/docs/que
 2. Pass in the credentials in the config file
 3. Run the following command to deploy the app on Dozer Cloud
 
+
+
+### Validate the Config file before deploying
+
 ```bash
-dozer cloud deploy
+dozer build
 ```
 
 ### Deploy with environment variables
 
 ```bash
- dozer cloud deploy -s EC2_INSTANCE_DNS=$EC2_INSTANCE_DNS 
+ dozer cloud deploy -s MYSQL_URL 
  ```
 
 
 ##  Query data on cloud
 
 ```bash
-curl -H "X-Dozer-App-Id: <app-id" -H "Authorization: Bearer <bearer-token>" https://dataW.getdozer.io:443
+curl -H "X-Dozer-App-Id: <app-id" -H "Authorization: Bearer <bearer-token>" https://data.getdozer.io:443
 ```

@@ -26,8 +26,10 @@ That's all to it. This process will run `dozer app` and `dozer api` server separ
 4. Run the following command to deploy the app on Dozer Cloud
 
 
+### To validate your config file before deploying
+
 ```bash
-dozer cloud deploy
+dozer build
 ```
 
 ### Deploy with environment variables
