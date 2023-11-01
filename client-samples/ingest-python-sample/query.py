@@ -2,13 +2,12 @@ import argparse
 
 from pydozer.api import ApiClient
 
-DOZER_CLOUD_HOST = "data.dev.getdozer.io:443"
+DOZER_CLOUD_HOST = "data.getdozer.io:443"
 
 
 def get_api_client(app_id=None):
     return ApiClient("trips", url=DOZER_CLOUD_HOST, app_id=app_id,
-                     secure=True) if app_id else ApiClient("trips", url="localhost:80")
-
+                     secure=True, token=token) if app_id else ApiClient("trips", url="localhost:80")
 
 def main(app_id=None):
     api = get_api_client(app_id)
