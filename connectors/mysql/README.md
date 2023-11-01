@@ -240,4 +240,5 @@ dozer cloud deploy
 ##  Query data on cloud
 
 ```bash
-curl -H "x-dozer-app-id: <app-id" https://data.dev.getdozer.io:443 ```
+curl -H "X-Dozer-App-Id: <app-id" -H "Authorization: Bearer <bearer-token>" https://dataW.getdozer.io:443
+```

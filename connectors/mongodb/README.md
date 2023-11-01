@@ -9,7 +9,7 @@ This README provides instructions for setting up a Mongo DB instance and loading
 3. Allow access to the cluster from anywhere. You can follow the instructions [here](https://docs.atlas.mongodb.com/security/ip-access-list/).
 4. Setup Dozer with MongoDB enabled. You can follow the instructions 
 ```bash
-cargo install --path dozer-cli --features cloud,mongodb --locked
+cargo install --path dozer-cli --features mongodb --locked
 ```
 
 ## Steps

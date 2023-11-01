@@ -54,8 +54,15 @@ connections:
 
 ## Dozer Cloud
 
+### To validate your config file before deploying
+
 ```bash
-dozer cloud`deploy -c dozer-config.yaml
+dozer build
+```
+### To deploy your config file
+
+```bash
+dozer cloud`deploy -c dozer-config.yaml 
 ```
 
 ### To use environment variables in the config file
@@ -67,7 +74,7 @@ dozer cloud deploy -s AWS_ACCESS_KEY=$AWS_ACCESS_KEY -s AWS_SECRET_KEY=$AWS_SECR
 ## Querying data
 
 ```bash
-curl -H "x-dozer-app-id: <app-id" https://data.dev.getdozer.io:443  ```
+curl -H "X-Dozer-App-Id: <app-id" -H "Authorization: Bearer <bearer-token>" https://dataW.getdozer.io:443  ```
 
 ## Additional Information
 
