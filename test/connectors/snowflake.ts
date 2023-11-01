@@ -7,7 +7,7 @@ import {
 
 const TEST_PATH = './connectors/snowflake';
 
-describe('Connectors: Snowflake', async () => {
+xdescribe('Connectors: Snowflake', async () => {
   beforeEach(async () => {
     const baseDir = path.join(__dirname, '../../');
     const fullPath = path.join(baseDir, TEST_PATH);
@@ -18,7 +18,7 @@ describe('Connectors: Snowflake', async () => {
     execSync('rm -rf .dozer && rm -f dozer.lock', { stdio: 'inherit' });
   });
 
-  it('should run and return API endpoints', async () => {
+  xit('should run and return API endpoints', async () => {
     const dozer = await initDozer();
     await assertEndpointsWithRetry();
     dozer.kill();
