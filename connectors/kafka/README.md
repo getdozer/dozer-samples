@@ -54,7 +54,7 @@ The producer will start generating sample data and publish it to Redpanda.
 2. Run the following command to start Dozer:
 
 ```bash
-dozer -c dozer-config.yaml
+dozer run -c dozer-config.yaml
 ```
 
 Dozer will ingest the data from Redpanda and perform the specified operations based on the configuration.
