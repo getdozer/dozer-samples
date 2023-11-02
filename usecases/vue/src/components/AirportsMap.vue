@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import { EventType } from '@dozerjs/dozer/lib/esm/generated/protos/types_pb';
-import { useDozerEndpointQuery } from '@dozerjs/dozer-vue';
+import { useDozerEvent, useDozerQuery } from '@dozerjs/dozer-vue';
 const center = {
   lng: 50.993667602539063,
   lat: 50.7
 };
 const zoom = 4;
-const { records } = useDozerEndpointQuery('airports_count', { query: { limit: 5000 }, watch: EventType.ALL });
+const { records, connect } = useDozerQuery('airports_count', { limit: 5000 });
+const { stream } = useDozerEvent([{ endpoint: 'airports_count' }]);
+
+connect(stream.value);
+
 
 </script>
 
 <template>
   <GMapMap :center="center" :zoom="zoom" style="width: 100%; height: 100%;">
     <GMapCluster>
-      <GMapMarker 
-        v-for="(m, index) in records"
-        :key="index"
-        :position="{ 
-          lng: (m as Record<string, any>).coordinates?.getX(), 
-          lat: (m as Record<string, any>).coordinates?.getY(), 
-        }"/>
+      <GMapMarker v-for="(m, index) in records" :key="index" :position="{
+        lng: (m as Record<string, any>).coordinates?.getX(),
+        lat: (m as Record<string, any>).coordinates?.getY(),
+      }" />
     </GMapCluster>
   </GMapMap>
 </template>

@@ -5,7 +5,7 @@ import { RouterView } from 'vue-router';
 
 <template>
   <header class="app-header">
-    <img src="https://getdozer.io/img/logo.svg" className="App-logo" alt="logo" />
+    <img src="/logo.svg" className="App-logo" alt="logo" />
   </header>
   <main class="app-content">
     <DozerProvider :value="{
