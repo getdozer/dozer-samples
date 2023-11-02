@@ -1399,19 +1399,19 @@
   resolved "https://registry.yarnpkg.com/@csstools/selector-specificity/-/selector-specificity-2.1.1.tgz#c9c61d9fe5ca5ac664e1153bb0aa0eba1c6d6308"
   integrity sha512-jwx+WCqszn53YHOfvFMJJRd/B2GqkCBt+1MJSG6o5/s8+ytHMvDZXsJgUEWLk12UnLd7HYKac4BYU5i/Ron1Cw==
 
-"@dozerjs/dozer-react@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@dozerjs/dozer-react/-/dozer-react-0.0.6.tgz#ac4364ddf147fcf45f8f8f7ca6affcbd03e8b2d9"
-  integrity sha512-rulnrfhTH2HC0iAe7mPPseqNTb0Pfn/WojicrkwWysbkzpaIEPoFjtwgCfP0kyFRdMLN9hrOd0+aCd4W3s3mMA==
+"@dozerjs/dozer-react@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@dozerjs/dozer-react/-/dozer-react-0.0.8.tgz#5a42c7d3ea272ad5ac524fa830926de42b6f7886"
+  integrity sha512-D9RZEdDBLpnfYUryGknn2RpqgM07zmyCZZ+BCwOCKpXvU30mlLA/Q+jO0r+fScQdmP1/YqkdedqToJwrFzdyQw==
   dependencies:
     "@changesets/cli" "^2.26.2"
-    "@dozerjs/dozer" "0.0.8"
+    "@dozerjs/dozer" "0.0.10"
     "@types/react" "^18.0.28"
 
-"@dozerjs/dozer@0.0.8", "@dozerjs/dozer@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@dozerjs/dozer/-/dozer-0.0.8.tgz#4f03f0db39cd373c9cd81054519466d437b6b4f4"
-  integrity sha512-ZgQj6wAkjht3Pq8aydPEaKeAcPZuOSuIROB9Wz1XfplE49ln8MnNenPBFVx7gyXNvgX6QpppZ6hsEJmAVN/Ubg==
+"@dozerjs/dozer@0.0.10", "@dozerjs/dozer@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@dozerjs/dozer/-/dozer-0.0.10.tgz#ecbdc44cb82b41eb805ac1939c0c950da123eb32"
+  integrity sha512-iHLjrusn7+cyut6dncOyYEhpdkp6eRe1qDA9rFPChhs7riOGMcZc+7diqBI6eZjmcbRs/UHWYr6M6Udm5e+aKQ==
   dependencies:
     "@changesets/cli" "^2.26.2"
     "@types/google-protobuf" "^3.15.6"

@@ -1,6 +1,6 @@
 import GoogleMapReact from 'google-map-react';
 import { useEffect, useState } from "react";
-import { useDozerEndpointQuery } from "@dozerjs/dozer-react";
+import { useDozerEvent, useDozerQuery } from "@dozerjs/dozer-react";
 import { EventType } from '@dozerjs/dozer/lib/esm/generated/protos/types_pb';
 
 const Marker = ({ text }) => <div style={{
@@ -14,12 +14,9 @@ const Marker = ({ text }) => <div style={{
 }}>{text}</div>;
 
 function AirportsMap() {
-  const [airports, setAirports] = useState([]);
-  const { records } = useDozerEndpointQuery('airports_count', { query: { limit: 5000 }, watch: EventType.ALL })
-
-  useEffect(() => {
-    setAirports(records);
-  }, [records])
+  const { records: airports, connect } = useDozerQuery('airports_count', { query: { limit: 5000 } });
+  const { stream } = useDozerEvent([{ endpoint: 'airports_count' }]);
+  connect(stream);
 
   const defaultProps = {
     center: {
@@ -37,7 +34,7 @@ function AirportsMap() {
         defaultZoom={defaultProps.zoom}
       >
         {airports.map(airport =>
-          <Marker key={airport.airport}
+          <Marker key={airport.__dozer_record_id}
             lat={airport.coordinates?.getY()}
             lng={airport.coordinates?.getX()}
             text={airport.airport + ' (' + airport.tickets + ')'} />
