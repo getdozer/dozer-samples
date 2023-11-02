@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "llm-sample"
+version = "0.1.0"
+description = ""
+authors = ["Mrunmay Shelar <mrunmayshelar@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pydozer = {git = "git@github.com:getdozer/dozer-python.git", rev = "main"}
+numpy = "1.25"
+pandas = "2.1"
+langchain = "^0.0.320"
+datasets = "^2.14.5"
+huggingface-hub = "^0.18.0"
+sentence-transformers = "^2.2.2"
+openai = "^0.28.1"
+pinecone-client = "^2.2.4"
+chainlit = "^0.7.301"
+tiktoken = "^0.5.1"
+farm-haystack = "^1.21.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

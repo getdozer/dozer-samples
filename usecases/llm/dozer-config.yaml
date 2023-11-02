@@ -1,0 +1,63 @@
+app_name: llm-sample
+version: 1
+connections:
+  - name: onnx
+    config : !Postgres
+      user: "{{PG_USER}}"
+      password: "{{PG_PASSWORD}}"
+      host: "{{PG_HOST}}"
+      port: 5432
+      database: "{{PG_DB}}"
+  - name: s3data
+    config: !S3Storage
+      details:
+        access_key_id: "{{AWS_ACCESS_KEY}}"	
+        secret_access_key: "{{AWS_SECRET_KEY}}"
+        region: "{{AWS_REGION_S3}}"
+        bucket_name: "{{AWS_BUCKET_NAME}}"
+      tables:
+        - !Table
+          name: customers
+          config: !CSV
+            path: customer_data/
+            extension: .csv
+
+sources:
+  - name: credit
+    table_name: cred2
+    connection: onnx
+
+  - name: data
+    table_name: customers
+    connection: s3data
+
+sql: | 
+
+
+  WITH template AS 
+
+  (SELECT c.ID as ID, c.Name as name,c.Income as total_income, c.Age as age,c.Dependents as dependents, c.address as address  FROM data c ), 
+
+  res1 AS (  SELECT torch_jit( LIMIT_BAL, SEX, EDUCATION, MARRIAGE, AGE, PAY_AMT6,BILL_AMT6,PAY_6,PAY_AMT5,BILL_AMT5,PAY_5,PAY_AMT4,BILL_AMT4,PAY_4,
+                 PAY_AMT3,BILL_AMT3,PAY_3,
+                 PAY_AMT2,BILL_AMT2,PAY_2,
+                 PAY_AMT1,BILL_AMT1,PAY_0) as result, ID as id , LIMIT_BAL, 
+                 (PAY_0 + PAY_2 + PAY_3 + PAY_4 + PAY_5 + PAY_6)/5 as avg_repayment_status,
+                 (BILL_AMT1+BILL_AMT2+BILL_AMT3+BILL_AMT4+BILL_AMT5+BILL_AMT6)/(LIMIT_BAL * 6) as utilization_ratio
+                 from credit )
+  SELECT ID as id, name, total_income, age, dependents, address, result, LIMIT_BAL as avail_credit, avg_repayment_status, utilization_ratio
+  INTO customer_profile
+  FROM template t
+  JOIN res1 r
+  ON t.ID = r.id;
+
+endpoints:
+  - name: financial_profile
+    path: /customers 
+    table_name: customer_profile  
+
+
+udfs:
+  - name: torch_jit
+    config: !Onnx
+      path: ./sequential_31.onnx

@@ -1,0 +1,11 @@
+pydozer
+numpy==1.25
+pandas ==2.1
+langchain
+datasets
+chainlit
+huggingface-hub
+sentence-transformers
+openai
+pinecone-client
+tiktoken
