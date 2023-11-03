@@ -35,14 +35,10 @@ const request = new IngestRequest();
 request.setSchemaName('pv');
 request.setTyp(OperationType.INSERT);
 
-const record = new Record();
-record.addValues(new Value().setStringValue(vid));
-record.addValues(new Value().setIntValue(now.current));
-record.addValues(new Value().setStringValue(pathname));
-record.addValues(new Value().setIntValue(Date.now() - now.current));
-record.setVersion(1);
-
-request.setNew(record);
+request.addNew(new Value().setStringValue(vid));
+request.addNew(new Value().setIntValue(now.current));
+request.addNew(new Value().setStringValue(pathname));
+request.addNew(new Value().setIntValue(Date.now() - now.current));
 
 client.ingest_arrow(request);
 ```
