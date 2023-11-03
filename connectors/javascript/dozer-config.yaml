@@ -1,0 +1,67 @@
+version: 2
+app_name: deno-sample
+connections:
+  - config: !JavaScript
+     bootstrap_path: ./ingest.js
+    name: deno_conn
+
+  - config : !LocalStorage
+      details:
+        path: .
+      tables:
+        - !Table
+          name: list
+          config: !CSV
+            path: watchlist
+            extension: .csv
+    name: watchlist
+
+sources:
+  - name: deno1
+    table_name: json_records
+    connection: deno_conn
+  
+  - name: list
+    table_name: list
+    connection: watchlist
+    
+sql: |
+
+  WITH coins AS ( SELECT CAST(JSON_VALUE(value,'$.Name') AS String) AS Name, CAST(JSON_VALUE(value,'$.Price') AS Float) AS Price
+  FROM deno1)
+  SELECT c.Name AS Name, c.Price AS Price, l.TargetSell AS Target_Sell
+  INTO sell_alerts
+  FROM coins c
+  JOIN list l
+  ON c.Name = l.Watchlist
+  WHERE c.Price > l.TargetSell;
+
+  WITH coins AS ( SELECT CAST(JSON_VALUE(value,'$.Name') AS String) AS Name, CAST(JSON_VALUE(value,'$.Price') AS Float) AS Price
+  FROM deno1)
+  SELECT c.Name AS Name, c.Price AS Price, l.TargetBuy AS Target_Buy
+  INTO buy_alerts
+  FROM coins c
+  JOIN list l
+  ON c.Name = l.Watchlist
+  WHERE c.Price < l.TargetBuy;
+
+
+endpoints:
+  - name: sell_alerts
+    table_name: sell_alerts
+    path: /sell_alerts
+
+  - name: buy_alerts
+    table_name: buy_alerts
+    path: /buy_alerts
+
+lambdas:
+  - !JavaScript
+    endpoint: sell_alerts
+    module: ./sell.js
+
+  - !JavaScript
+    endpoint: buy_alerts
+    module: ./buy.js
+    
+    
