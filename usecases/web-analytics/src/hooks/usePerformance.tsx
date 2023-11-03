@@ -6,10 +6,10 @@ import { Metric, onCLS, onFCP, onFID, onINP, onLCP, onTTFB } from 'web-vitals';
 import { useVid } from './useVid';
 import { Timestamp } from 'google-protobuf/google/protobuf/timestamp_pb';
 
-export function usePerformance () {
+export function usePerformance() {
   const vid = useVid();
   const client = new DozerIngestClient('performance', 'http://127.0.0.1:8085');
-  const [ metrics, setMetrics ] = useState<Partial<{
+  const [metrics, setMetrics] = useState<Partial<{
     CLS: number,
     FCP: number,
     FID: number,
@@ -25,7 +25,7 @@ export function usePerformance () {
     setMetrics(metricsRef.current);
   };
 
-  useEffect(()=> {
+  useEffect(() => {
     onCLS(updateMetrics);
     onFID(updateMetrics);
     onLCP(updateMetrics);
@@ -35,7 +35,7 @@ export function usePerformance () {
   }, [])
 
   const now = useRef(Date.now());
-  const old = useRef<Record>();
+  const old = useRef<Value[]>();
   const version = useRef(1);
 
   useEffect(() => {
@@ -45,22 +45,21 @@ export function usePerformance () {
 
     request.setTyp(version.current === 1 ? OperationType.INSERT : OperationType.UPDATE);
 
-    const record = new Record();
-    record.addValues(new Value().setStringValue(vid));
-    record.addValues(new Value().setIntValue(now.current));
-    record.addValues(new Value().setStringValue(window.navigator.userAgent));
-    metrics.CLS ? record.addValues(new Value().setFloatValue(metrics.CLS)) : record.addValues();
-    metrics.FID ? record.addValues(new Value().setFloatValue(metrics.FID)) : record.addValues();
-    metrics.LCP ? record.addValues(new Value().setFloatValue(metrics.LCP)) : record.addValues();
-    metrics.INP ? record.addValues(new Value().setFloatValue(metrics.INP)) : record.addValues();
-    metrics.FCP ? record.addValues(new Value().setFloatValue(metrics.FCP)) : record.addValues();
-    metrics.TTFB ? record.addValues(new Value().setFloatValue(metrics.TTFB)) : record.addValues();
+    request.addNew(new Value().setStringValue(vid));
+    request.addNew(new Value().setIntValue(now.current));
+    request.addNew(new Value().setStringValue(window.navigator.userAgent));
+    metrics.CLS ? request.addNew(new Value().setFloatValue(metrics.CLS)) : request.addNew();
+    metrics.FID ? request.addNew(new Value().setFloatValue(metrics.FID)) : request.addNew();
+    metrics.LCP ? request.addNew(new Value().setFloatValue(metrics.LCP)) : request.addNew();
+    metrics.INP ? request.addNew(new Value().setFloatValue(metrics.INP)) : request.addNew();
+    metrics.FCP ? request.addNew(new Value().setFloatValue(metrics.FCP)) : request.addNew();
+    metrics.TTFB ? request.addNew(new Value().setFloatValue(metrics.TTFB)) : request.addNew();
 
-    record.setVersion(version.current++);
-    request.setNew(record);
-    request.setOld(old.current);
+    old.current && request.setOldList(old.current);
 
-    old.current = record;
+    old.current = request.getNewList();
+
+    version.current += 1;
 
     client.ingest_raw(request);
   }, [metrics])

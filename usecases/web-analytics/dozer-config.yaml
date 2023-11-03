@@ -20,7 +20,6 @@ sources:
 endpoints:
   - name: pv
     path: /pv
-    source: pv
     table_name: pv
     index:
       primary_key:
@@ -29,7 +28,6 @@ endpoints:
         - datetime
   - name: performance
     path: /performance
-    source: performance
     table_name: performance
     index:
       primary_key:

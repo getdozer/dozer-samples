@@ -30,7 +30,7 @@ export function NavBar() {
   return (
     <AppBar position="static">
       <Toolbar sx={{ gap: '2rem' }}>
-        <img src="https://getdozer.io/img/logo.svg" alt="Dozer" width={137} height={40} />
+        <img src="/logo.svg" alt="Dozer" width={137} height={40} />
         <Box sx={{ flexGrow: 1, display: 'flex' }}>
           <Tabs value={active} onChange={(_, val) => setActive(val)} sx={{
 
