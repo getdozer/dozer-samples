@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src="https://getdozer.io/img/logo.svg" className="App-logo" alt="logo" />
+        <img src="/logo.svg" className="App-logo" alt="logo" />
         <BrowserRouter>
           <Routes>
             <Route element={<Login />} path={"/admin"} />

@@ -1,4 +1,5 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
+import { DozerProvider } from '@dozerjs/dozer-react';
 import MoviesList from "./moviesList";
 
 function Movies() {
@@ -34,7 +35,11 @@ function Movies() {
         return null;
     }
 
-    return <MoviesList token={token} />;
+    return <DozerProvider value={{
+        authToken: token,
+    }}>
+        <MoviesList token={token} />
+    </DozerProvider>
 }
 
 export default Movies;

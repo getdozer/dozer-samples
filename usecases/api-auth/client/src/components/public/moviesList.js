@@ -1,53 +1,45 @@
-import {useEffect, useState} from "react";
-import {ApiClient} from "@dozerjs/dozer";
-import {Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
-import {useOnEvent} from "@dozerjs/dozer-react";
-import {OperationType} from "@dozerjs/dozer/lib/esm/generated/protos/types";
+import { useCallback, useEffect, useState } from "react";
+import { useDozerEvent, useDozerQuery } from "@dozerjs/dozer-react";
+import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { OperationType } from "@dozerjs/dozer/lib/esm/generated/protos/types";
+import { types_pb } from "@dozerjs/dozer";
+import { RecordMapper } from "@dozerjs/dozer/lib/esm/helper";
 
 function MoviesList({ token }) {
-    let [movies, setMovies] = useState([]);
     let [tickets, setTickets] = useState({});
     let [user, setUser] = useState({});
 
-    useEffect(() => {
-        if (token) {
-            let client = new ApiClient("only_movies", {authToken: token});
-            client.query().then(response => {
-                setMovies(response[1]);
-            });
+    const { records: movies } = useDozerQuery("only_movies");
+    const { records: userBookingsRecords, fields: userBookingsFields } = useDozerQuery("user_bookings");
+    const { records: usersRecords, fields: usersFields } = useDozerQuery("users");
+    const { stream } = useDozerEvent([
+        {
+            endpoint: 'user_bookings',
+            eventType: types_pb.EventType.ALL,
+        },
+        {
+            endpoint: 'users',
+            eventType: types_pb.EventType.ALL,
+        },
+    ]);
 
-            let bookings_client = new ApiClient("user_bookings", {authToken: token});
-            bookings_client.query().then(response => {
-                let r = {};
-                console.log(response);
-                response[1].forEach(value => {
-                    r[value.movie_id] = value;
-                })
-                setTickets(r);
-            });
-
-            let users_client = new ApiClient("users", {authToken: token});
-            users_client.query().then(response => {
-                setUser(response[1][0]);
-            });
-        }
-    }, [token]);
-
-    useOnEvent('user_bookings', (data, _1, primaryIndexKeys, mapper) => {
+    const handleUserBookingsEvent = useCallback((data) => {
+        if (userBookingsFields.length) {
+            const mapper = new RecordMapper(userBookingsFields);
             setTickets(recs => {
                 if (data.getTyp() === OperationType.UPDATE) {
-                    let recNew = mapper.mapRecord(data.getNew().getValuesList());
-                    let recOld = mapper.mapRecord(data.getOld().getValuesList());
+                    let recNew = mapper.mapRecord(data.getNew());
+                    let recOld = mapper.mapRecord(data.getOld());
 
                     return {
                         ...recs,
-                        [recOld.movie_id]: {...recOld},
-                        [recNew.movie_id]: {...recNew}
+                        [recOld.movie_id]: { ...recOld },
+                        [recNew.movie_id]: { ...recNew }
                     };
                 }
 
                 if (data.getTyp() === OperationType.INSERT) {
-                    let recNew = mapper.mapRecord(data.getNew().getValuesList());
+                    let recNew = mapper.mapRecord(data.getNew());
 
                     return {
                         [recNew.movie_id]: recNew,
@@ -56,7 +48,7 @@ function MoviesList({ token }) {
                 }
 
                 if (data.getTyp() === OperationType.DELETE && data.getNew()) {
-                    let recOld = mapper.mapRecord(data.getNew().getValuesList());
+                    let recOld = mapper.mapRecord(data.getNew());
                     return {
                         [recOld.movie_id]: null,
                         ...recs
@@ -65,23 +57,51 @@ function MoviesList({ token }) {
 
                 return recs;
             });
-        },
-        token)
+        }
+    }, [userBookingsFields]);
 
-    useOnEvent('users', (data, _1, primaryIndexKeys, mapper) => {
-            setUser(recs => {
-                if (data.getTyp() === OperationType.UPDATE || data.getTyp() === OperationType.INSERT) {
-                    return mapper.mapRecord(data.getNew().getValuesList());
-                }
+    const handleUsersEvent = useCallback((data) => {
+        const mapper = new RecordMapper(usersFields);
+        setUser(recs => {
+            if (data.getTyp() === OperationType.UPDATE || data.getTyp() === OperationType.INSERT) {
+                return mapper.mapRecord(data.getNew());
+            }
 
-                if (data.getTyp() === OperationType.DELETE && data.getNew()) {
-                    return null;
-                }
+            if (data.getTyp() === OperationType.DELETE && data.getNew()) {
+                return null;
+            }
 
-                return recs;
-            });
-        },
-        token)
+            return recs;
+        });
+    }, [usersFields]);
+
+    useEffect(() => {
+        const r = {};
+        userBookingsRecords.forEach(value => {
+            r[value.movie_id] = value;
+        })
+        setTickets(r);
+    }, [userBookingsRecords])
+
+    useEffect(() => {
+        setUser(usersRecords[0]);
+    }, [usersRecords])
+
+    useEffect(() => {
+        const cb = (operation) => {
+            if (operation.getEndpointName() === 'user_bookings') {
+                handleUserBookingsEvent(operation);
+            }
+            if (operation.getEndpointName() === 'users') {
+                handleUsersEvent(operation);
+            }
+        }
+        stream?.on('data', cb);
+        return () => {
+            stream?.removeListener(cb);
+        }
+    }, [handleUserBookingsEvent, handleUsersEvent])
+
     const buyTicket = (id) => {
         fetch('http://localhost:4000/public/book_movie', {
             method: 'POST',
@@ -119,19 +139,19 @@ function MoviesList({ token }) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    { movies.map(f => (
+                    {movies.map(f => (
                         <TableRow
-                            key={ f.id }
-                            sx={ { '&:last-child td, &:last-child th': { border: 0 } } }
+                            key={f.id}
+                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
-                            <TableCell component="th" scope="row">{ f.id }</TableCell>
-                            <TableCell>{ f.name }</TableCell>
-                            <TableCell align={"center"}>{ tickets[f.id]?.count ?? 0 }</TableCell>
+                            <TableCell component="th" scope="row">{f.id}</TableCell>
+                            <TableCell>{f.name}</TableCell>
+                            <TableCell align={"center"}>{tickets[f.id]?.count ?? 0}</TableCell>
                             <TableCell>
                                 <Button onClick={() => buyTicket(f.id)} variant="contained" color="primary">Buy ticket</Button>
                             </TableCell>
                         </TableRow>
-                    )) }
+                    ))}
                 </TableBody>
             </Table>
         </TableContainer>

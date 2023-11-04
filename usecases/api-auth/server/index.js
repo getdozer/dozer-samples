@@ -1,6 +1,5 @@
 const express = require('express')
 const app = express()
-const {ApiClient, AuthClient} = require("@dozerjs/dozer");
 const axios = require('axios');
 const cors = require('cors');
 const { faker } = require('@faker-js/faker');
@@ -23,11 +22,11 @@ client.connect();
 
 const MASTER_TOKEN = process.env.MASTER_TOKEN;
 
-app.post('/admin/login', function(req, res){
+app.post('/admin/login', function (req, res) {
     console.log(req.body);
-    if(!req.body.username || !req.body.password){
+    if (!req.body.username || !req.body.password) {
         res.status(400);
-        res.json({msg: "Invalid details!"});
+        res.json({ msg: "Invalid details!" });
     } else {
         if (req.body.username == 'admin' && req.body.password == 'admin') {
             const data = JSON.stringify("All");
@@ -38,7 +37,7 @@ app.post('/admin/login', function(req, res){
                     'Authorization': 'Bearer ' + MASTER_TOKEN,
                     'Content-Type': 'application/json'
                 },
-                data : data
+                data: data,
             };
 
             axios(config)
@@ -52,12 +51,12 @@ app.post('/admin/login', function(req, res){
                 });
         } else {
             res.status(400);
-            res.json({msg: "Invalid details!"});
+            res.json({ msg: "Invalid details!" });
         }
     }
 })
 
-app.get('/public/new_user', function(req, response){
+app.get('/public/new_user', function (req, response) {
     let name = faker.internet.userName();
     let uuid = faker.datatype.uuid();
 
@@ -108,7 +107,7 @@ app.get('/public/new_user', function(req, response){
                     'Authorization': 'Bearer ' + MASTER_TOKEN,
                     'Content-Type': 'application/json'
                 },
-                data : data
+                data: data
             };
 
             axios(config)
@@ -118,13 +117,13 @@ app.get('/public/new_user', function(req, response){
                 })
                 .catch(function (error) {
                     console.log(error);
-                    response.status(500).json({msg: 'Something broke!'})
+                    response.status(500).json({ msg: 'Something broke!' })
                 });
         }
     })
 })
 
-app.post('/public/book_movie', function(req, response){
+app.post('/public/book_movie', function (req, response) {
     const config = {
         method: 'get',
         url: 'http://127.0.0.1:8080/api/users',
@@ -142,7 +141,7 @@ app.post('/public/book_movie', function(req, response){
             client.query(text, values, (err, res) => {
                 if (err) {
                     console.log(err.stack)
-                    response.status(500).json({msg: 'Something broke!'})
+                    response.status(500).json({ msg: 'Something broke!' })
                 } else {
                     response.status(200).json({});
                 }
@@ -150,7 +149,7 @@ app.post('/public/book_movie', function(req, response){
         })
         .catch(function (error) {
             console.log(error);
-            response.status(500).json({msg: 'Something broke!'})
+            response.status(500).json({ msg: 'Something broke!' })
         });
 })
 
