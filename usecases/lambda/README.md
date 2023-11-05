@@ -24,7 +24,7 @@ pip install -r requirements.txt
 ### Step 2: Remove any existing Dozer configuration and start the Dozer process
 
 ```bash
-rm -rf ./.dozer && dozer -c config/dozer-config.yaml
+rm -rf ./.dozer && dozer run -c config/dozer-config.yaml
 ```
 
 ### Step 3: Run the Python scripts to read data from the pipeline
