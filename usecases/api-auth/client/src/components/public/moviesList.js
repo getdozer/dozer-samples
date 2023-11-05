@@ -100,7 +100,7 @@ function MoviesList({ token }) {
         return () => {
             stream?.removeListener(cb);
         }
-    }, [handleUserBookingsEvent, handleUsersEvent])
+    }, [stream, handleUserBookingsEvent, handleUsersEvent])
 
     const buyTicket = (id) => {
         fetch('http://localhost:4000/public/book_movie', {
