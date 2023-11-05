@@ -10,8 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@dozerjs/dozer": "0.0.8-beta.1",
-    "@dozerjs/dozer-react": "0.0.5-beta.12",
+    "@dozerjs/dozer": "^0.0.10",
+    "@dozerjs/dozer-react": "^0.0.8",
     "@emotion/styled": "^11.11.0",
     "@mdx-js/react": "^2.3.0",
     "@mui/icons-material": "^5.14.9",

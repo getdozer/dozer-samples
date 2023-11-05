@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "@dozerjs/dozer": "0.0.6",
     "@faker-js/faker": "^7.6.0",
     "axios": "^1.3.5",
     "cors": "^2.8.5",

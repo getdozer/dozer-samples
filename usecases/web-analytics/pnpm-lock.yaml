@@ -6,11 +6,11 @@ settings:
 
 dependencies:
   '@dozerjs/dozer':
-    specifier: 0.0.8-beta.1
-    version: 0.0.8-beta.1
+    specifier: ^0.0.10
+    version: 0.0.10
   '@dozerjs/dozer-react':
-    specifier: 0.0.5-beta.12
-    version: 0.0.5-beta.12(react@18.2.0)
+    specifier: ^0.0.8
+    version: 0.0.8(react@18.2.0)
   '@emotion/styled':
     specifier: ^11.11.0
     version: 11.11.0(@emotion/react@11.11.1)(@types/react@18.2.22)(react@18.2.0)
@@ -529,31 +529,19 @@ packages:
       prettier: 2.8.8
     dev: false
 
-  /@dozerjs/dozer-react@0.0.5-beta.12(react@18.2.0):
-    resolution: {integrity: sha512-YgLpowT8lduUaga8lqG+Q8T8HtgPSp3wsJq9xMZX3AhoJfhkd/mCQsBd9hyIndYnl2/6eLeUvnUR5vrVKJ4NgA==}
+  /@dozerjs/dozer-react@0.0.8(react@18.2.0):
+    resolution: {integrity: sha512-D9RZEdDBLpnfYUryGknn2RpqgM07zmyCZZ+BCwOCKpXvU30mlLA/Q+jO0r+fScQdmP1/YqkdedqToJwrFzdyQw==}
     peerDependencies:
       react: '>=18.2'
     dependencies:
       '@changesets/cli': 2.26.2
-      '@dozerjs/dozer': 0.0.8-beta.7
+      '@dozerjs/dozer': 0.0.10
       '@types/react': 18.2.22
       react: 18.2.0
     dev: false
 
-  /@dozerjs/dozer@0.0.8-beta.1:
-    resolution: {integrity: sha512-SLxDBHUq9ypmudsIrVDllZnnRvy75boXePcRAPt6DV8aSdh4SDAL5cHQHZCvE0KntXYgcKxLDkfDMbGJOGbY9A==}
-    dependencies:
-      '@types/google-protobuf': 3.15.6
-      google-protobuf: 3.21.2
-      grpc-web: 1.4.2
-      long: 5.2.3
-      protobufjs: 7.2.5
-      rxjs: 7.8.1
-      ts-proto: 1.157.1
-    dev: false
-
-  /@dozerjs/dozer@0.0.8-beta.7:
-    resolution: {integrity: sha512-9xFdYa+sPs/rPZOvMDDPd9+MEYc/0gJQV8s232j4RaCf187lYDgWZRDb/laOux8Ja72ef23xX8LAGk2y6jQ/DA==}
+  /@dozerjs/dozer@0.0.10:
+    resolution: {integrity: sha512-iHLjrusn7+cyut6dncOyYEhpdkp6eRe1qDA9rFPChhs7riOGMcZc+7diqBI6eZjmcbRs/UHWYr6M6Udm5e+aKQ==}
     dependencies:
       '@changesets/cli': 2.26.2
       '@types/google-protobuf': 3.15.6

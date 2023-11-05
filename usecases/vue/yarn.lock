@@ -503,17 +503,17 @@
     human-id "^1.0.2"
     prettier "^2.7.1"
 
-"@dozerjs/dozer-vue@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@dozerjs/dozer-vue/-/dozer-vue-0.0.4.tgz#dcdf13f99412062aab4dd9a52c6bb8a2d2c874c3"
-  integrity sha512-AIrSa9BmYf1O85QAI0WiRcnGXpg65rC+9s2Bn8L5z3jd6T2xckKnRgC6uFjRhw1JyTywtqiIW+CPSQs4m3D2Cw==
+"@dozerjs/dozer-vue@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@dozerjs/dozer-vue/-/dozer-vue-0.0.6.tgz#0614aa9440e317eb7c184ea91d60e87628c71b3b"
+  integrity sha512-NRTHEF33S90WDa0wIp5rzSPd4kuRBkZOxK3/MuBFGdJlTQ00aCy3QnRotUfJog1RByPFPv5ZEGq0XJvlINNa0A==
   dependencies:
-    "@dozerjs/dozer" "0.0.8"
+    "@dozerjs/dozer" "0.0.10"
 
-"@dozerjs/dozer@0.0.8", "@dozerjs/dozer@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@dozerjs/dozer/-/dozer-0.0.8.tgz#4f03f0db39cd373c9cd81054519466d437b6b4f4"
-  integrity sha512-ZgQj6wAkjht3Pq8aydPEaKeAcPZuOSuIROB9Wz1XfplE49ln8MnNenPBFVx7gyXNvgX6QpppZ6hsEJmAVN/Ubg==
+"@dozerjs/dozer@0.0.10", "@dozerjs/dozer@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@dozerjs/dozer/-/dozer-0.0.10.tgz#ecbdc44cb82b41eb805ac1939c0c950da123eb32"
+  integrity sha512-iHLjrusn7+cyut6dncOyYEhpdkp6eRe1qDA9rFPChhs7riOGMcZc+7diqBI6eZjmcbRs/UHWYr6M6Udm5e+aKQ==
   dependencies:
     "@changesets/cli" "^2.26.2"
     "@types/google-protobuf" "^3.15.6"

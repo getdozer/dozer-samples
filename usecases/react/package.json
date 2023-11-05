@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@dozerjs/dozer": "^0.0.8",
-    "@dozerjs/dozer-react": "^0.0.6",
+    "@dozerjs/dozer": "^0.0.10",
+    "@dozerjs/dozer-react": "^0.0.8",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/material": "^5.11.7",

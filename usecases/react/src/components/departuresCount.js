@@ -1,11 +1,13 @@
-import { useDozerEndpoint } from "@dozerjs/dozer-react";
+import { useDozerEvent, useDozerQuery } from "@dozerjs/dozer-react";
 import { Type, EventType } from "@dozerjs/dozer/lib/esm/generated/protos/types_pb";
 import { Order } from "@dozerjs/dozer";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 
 function DeparturesCount() {
   const query = { orderBy: { start: Order.ASC } };
-  const { records, fields } = useDozerEndpoint('departures_count', { query, watch: EventType.ALL });
+  const { records, fields, connect } = useDozerQuery('departures_count', query);
+  const { stream } = useDozerEvent([{ endpoint: 'departures_count' }])
+  connect(stream);
 
   if (!fields?.length) {
     return null;

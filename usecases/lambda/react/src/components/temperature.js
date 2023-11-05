@@ -1,5 +1,7 @@
-import {useEffect, useState} from "react";
-import {Alert, Snackbar} from "@mui/material";
+import { useEffect, useState } from "react";
+import { Alert, Snackbar } from "@mui/material";
+import { RecordMapper } from "@dozerjs/dozer/lib/esm/helper";
+import { DozerProvider } from '@dozerjs/dozer-react';
 
 import {
     Charts,
@@ -12,7 +14,8 @@ import {
 
 import { TimeSeries } from "pondjs";
 import { Index } from "pondjs";
-import {useOnEvent, useQueryCommon} from "@dozerjs/dozer-react";
+import { types_pb } from '@dozerjs/dozer';
+import { useDozerEvent, useDozerQuery } from "@dozerjs/dozer-react";
 
 function pad(num, size) {
     num = num.toString();
@@ -20,42 +23,46 @@ function pad(num, size) {
     return num;
 }
 
-function Temperature(props) {
-    const [values, setValues] = useState([]);
+function Temperature() {
     const [open, setOpen] = useState(false);
-    const query = { limit: 500000};
-    const { records: events } = useQueryCommon("events", query);
+    const query = { limit: 500000 };
+    const { records: values, fields, consume } = useDozerQuery("events", query);
+    const { stream } = useDozerEvent([
+        {
+            endpoint: 'events',
+            eventType: types_pb.EventType.ALL,
+        },
+        {
+            endpoint: 'alerts',
+            eventType: types_pb.EventType.ALL,
+        },
+    ]);
 
-    useOnEvent('events', (data, _1, _2, mapper) => {
-        console.log(data.getNew().getValuesList());
-        console.log(mapper);
-        console.log(mapper.mapRecord(data.getNew().getValuesList()));
-        setValues(recs => {
-            return [...recs, mapper.mapRecord(data.getNew().getValuesList())]
-        });
-
-        if (mapper.mapRecord(data.getNew().getValuesList()).temperature <= 22.8) {
-            setOpen(false);
+    useEffect(() => {
+        const cb = (operation) => {
+            const mapper = new RecordMapper(fields)
+            if (operation.getEndpointName() === 'events') {
+                consume(operation);
+                const newRecord = mapper.mapRecord(operation.getNew());
+                if (newRecord && newRecord.temperature <= 22.8) {
+                    setOpen(false);
+                }
+            }
+            if (operation.getEndpointName() === 'alerts') {
+                setOpen(true);
+            }
         }
-    });
-
-    useOnEvent('alerts', (_data, _1, _2, mapper) => {
-        setOpen(true);
-    });
+        stream?.on('data', cb);
+        return () => {
+            stream?.removeListener('data', cb);
+        }
+    }, [stream, fields]);
 
     const date = new Date();
-    let day = pad(date.getDate(),2);
+    let day = pad(date.getDate(), 2);
     let month = pad(date.getMonth() + 1, 2);
     let year = date.getFullYear();
 
-    useEffect(() => {
-        if(values.length === 0) {
-            setValues(events);
-        }
-    }, [events])
-
-
-    console.log(values);
     if (values.length === 0) {
         return null;
     }
@@ -90,37 +97,37 @@ function Temperature(props) {
             open={open}
             autoHideDuration={10000}
             onClose={() => setOpen(false)}
-            anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         >
             <Alert severity="error">
                 It is superhot!
             </Alert>
         </Snackbar>
-            <ChartContainer timeRange={series.range()}>
-                <ChartRow height="150">
-                    <YAxis
-                        id="temperature"
-                        label="Temperature"
-                        min={series.min('temperature')}
-                        max={series.max('temperature')}
-                        format=".1f"
-                        width="70"
-                        type="linear"
+        <ChartContainer timeRange={series.range()}>
+            <ChartRow height="150">
+                <YAxis
+                    id="temperature"
+                    label="Temperature"
+                    min={series.min('temperature')}
+                    max={series.max('temperature')}
+                    format=".1f"
+                    width="70"
+                    type="linear"
+                />
+                <Charts>
+                    <LineChart
+                        axis="temperature"
+                        style={style}
+                        spacing={0}
+                        columns={["temperature"]}
+                        series={series}
+                        minBarHeight={1}
                     />
-                    <Charts>
-                        <LineChart
-                            axis="temperature"
-                            style={style}
-                            spacing={0}
-                            columns={["temperature"]}
-                            series={series}
-                            minBarHeight={1}
-                        />
-                    </Charts>
-                </ChartRow>
-            </ChartContainer>
-        </>
+                </Charts>
+            </ChartRow>
+        </ChartContainer>
+    </>
     );
 }
 
-export default Temperature;
+export default () => <DozerProvider><Temperature /></DozerProvider>;

@@ -22,7 +22,7 @@ cd ..
 
 3. Generate a master token for auth by running the command from the project root directory where `dozer-config.yaml` is located:
 ```bash
-dozer api generate-token
+dozer security generate-token
 ```
 
 4. Copy the `MASTER_TOKEN` generated from the previous step and export the `MASTER_TOKEN` as an environment variable
@@ -33,7 +33,7 @@ export MASTER_TOKEN=your_token_here
 5. Start the Dozer app. Dozer will start running, handling the data operations and APIs authorization as defined in your configuration. To do this, simply run the command:
 
 ```bash
-dozer
+dozer run
 ```
 
 6. Open the new terminal and change the directory to the `server` folder and install required package dependencies:
