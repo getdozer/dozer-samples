@@ -20,7 +20,7 @@ def message():
 
 
 async def main():
-    reader = await pydozer_log.LogReader.new("./.dozer", "events")
+    reader = await pydozer_log.LogReader.new("http://127.0.0.1:50053", "events")
     while True:
         data = await reader.next_op()
         if "op" in data.keys():

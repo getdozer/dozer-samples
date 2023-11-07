@@ -19,11 +19,11 @@ def send_message(seq, device, temp):
         schema_name="events",
         typ=0,
         old=None,
-        new=types_pb2.Record(values=[
+        new=[
             types_pb2.Value(string_value=device),
             types_pb2.Value(float_value=temp),
             types_pb2.Value(string_value=datetime.datetime.now().strftime("%H:%M:%S"))
-        ]),
+        ],
         seq_no=seq
     )
     res = ingestion_client.ingest_raw(user)
