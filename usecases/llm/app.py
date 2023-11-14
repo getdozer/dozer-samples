@@ -4,6 +4,7 @@ from langchain.prompts import  PromptTemplate
 from langchain.chains import LLMChain
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.schema import HumanMessage
+from time import sleep
 ## For Vector DB
 import pinecone
 import uuid
@@ -22,10 +23,24 @@ from chainlit import user_session
 import os
 from pydozer.api import ApiClient
 from langchain.agents import ConversationalChatAgent, AgentExecutor
+import re
+import json
+
+def show_json(obj):
+    display(json.loads(obj.model_dump_json()))
 
 
+def wait_on_run(run, thread):
+    while run.status == "queued" or run.status == "in_progress":
+        run = client.beta.threads.runs.retrieve(
+            thread_id=thread.id,
+            run_id=run.id,
+        )
+        sleep(0.5)
+    return run
 ### Dozer
-
+from openai import OpenAI
+client = OpenAI()
 DOZER_CLOUD_HOST = "data.getdozer.io:443"
 
 def get_api_client(app_id=None, token=None):
@@ -50,7 +65,7 @@ def getCustomerData(input):
     util_ratio = rec.values[9].float_value
 
     
-    return [id,name,income,age,dependents,credit_amt,repay_status,util_ratio,address, prob]
+    return [id,name,income,age,dependents, address, prob,credit_amt,repay_status,util_ratio ]
 
 
 
@@ -62,10 +77,6 @@ PINECONE_ENV = os.environ.get("PINE_ENV")
 model_name = 'text-embedding-ada-002'
 
 
-embed = OpenAIEmbeddings(
-    model=model_name,
-    openai_api_key=OPEN_API_KEY
-)
 
 # find ENV (cloud region) next to API key in console
 index_name = 'langchain-retrieval-agent'
@@ -80,34 +91,15 @@ pinecone.init(
 
 text_field = "Answer"
 index = pinecone.Index('langchain-retrieval-agent')
+
+file = client.files.create(
+  file=open("/home/mrunmay/Desktop/Dozer/dozer-samples/usecases/llm/data/BankFAQs.csv", "rb"),
+  purpose='assistants'
+)
+
 # switch back to normal index for langchain
 #index = pinecone.Index(index_name)
 
-vectorstore = Pinecone(
-    index, embed.embed_query, text_field
-)
-
-llm = ChatOpenAI(
-    openai_api_key = OPEN_API_KEY,
-    model_name='gpt-4',
-    temperature=0.0
-)
-
-conversational_memory = ConversationBufferWindowMemory(
-    memory_key='chat_history',
-    k=5,
-    return_messages=True
-)
-# retrieval qa chain
-chain = RetrievalQA.from_chain_type(
-    llm=llm,
-    chain_type="stuff",
-    retriever=vectorstore.as_retriever()
-)
-
-def setName(userName):
-    global name
-    name = userName
 
 def customerProfile(input):
     data = getCustomerData(int(input))
@@ -122,41 +114,60 @@ def customerProfile(input):
     repay_status= data[8]
     util_ratio= data[9]
 
+    profile = {
+        "id": id,
+        "name": name1,
+        "age": age,
+        "income": income,
+        "dependents": dependents,
+        "address": address,
+        "prob": prob,
+        "credit_amt": credit_amt,
+        "repay_status": repay_status,
+        "util_ratio": util_ratio
 
-    return ( f"ID = {id} ,name = {name1} ,age = {age}, income = {income}, dependents = {dependents},repay_status={repay_status}, credit utilisation ratio ={util_ratio} ,address={address}, available credit={credit_amt}, probability of default = {prob} ")
 
-    
+    }
+    return json.dumps(profile)
+
 tools = [
-    Tool(
-        name='Knowledge Base',
-        func=chain.run,
-        description=(
-            "Useful when you need general information about bank policies and bank offerings. "\
-            'use this tool when answering general knowledge queries to get '\
-            'more information about the topic'
-        )
-    ),
-    Tool(
-        name = 'Customer Data',
-        func = customerProfile,
-        description=(
-            "Useful when you need customer data to decide eligibility for a particular credit card. "
-            "Use to check the probability of default and available balance to use it for eligibility"
-        )
-    )
+    {
+        "type": "function",
+        "function": {
+            "name": "customerProfile",
+            "description": "Useful when you need customer data to decide eligibility for a particular credit card. Use to check the probability of default and available balance to use it for eligibility",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "id": {"type": "number"}
+
+        },
+        "required": ["id"]
+
+    }},
+
+        
+    }, 
+    {
+        "type": "code_interpreter",
+    }
 ]
-
-
-agent = initialize_agent(
-    agent='chat-conversational-react-description',
+assistant = client.beta.assistants.create(
+    name="Bank Assistant",
+    instructions="You are a bank chat bot. Help the client with all their banking needs. Calculate if the client is eligible for a credit card or not depending upon their customer profile",
     tools=tools,
-    llm=llm,
-    verbose=True,
-    max_iterations=5,
-    early_stopping_method='generate',
-    memory=conversational_memory
+    model="gpt-4-1106-preview",
+    file_ids=[file.id]
+    
 )
 
+
+def setName(userName):
+    global name
+    name = userName
+
+
+    
 
 global res
 @cl.on_chat_start
@@ -164,8 +175,8 @@ global res
 async def start():
     intro = "Hi there, I am an assistant for Bank A. I am here to assist you with all your banking needs! Please enter your id:  "
     
-    res = await cl.AskUserMessage(content=intro,timeout=45,raise_on_timeout=True).send()
-    
+    res = await cl.AskUserMessage(content=intro,timeout=200,raise_on_timeout=True).send()
+    global id
     id = int(res['content'])
     greeting = f"Hi {res['content']}. What brings you here?"
     await cl.Message(content=greeting).send()
@@ -174,38 +185,70 @@ async def start():
     # credit = getCredit(int(res['content']))
     global customerinfo
     customerinfo = customerProfile(int(res['content']) )
-    print(customerinfo)
-    
-    agent = ConversationalChatAgent.from_llm_and_tools(
-        llm=llm,
-        tools=tools,
-        system_message = f"You have customer info of a customer which is as follows {customerinfo}. You have to use this information along with Knowledge base to decide if the customer is eligible for a credit card or not.",
-        verbose=True,
-        max_iterations=5,
-        early_stopping_method='generate',
-        memory=conversational_memory
 
-    )
 
-    global agent_chain
-    agent_chain = AgentExecutor.from_agent_and_tools(
-        agent = agent,
-        tools = tools, 
-        verbose = True,
-        max_iterations = 5,
-        early_stopping_method = 'generate',
-        memory = conversational_memory
-
-    )
-    cl.user_session.set("chain", agent_chain)
+    #print(customerinfo)
+    thread = client.beta.threads.create()
+    cl.user_session.set("chain", thread)
 
 
 
 @cl.on_message
-async def main(message: str):
-    agent_chain = cl.user_session.get("chain") 
-    response = await cl.make_async(agent_chain.run)(message.content)
+async def main(text_rep: str):
+    thread = cl.user_session.get("chain") 
 
+    #print(text_rep.content)
+    #print(thread.id, thread)
+    message = client.beta.threads.messages.create(
+        thread_id=thread.id,
+        role="user",
+        content=f"{text_rep.content}"
+    )
+    run = client.beta.threads.runs.create(
+        thread_id=thread.id,
+        assistant_id=assistant.id,
+        model="gpt-4-1106-preview",
+        instructions=f"Please help the user according to his ID: {id} ",
+        tools = tools,
+
+    )  
+
+    wait_on_run(run, thread)
+    if run.status == "requires_action":
+
+        tool_id = run.required_action.submit_tool_outputs.tool_calls
+        run = client.beta.threads.runs.submit_tool_outputs(
+        thread_id=thread.id,
+        run_id=run.id,
+        tool_outputs=[
+            {
+            "tool_id": tool_id[0].id,
+            "output": customerinfo,
+        }
+        ]
+
+        )
+
+        
+    
+
+    wait_on_run(run, thread)
+
+
+
+    messages = client.beta.threads.messages.list(
+        thread_id=thread.id
+    )
+    obj_string = str(messages)
+    pattern = re.compile(
+    r"ThreadMessage\(id='(?P<id>[^']*)', assistant_id='(?P<assistant_id>[^']*)', content=\[MessageContentText\(text=Text\((annotations=\[.*?\], )?value=\"(?P<content>.*?)\"\), type='(?P<message_content_text_type>[^']*)'\)\], created_at=(?P<created_at>\d+), file_ids=\[(?P<file_ids>.*?)\], metadata=\{(?P<metadata>.*?)\}, object='(?P<object>[^']*)', role='(?P<role>[^']*)', run_id='(?P<run_id>[^']*)', thread_id='(?P<thread_id>[^']*)'\)"
+    )
+    matches = pattern.finditer(obj_string)
+    for match in matches:
+        text_rep = match.group('content').replace('\\n', '\n').replace('\\"', '"')
+
+
+    #print(content)
     await cl.Message(
-        content=response,
+        content=text_rep ,
     ).send()
