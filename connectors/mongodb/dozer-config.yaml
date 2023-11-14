@@ -1,0 +1,45 @@
+app_name: mongodb-connector
+version: 1
+connections:
+- config: !MongoDB
+    connection_string: "{{MONGODB_CONNECTION_STRING}}"
+  name: mongodb_conn
+  
+sql: | 
+   SELECT JSON_VALUE(data,'$.name') as Name, JSON_VALUE(data,'$.email') as email, JSON_VALUE(data,'$.address') as address, JSON_QUERY(data,'$.birthdate') as birthdate 
+   INTO temp2 FROM src; 
+   
+   WITH temptable AS 
+
+   (SELECT JSON_QUERY( '$._id') as id, JSON_VALUE(data,'$.name') as Name, JSON_VALUE(data,'$.email') as email, JSON_VALUE(data,'$.address') as address,  JSON_QUERY(data,'$.birthdate') as birth_date FROM src ) ,
+
+   source AS (  SELECT JSON_QUERY( '$._id') as id, JSON_VALUE(data, '$.limit') as limit  FROM src2)
+
+   SELECT Name, limit, address
+
+   INTO joincache 
+
+   FROM temptable t 
+
+   JOIN source s 
+
+   ON t.id = s.id;
+  
+sources: 
+ - name: src
+   table_name: customers
+   connection: mongodb_conn
+   
+ - name: src2 
+   table_name: accounts
+   connection: mongodb_conn
+   
+endpoints: 
+ - name: default
+   path: /default
+   table_name: temp2 
+   
+ - name: accounts_limit
+   path: /accounts
+   table_name: joincache
+   

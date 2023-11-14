@@ -1,13 +1,13 @@
-app_name: simple-pg-sample
 version: 1
+app_name: simple-pg-sample
 connections:
   - name: pagila_conn
     config: !Postgres
-      user: postgres
-      password: postgres
-      host: localhost
-      port: 5433
-      database: film
+      user: "{{ POSTGRES_USER }}"
+      password: "{{ POSTGRES_PASSWORD }}"
+      host: "{{ POSTGRES_HOST }}"
+      port: 5432
+      database: "{{ POSTGRES_DATABASE }}"
 
 sources:
   - name: actors

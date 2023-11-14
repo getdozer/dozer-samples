@@ -1,5 +1,5 @@
-app_name: grpc-connection-sample
 version: 1
+app_name: grpc-connection-sample
 connections:
   - config: !Grpc
       adapter: arrow

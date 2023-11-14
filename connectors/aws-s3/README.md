@@ -26,7 +26,7 @@ connections:
         access_key_id: {{YOUR_ACCESS_KEY}}
         secret_access_key: {{YOUR_SECRET_KEY}}
         region: {{YOUR_REGION}}
-        bucket_name: aws-s3-sample-stock-data-dozer
+        bucket_name: dozer-samples
       tables:
         - !Table
           name: stocks
@@ -39,7 +39,7 @@ connections:
 3. **Running Dozer**: Start Dozer by running the following command in the terminal:
 
    ```bash
-   dozer -c dozer-config.yaml
+   dozer run -c dozer-config.yaml
    ```
 
 4. **Querying the Dozer APIs**: Query the Dozer endpoints to get the results of your SQL queries. You can query the cache using gRPC or REST.
@@ -51,6 +51,30 @@ connections:
    ```
 
 5. **Append New Data & Query**: Dozer automatically detects and ingests new data files added to the bucket. This allows you to process recurring data without changing any configuration. You can upload a new file to the bucket and can see the dozer ingesting the newly uploaded files in console log.
+
+## Dozer Cloud
+
+### To validate your config file before deploying
+
+```bash
+dozer build
+```
+### To deploy your config file
+
+```bash
+dozer cloud`deploy -c dozer-config.yaml 
+```
+
+### To use environment variables in the config file
+
+```bash
+dozer cloud deploy -s AWS_ACCESS_KEY=$AWS_ACCESS_KEY -s AWS_SECRET_KEY=$AWS_SECRET_KEY -s AWS_REGION_S3=$AWS_REGION_S3 -s AWS_BUCKET_NAME=$AWS_BUCKET_NAME
+```
+
+## Querying data
+
+```bash
+curl -H "X-Dozer-App-Id: <app-id" -H "Authorization: Bearer <bearer-token>" https://data.getdozer.io:443  ```
 
 ## Additional Information
 
