@@ -1,0 +1,17 @@
+services:
+  products:
+    image: mongo:7
+    container_name: mongo1
+    command: ['mongod', '--replSet', 'rs0', '--bind_ip', 'localhost,mongo1']
+    ports:
+      - "27017:27017"
+
+  orders:
+    image: postgres:16
+    container_name: postgres1
+    environment:
+      - POSTGRES_PASSWORD=pgpass
+      - POSTGRES_DB=orders
+    command: ['postgres', '-c', 'wal_level=logical']
+    ports:
+      - "5432:5432"

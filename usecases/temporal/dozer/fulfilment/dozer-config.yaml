@@ -1,0 +1,70 @@
+app_name: fulfillment-demo
+version: 1
+connections:
+  - config: !Postgres
+      user: "postgres"
+      password: "pgpass"
+      host: "localhost"
+      port: 5432
+      database: "orders"
+    name: orders
+  - config: !LocalStorage
+      details:
+        path: ./warehouse_logs
+      tables:
+        - !Table
+            name: warehouse_logs
+            config: !CSV
+              path: logs
+              extension: .csv
+              marker_file: false
+    name: warehouse_logs
+sources:
+  - name: orders
+    table_name: orders
+    connection: orders
+  - name: order_items
+    table_name: order_items
+    connection: orders
+
+api:
+  app_grpc:
+    port: 50054
+
+sql: |
+  WITH warehouse_incoming AS (
+    SELECT SUM(amount) AS warehouse_amount, product_id FROM warehouse_logs
+    GROUP BY product_id
+  ), orders_outgoing AS (
+    SELECT SUM(amount) AS ordered_amount, item_id AS product_id FROM order_items
+    GROUP BY item_id
+  ), completed_orders_outgoing AS (
+    SELECT SUM(amount) AS ordered_amount, item_id AS product_id FROM order_items
+    LEFT JOIN orders ON order_id = orders.id
+    WHERE fulfilled_at <> NULL
+    GROUP BY item_id
+  )
+  SELECT COALESCE(inc.warehouse_amount, 0) as warehouse_ordered, out.ordered_amount as ordered_amount,
+  COALESCE(inc.warehouse_amount, 0) - out.ordered_amount AS virtual_stock,
+  COALESCE(inc.warehouse_amount, 0) - COALESCE(out_comp.ordered_amount, 0) AS actual_stock,
+  out.product_id as product_id
+  INTO warehouse_stock
+  FROM orders_outgoing AS out LEFT JOIN warehouse_incoming as inc
+  ON out.product_id = inc.product_id
+  LEFT JOIN completed_orders_outgoing as out_comp
+  ON out.product_id = out_comp.product_id;
+
+  WITH warehouse_incoming AS (
+    SELECT SUM(amount) AS warehouse_amount, product_id FROM warehouse_logs
+    GROUP BY product_id
+  )
+  SELECT COALESCE(inc.warehouse_amount, 0) as warehouse_ordered into hello from warehouse_incoming inc;
+
+endpoints:
+  - name: warehouse_stock
+    table_name: warehouse_stock
+    path: /stock
+
+  - name: hello
+    table_name: hello
+    path: /hello

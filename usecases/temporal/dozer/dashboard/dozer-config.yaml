@@ -1,0 +1,41 @@
+app_name: dashboard
+version: 1
+
+connections:
+  - config: !MongoDB
+      connection_string: mongodb://localhost:27017/products?replicaSet=rs0
+    name: products
+  - config: !Dozer
+      url: "http://localhost:50054"
+      log_options:
+        batch_size: 1
+    name: warehouse_stocks
+
+sources:
+  - name: listings
+    table_name: listings
+    connection: products
+  - name: warehouse_stock
+    table_name: warehouse_stock
+    connection: warehouse_stocks
+
+api:
+  rest:
+    port: 8081
+  grpc:
+    port: 50055
+
+sql: |
+  SELECT COALESCE(SUM(ordered_amount), 0) / COUNT(1) as relative_count,
+  COALESCE(SUM(ordered_amount), 0) as count, type into product_popularity 
+  FROM (
+    SELECT CAST(json_value(data, '$.item_id') AS STRING) as item_id,
+    CAST(json_value(data, '$.product_type[*].value') AS STRING) as type FROM listings
+  ) as product
+  LEFT JOIN warehouse_stock ON warehouse_stock.product_id = product.item_id
+  GROUP BY type
+
+endpoints:
+  - name: product_popularity
+    table_name: product_popularity
+    path: /products
