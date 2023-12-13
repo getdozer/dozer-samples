@@ -19,7 +19,7 @@ Detailed article present on [Dozer blog](https://getdozer.io/blog/temporal-dozer
 
 # Folder structure
 
-- `data`: listings dataset. Import into mongodb using `zcat data/listings/metadata/listings_0.json.gz | mongoimport --db products --collection listings`. You can import more than just the first file, but you might run out of memory ([#2214](https://github.com/getdozer/dozer/pull/2214) helps with that)
+- `data`: listings dataset. Import into mongodb using `zcat data/listings/metadata/listings_0.json.gz | mongoimport --db products --collection listings`.
 - `init/orders.sql`: postgres schema
 - `workflows/`: temporal workflows. Currently only the first step of the order placement workflow is implemented.
 - `worker.py`: temporal worker. Needs to be run for the workflow to make progress.
