@@ -1,0 +1,59 @@
+app_name: dozer-ingest-chinook
+version: 1
+connections:
+  - config: !Postgres
+      user: postgres
+      password: postgres
+      host: localhost
+      port: 5433
+      database: chinook
+    name: chinook
+
+sources:
+  - name: album
+    table_name: album
+    connection: chinook
+  - name: artist
+    table_name: artist
+    connection: chinook
+  - name: customer
+    table_name: customer
+    connection: chinook
+  - name: employee
+    table_name: employee
+    connection: chinook
+  - name: genre
+    table_name: genre
+    connection: chinook
+  - name: invoice
+    table_name: invoice
+    connection: chinook
+  - name: invoice_line
+    table_name: invoice_line
+    connection: chinook
+  - name: media_type
+    table_name: media_type
+    connection: chinook
+  - name: playlist
+    table_name: playlist
+    connection: chinook
+  - name: playlist_track
+    table_name: playlist_track
+    connection: chinook
+  - name: track
+    table_name: track
+    connection: chinook
+
+endpoints:
+  - table_name: album
+    kind: !Aerospike
+      namespace: test
+      hosts: localhost:3000
+  - table_name: artist
+    kind: !Aerospike
+      namespace: test
+      hosts: localhost:3000
+  - table_name: customer
+    kind: !Aerospike
+      namespace: test
+      hosts: localhost:3000
