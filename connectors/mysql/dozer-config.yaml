@@ -1,10 +1,10 @@
-app_name: dozer-chinook-mysql
 version: 1
+app_name: dozer-chinook-mysql
 
 connections:
   - name: chinook_mysql
     config: !MySQL
-      url: mysql://root:mysql@localhost:3306/Chinook
+      url: "{{MYSQL_URL}}"
 
 sources:
   - name: employee
