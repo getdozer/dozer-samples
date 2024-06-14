@@ -1,0 +1,107 @@
+[
+  {
+    "name": "spans",
+    "schema": {
+      "fields": [
+        {
+          "name": "id",
+          "data_type": "UInt64",
+          "nullable": false,
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {}
+        },
+        {
+          "name": "trace_id",
+          "data_type": "Binary",
+          "nullable": false,
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {}
+        },
+        {
+          "name": "name",
+          "data_type": "LargeUtf8",
+          "nullable": false,
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {}
+        },
+        {
+          "name": "parent_id",
+          "data_type": "UInt64",
+          "nullable": true,
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {}
+        },
+        {
+          "name": "start_time",
+          "data_type": {
+            "Timestamp": [
+              "Nanosecond",
+              null
+            ]
+          },
+          "nullable": false,
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {}
+        },
+        {
+          "name": "end_time",
+          "data_type": {
+            "Timestamp": [
+              "Nanosecond",
+              null
+            ]
+          },
+          "nullable": true,
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {}
+        }
+      ],
+      "metadata": {}
+    },
+    "replication_type": "Nothing"
+  },
+  {
+    "name": "events",
+    "schema": {
+      "fields": [
+        {
+          "name": "span_id",
+          "data_type": "UInt64",
+          "nullable": false,
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {}
+        },
+        {
+          "name": "name",
+          "data_type": "LargeUtf8",
+          "nullable": false,
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {}
+        },
+        {
+          "name": "timestamp",
+          "data_type": {
+            "Timestamp": [
+              "Nanosecond",
+              null
+            ]
+          },
+          "nullable": false,
+          "dict_id": 0,
+          "dict_is_ordered": false,
+          "metadata": {}
+        }
+      ],
+      "metadata": {}
+    },
+    "replication_type": "Nothing"
+  }
+]
