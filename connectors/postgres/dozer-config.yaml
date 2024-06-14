@@ -7,7 +7,7 @@ connections:
       password: postgres
       host: localhost
       port: 5433
-      database: film
+      database: pagila
 
 sources:
   - name: actors
