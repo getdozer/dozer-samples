@@ -45,6 +45,7 @@ Refer to the [Installation section](https://getdozer.io/docs/installation) for i
 | Use Cases        | [Flight Microservices](./usecases/pg-flights)                            | Build APIs over multiple microservices.                                      |
 |                  | [Scaling Ecommerce](./usecases/scaling-ecommerce)                        | Profile and benchmark Dozer using an ecommerce data set                      |
 |                  | [IMDB Analytics](./usecases/imdb-analytics)                              | Use Dozer to get interesting analytics using an IMDb dataset                 |
+|                  | [LLM Banking Chatbot](./usecases/llm-banking-chatbot)                    | Hyper-personalized banking chatbot with Dozer, LangChain, and vector search |
 |                  | Use Dozer to Instrument (Coming soon)                                    | Combine Log data to get real time insights                                   |
 |                  | Real Time Model Scoring (Coming soon)                                    | Deploy trained models to get real time insights as APIs                      |
 |                  |                                                                          |                                                                              |

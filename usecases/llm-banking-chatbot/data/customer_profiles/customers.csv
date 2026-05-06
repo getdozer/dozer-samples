@@ -1,0 +1,6 @@
+customer_id,name,age,annual_income_eur,credit_score,risk_band,preferred_channel
+1001,Ana Silva,34,82000,742,low,mobile
+1002,Noah Jansen,41,61000,681,medium,web
+1003,Mila Kowalski,29,48000,712,low,mobile
+1004,Luca Meijer,52,95000,633,medium,branch
+
