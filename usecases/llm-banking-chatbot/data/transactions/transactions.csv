@@ -1,0 +1,14 @@
+transaction_id,customer_id,posted_at,category,merchant,amount_eur
+tx-001,1001,2026-04-02,travel,KLM,420.10
+tx-002,1001,2026-04-05,groceries,Albert Heijn,86.42
+tx-003,1001,2026-04-09,travel,Booking.com,510.00
+tx-004,1001,2026-04-13,dining,Restaurant Breda,74.30
+tx-005,1002,2026-04-04,groceries,Jumbo,102.12
+tx-006,1002,2026-04-08,utilities,Eneco,190.45
+tx-007,1002,2026-04-12,groceries,Lidl,64.80
+tx-008,1003,2026-04-03,online,Amazon,142.99
+tx-009,1003,2026-04-06,groceries,Albert Heijn,76.25
+tx-010,1003,2026-04-11,online,Bol.com,119.95
+tx-011,1004,2026-04-01,travel,NS International,185.00
+tx-012,1004,2026-04-07,dining,Hotel Utrecht,230.50
+

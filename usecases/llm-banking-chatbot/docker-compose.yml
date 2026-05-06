@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  dozer:
+    image: public.ecr.aws/getdozer/dozer:latest
+    working_dir: /workspace
+    command: ["dozer", "-c", "dozer-config.yaml"]
+    ports:
+      - "8080:8080"
+      - "50051:50051"
+    volumes:
+      - ./:/workspace
+

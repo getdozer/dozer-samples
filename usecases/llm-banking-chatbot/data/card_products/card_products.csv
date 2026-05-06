@@ -1,0 +1,5 @@
+product_id,name,annual_fee_eur,min_credit_score,reward_focus,apr_percent,description
+card-travel,Horizon Travel Rewards,95,700,travel,18.9,"Premium travel card with 3x points on flights and hotels plus no foreign transaction fee."
+card-cashback,Everyday Cashback,0,620,cashback,20.5,"No-fee card with 1.5 percent cashback on everyday purchases and simple redemption."
+card-grocery,Green Grocery Plus,35,660,groceries,19.4,"Rewards card optimized for supermarkets, organic food shops, and recurring household purchases."
+card-builder,Secure Credit Builder,0,580,credit-building,24.9,"Starter card for customers rebuilding credit with lower initial limits and spending alerts."

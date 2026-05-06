@@ -1,0 +1,126 @@
+app_name: llm-banking-chatbot
+version: 1
+
+connections:
+  - name: banking_seed_data
+    config: !LocalStorage
+      details:
+        path: data
+      tables:
+        - !Table
+          name: customers
+          config: !CSV
+            path: customer_profiles
+            extension: .csv
+        - !Table
+          name: transactions
+          config: !CSV
+            path: transactions
+            extension: .csv
+        - !Table
+          name: card_products
+          config: !CSV
+            path: card_products
+            extension: .csv
+        - !Table
+          name: faq_documents
+          config: !CSV
+            path: support_docs
+            extension: .csv
+
+sources:
+  - name: customers
+    table_name: customers
+    connection: banking_seed_data
+  - name: transactions
+    table_name: transactions
+    connection: banking_seed_data
+  - name: card_products
+    table_name: card_products
+    connection: banking_seed_data
+  - name: faq_documents
+    table_name: faq_documents
+    connection: banking_seed_data
+
+sql: |
+  SELECT
+    c.customer_id,
+    c.name,
+    c.age,
+    c.annual_income_eur,
+    c.credit_score,
+    c.risk_band,
+    c.preferred_channel,
+    COUNT(t.transaction_id) AS transaction_count,
+    SUM(t.amount_eur) AS total_spend_eur,
+    AVG(t.amount_eur) AS average_transaction_eur,
+    MAX(t.amount_eur) AS largest_transaction_eur
+  INTO customer_profiles
+  FROM customers c
+  LEFT JOIN transactions t ON c.customer_id = t.customer_id
+  GROUP BY
+    c.customer_id,
+    c.name,
+    c.age,
+    c.annual_income_eur,
+    c.credit_score,
+    c.risk_band,
+    c.preferred_channel;
+
+  SELECT
+    transaction_id,
+    customer_id,
+    posted_at,
+    category,
+    merchant,
+    amount_eur
+  INTO transaction_activity
+  FROM transactions;
+
+  SELECT
+    product_id,
+    name,
+    annual_fee_eur,
+    min_credit_score,
+    reward_focus,
+    apr_percent,
+    description
+  INTO product_catalog
+  FROM card_products;
+
+  SELECT
+    doc_id,
+    topic,
+    content
+  INTO faq_knowledge
+  FROM faq_documents;
+
+endpoints:
+  - name: customer_profiles
+    path: /customer-profiles
+    table_name: customer_profiles
+    index:
+      primary_key:
+        - customer_id
+
+  - name: transactions
+    path: /transactions
+    table_name: transaction_activity
+    index:
+      primary_key:
+        - transaction_id
+
+  - name: card_products
+    path: /card-products
+    table_name: product_catalog
+    index:
+      primary_key:
+        - product_id
+
+  - name: faq_documents
+    path: /faq-documents
+    table_name: faq_knowledge
+    index:
+      primary_key:
+        - doc_id
+
