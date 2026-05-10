@@ -1,0 +1,17 @@
+customer_id,spend_category,amount
+CUST-001,fuel,3122
+CUST-001,groceries,7233
+CUST-001,travel,12122
+CUST-001,food_and_beverages,1455
+CUST-001,transportation,345
+CUST-001,foreign_accommodation,3433
+CUST-001,foreign_food_and_beverages,1344
+CUST-002,groceries,2210
+CUST-002,streaming,420
+CUST-002,online_shopping,1980
+CUST-002,transportation,615
+CUST-002,food_and_beverages,980
+CUST-003,travel,8600
+CUST-003,foreign_spend,4100
+CUST-003,dining,2900
+CUST-003,business_software,1700
