@@ -1,0 +1,8 @@
+customer_id,product_name,product_type,balance,outstanding_balance,status
+CUST-001,Everyday Checking,checking_account,32122,0,active
+CUST-001,Basic Debit Card,debit_card,0,1100,active
+CUST-001,Travel Saver Account,savings_account,18400,0,active
+CUST-002,Student Checking,checking_account,4200,0,active
+CUST-002,Basic Debit Card,debit_card,0,280,active
+CUST-003,Priority Checking,checking_account,90840,0,active
+CUST-003,Premier Miles Card,credit_card,0,3400,active

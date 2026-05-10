@@ -1,0 +1,4 @@
+customer_id,first_name,last_name,annual_income,address,phone
+CUST-001,John,Smith,55000,33 Tampines Street 86 Singapore 528573,77636678
+CUST-002,Ava,Ng,32000,145 Serangoon Avenue 4 Singapore 550145,81234567
+CUST-003,Marcus,Tan,78000,12 Jurong West Street 41 Singapore 640012,92345678

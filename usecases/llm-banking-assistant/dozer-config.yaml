@@ -1,0 +1,133 @@
+app_name: llm-banking-assistant
+version: 1
+
+connections:
+  - config: !LocalStorage
+      details:
+        path: data
+      tables:
+        - !Table
+          name: customers
+          config: !CSV
+            path: customers
+            extension: .csv
+        - !Table
+          name: customer_products
+          config: !CSV
+            path: customer_products
+            extension: .csv
+        - !Table
+          name: spending
+          config: !CSV
+            path: spending
+            extension: .csv
+        - !Table
+          name: transactions
+          config: !CSV
+            path: transactions
+            extension: .csv
+        - !Table
+          name: credit_cards
+          config: !CSV
+            path: credit_cards
+            extension: .csv
+    name: banking_data
+
+sources:
+  - name: customers
+    table_name: customers
+    connection: banking_data
+
+  - name: customer_products
+    table_name: customer_products
+    connection: banking_data
+
+  - name: spending
+    table_name: spending
+    connection: banking_data
+
+  - name: transactions
+    table_name: transactions
+    connection: banking_data
+
+  - name: credit_cards
+    table_name: credit_cards
+    connection: banking_data
+
+sql: |
+  SELECT c.customer_id, cc.card_id, cc.card_name, cc.reward_style, cc.min_income, cc.annual_fee, cc.key_benefit
+  INTO eligible_cards
+  FROM customers c
+  JOIN credit_cards cc ON c.annual_income >= cc.min_income;
+
+  SELECT customer_id, spend_category, SUM(amount) AS total_amount
+  INTO spending_summary
+  FROM spending
+  GROUP BY customer_id, spend_category;
+
+  SELECT customer_id, merchant_category, COUNT(1) AS transaction_count, SUM(amount) AS total_amount
+  INTO transaction_summary
+  FROM transactions
+  GROUP BY customer_id, merchant_category;
+
+endpoints:
+  - name: customers
+    path: /customers
+    table_name: customers
+    index:
+      primary_key:
+        - customer_id
+
+  - name: customer_products
+    path: /customer_products
+    table_name: customer_products
+    index:
+      primary_key:
+        - customer_id
+        - product_name
+
+  - name: spending
+    path: /spending
+    table_name: spending
+    index:
+      primary_key:
+        - customer_id
+        - spend_category
+
+  - name: transactions
+    path: /transactions
+    table_name: transactions
+    index:
+      primary_key:
+        - transaction_id
+
+  - name: credit_cards
+    path: /credit_cards
+    table_name: credit_cards
+    index:
+      primary_key:
+        - card_id
+
+  - name: eligible_cards
+    path: /eligible_cards
+    table_name: eligible_cards
+    index:
+      primary_key:
+        - customer_id
+        - card_id
+
+  - name: spending_summary
+    path: /spending_summary
+    table_name: spending_summary
+    index:
+      primary_key:
+        - customer_id
+        - spend_category
+
+  - name: transaction_summary
+    path: /transaction_summary
+    table_name: transaction_summary
+    index:
+      primary_key:
+        - customer_id
+        - merchant_category

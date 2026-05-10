@@ -43,6 +43,7 @@ Refer to the [Installation section](https://getdozer.io/docs/installation) for i
 |                  | [Using TTL](./sql/ttl)                                                   | Use `TTL` to manage memory usage                                             |
 |                  |                                                                          |                                                                              |
 | Use Cases        | [Flight Microservices](./usecases/pg-flights)                            | Build APIs over multiple microservices.                                      |
+|                  | [LLM Banking Assistant](./usecases/llm-banking-assistant)                | Combine Dozer APIs, LangChain, and a vector database for personalized advice |
 |                  | [Scaling Ecommerce](./usecases/scaling-ecommerce)                        | Profile and benchmark Dozer using an ecommerce data set                      |
 |                  | [IMDB Analytics](./usecases/imdb-analytics)                              | Use Dozer to get interesting analytics using an IMDb dataset                 |
 |                  | Use Dozer to Instrument (Coming soon)                                    | Combine Log data to get real time insights                                   |

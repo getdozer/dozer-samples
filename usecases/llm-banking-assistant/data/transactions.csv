@@ -1,0 +1,14 @@
+transaction_id,customer_id,merchant_category,merchant_name,amount,currency,transaction_date
+TX-1001,CUST-001,groceries,NTUC FairPrice,182.45,SGD,2026-05-01
+TX-1002,CUST-001,fuel,Shell,96.18,SGD,2026-05-02
+TX-1003,CUST-001,travel,Expedia,1280.00,SGD,2026-05-03
+TX-1004,CUST-001,travel,Kaligo,940.00,SGD,2026-05-05
+TX-1005,CUST-001,food_and_beverages,GrabFood,42.60,SGD,2026-05-06
+TX-2001,CUST-002,online_shopping,Amazon,210.35,SGD,2026-05-02
+TX-2002,CUST-002,groceries,Sheng Siong,88.10,SGD,2026-05-04
+TX-2003,CUST-002,transportation,SimplyGo,24.50,SGD,2026-05-04
+TX-2004,CUST-002,streaming,Netflix,17.98,SGD,2026-05-06
+TX-3001,CUST-003,travel,Singapore Airlines,1630.00,SGD,2026-05-01
+TX-3002,CUST-003,foreign_spend,Marriott Tokyo,980.00,SGD,2026-05-03
+TX-3003,CUST-003,dining,Odette,420.00,SGD,2026-05-04
+TX-3004,CUST-003,business_software,Notion,32.00,SGD,2026-05-05
