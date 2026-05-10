@@ -5,15 +5,6 @@ from operator import itemgetter
 from pathlib import Path
 from typing import Any
 
-import requests
-from langchain_chroma import Chroma
-from langchain_core.documents import Document
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.runnables import RunnableLambda, RunnableParallel
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data"
 
@@ -43,6 +34,14 @@ def parse_args() -> argparse.Namespace:
 
 
 def dozer_query(base_url: str, endpoint: str, filters: dict[str, Any] | None = None) -> list[dict[str, Any]]:
+    try:
+        import requests
+    except ModuleNotFoundError as exc:
+        raise RuntimeError(
+            "The requests package is required. Install the sample dependencies with "
+            "`pip install -r requirements.txt`."
+        ) from exc
+
     payload: dict[str, Any] = {}
     if filters:
         payload["$filter"] = filters
@@ -73,45 +72,56 @@ def fetch_customer_context(base_url: str, customer_id: str) -> dict[str, Any]:
     return context
 
 
-def load_card_documents() -> list[Document]:
+def load_cards() -> list[dict[str, str]]:
     cards_path = DATA_DIR / "credit_cards.csv"
     with cards_path.open(newline="", encoding="utf-8") as handle:
-        rows = list(csv.DictReader(handle))
+        return list(csv.DictReader(handle))
 
-    documents: list[Document] = []
-    for row in rows:
-        page_content = (
-            f"Card Name: {row['card_name']}\n"
-            f"Reward Style: {row['reward_style']}\n"
-            f"Minimum Income: {row['min_income']}\n"
-            f"Annual Fee: {row['annual_fee']}\n"
-            f"Key Benefit: {row['key_benefit']}\n"
-            f"Description: {row['description']}"
-        )
-        documents.append(
-            Document(
-                page_content=page_content,
-                metadata={
-                    "card_id": row["card_id"],
-                    "card_name": row["card_name"],
-                    "min_income": row["min_income"],
-                    "reward_style": row["reward_style"],
-                },
-            )
-        )
-    return documents
+
+def describe_card(row: dict[str, str]) -> str:
+    return (
+        f"Card Name: {row['card_name']}\n"
+        f"Reward Style: {row['reward_style']}\n"
+        f"Minimum Income: {row['min_income']}\n"
+        f"Annual Fee: {row['annual_fee']}\n"
+        f"Key Benefit: {row['key_benefit']}\n"
+        f"Description: {row['description']}"
+    )
 
 
 def retrieve_card_knowledge(question: str, context: dict[str, Any]) -> str:
     api_key = os.getenv("OPENAI_API_KEY")
     eligible_names = {row["card_name"] for row in context["eligible_cards"]}
-    documents = load_card_documents()
+    cards = load_cards()
 
     if not api_key:
-        filtered = [doc for doc in documents if doc.metadata["card_name"] in eligible_names]
+        filtered = [row for row in cards if row["card_name"] in eligible_names]
         if not filtered:
-            filtered = documents
-        return "\n\n".join(doc.page_content for doc in filtered[:3])
+            filtered = cards
+        return "\n\n".join(describe_card(row) for row in filtered[:3])
+
+    try:
+        from langchain_chroma import Chroma
+        from langchain_core.documents import Document
+        from langchain_openai import OpenAIEmbeddings
+    except ModuleNotFoundError as exc:
+        raise RuntimeError(
+            "LangChain, Chroma, and OpenAI dependencies are required for the full LLM flow. "
+            "Install them with `pip install -r requirements.txt`, or run with `--dry-run`."
+        ) from exc
+
+    documents: list[Document] = [
+        Document(
+            page_content=describe_card(row),
+            metadata={
+                "card_id": row["card_id"],
+                "card_name": row["card_name"],
+                "min_income": row["min_income"],
+                "reward_style": row["reward_style"],
+            },
+        )
+        for row in cards
+    ]
 
     vector_store = Chroma.from_documents(
         documents=documents,
@@ -125,27 +135,50 @@ def retrieve_card_knowledge(question: str, context: dict[str, Any]) -> str:
     return "\n\n".join(doc.page_content for doc in filtered[:3])
 
 
+def format_lines(lines: list[str]) -> str:
+    return "\n".join(lines) if lines else "- none"
+
+
+def to_float(value: Any) -> float:
+    return float(value)
+
+
 def format_context(context: dict[str, Any]) -> str:
     customer = context["customer"]
+    owned_products = sorted(context["owned_products"], key=lambda row: row["product_name"])
+    spending_summary = sorted(
+        context["spending_summary"],
+        key=lambda row: to_float(row["total_amount"]),
+        reverse=True,
+    )
+    transaction_summary = sorted(
+        context["transaction_summary"],
+        key=lambda row: to_float(row["total_amount"]),
+        reverse=True,
+    )
+    eligible_cards = sorted(
+        context["eligible_cards"],
+        key=lambda row: (to_float(row["min_income"]), to_float(row["annual_fee"]), row["card_name"]),
+    )
 
-    products = "\n".join(
+    products = format_lines([
         f"- {row['product_name']} ({row['product_type']}), balance={row['balance']}, outstanding_balance={row['outstanding_balance']}, status={row['status']}"
-        for row in context["owned_products"]
-    )
+        for row in owned_products
+    ])
 
-    spending = "\n".join(
-        f"- {row['spend_category']}: {row['total_amount']}" for row in context["spending_summary"]
-    )
+    spending = format_lines([
+        f"- {row['spend_category']}: {row['total_amount']}" for row in spending_summary
+    ])
 
-    transactions = "\n".join(
+    transactions = format_lines([
         f"- {row['merchant_category']}: count={row['transaction_count']}, total_amount={row['total_amount']}"
-        for row in context["transaction_summary"]
-    )
+        for row in transaction_summary
+    ])
 
-    eligible = "\n".join(
+    eligible = format_lines([
         f"- {row['card_name']} (min_income={row['min_income']}, annual_fee={row['annual_fee']}, reward_style={row['reward_style']}, key_benefit={row['key_benefit']})"
-        for row in context["eligible_cards"]
-    )
+        for row in eligible_cards
+    ])
 
     return (
         f"Customer ID: {customer['customer_id']}\n"
@@ -162,8 +195,12 @@ def format_context(context: dict[str, Any]) -> str:
 
 def heuristic_shortlist(context: dict[str, Any]) -> list[str]:
     spending_rows = context["spending_summary"]
+    eligible_cards = sorted(
+        context["eligible_cards"],
+        key=lambda row: (to_float(row["min_income"]), to_float(row["annual_fee"]), row["card_name"]),
+    )
     if not spending_rows:
-        return [row["card_name"] for row in context["eligible_cards"][:2]]
+        return [row["card_name"] for row in eligible_cards[:2]]
 
     category_totals = {
         row["spend_category"]: float(row["total_amount"]) for row in spending_rows
@@ -176,7 +213,7 @@ def heuristic_shortlist(context: dict[str, Any]) -> list[str]:
     }
 
     suggestions: list[str] = []
-    for row in context["eligible_cards"]:
+    for row in eligible_cards:
         reward_style = row["reward_style"]
         card_name = row["card_name"]
         if "travel" in reward_style and ("travel" in dominant_categories or "foreign_spend" in dominant_categories):
@@ -191,11 +228,22 @@ def heuristic_shortlist(context: dict[str, Any]) -> list[str]:
             suggestions.append(card_name)
 
     if not suggestions:
-        suggestions = [row["card_name"] for row in context["eligible_cards"][:2]]
+        suggestions = [row["card_name"] for row in eligible_cards[:2]]
     return suggestions[:3]
 
 
 def build_chain(model_name: str):
+    try:
+        from langchain_core.output_parsers import StrOutputParser
+        from langchain_core.prompts import ChatPromptTemplate
+        from langchain_core.runnables import RunnableLambda, RunnableParallel
+        from langchain_openai import ChatOpenAI
+    except ModuleNotFoundError as exc:
+        raise RuntimeError(
+            "LangChain and OpenAI dependencies are required for the full LLM flow. "
+            "Install them with `pip install -r requirements.txt`, or run with `--dry-run`."
+        ) from exc
+
     prompt = ChatPromptTemplate.from_messages(
         [
             (

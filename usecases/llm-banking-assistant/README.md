@@ -69,6 +69,7 @@ This exposes the following APIs:
 - `POST /customer_products/query`
 - `POST /spending/query`
 - `POST /transactions/query`
+- `POST /credit_cards/query`
 - `POST /eligible_cards/query`
 - `POST /spending_summary/query`
 - `POST /transaction_summary/query`
@@ -99,6 +100,8 @@ python app/chatbot.py \
   --dry-run \
   "Which card should I choose?"
 ```
+
+`--dry-run` skips the embedding and LLM call, but it still expects the local Dozer APIs to be running so it can fetch customer context.
 
 ## How it works
 
