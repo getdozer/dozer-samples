@@ -1,0 +1,6 @@
+product_id,product_name,annual_fee_usd,min_credit_score,reward_focus,apr_range,description
+P001,Dozer Travel Signature,180,720,travel,"18.9-26.9","5x points on flights and hotels, lounge access, no foreign transaction fee."
+P002,Dozer Everyday Cashback,0,660,grocery dining,"19.9-27.9","3 percent cashback on grocery and dining, 1 percent on all other purchases."
+P003,Dozer Student Starter,0,620,student essentials,"21.9-29.9","Low-limit starter card with streaming credits and no annual fee."
+P004,Dozer Business Flex,120,700,business ads cloud,"18.5-25.5","Higher limits, 4x rewards on cloud software and digital ads, employee cards."
+P005,Dozer Balance Builder,35,640,credit building,"22.9-29.9","Reports to bureaus, rewards on recurring bills, designed for thin credit files."

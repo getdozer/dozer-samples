@@ -1,0 +1,10 @@
+services:
+  dozer:
+    image: public.ecr.aws/getdozer/dozer:latest
+    working_dir: /sample
+    volumes:
+      - ./:/sample
+    ports:
+      - "8080:8080"
+      - "50051:50051"
+    command: ["dozer", "run", "-c", "dozer-config.yaml"]

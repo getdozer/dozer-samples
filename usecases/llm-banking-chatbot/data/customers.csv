@@ -1,0 +1,5 @@
+customer_id,full_name,segment,city,risk_band
+C001,Ava Sharma,affluent,Mumbai,low
+C002,Noah Mehta,mass_affluent,Bengaluru,medium
+C003,Mia Fernandes,student,Pune,low
+C004,Rohan Iyer,small_business,Chennai,medium

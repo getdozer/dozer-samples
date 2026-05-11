@@ -1,0 +1,15 @@
+transaction_id,customer_id,merchant,category,amount_usd,transaction_date
+T9001,C001,Indigo Airlines,travel,430,2026-04-16
+T9002,C001,Taj Hotels,travel,920,2026-04-19
+T9003,C001,Zomato,dining,86,2026-04-21
+T9004,C001,Amazon,shopping,210,2026-04-25
+T9005,C002,BigBasket,grocery,140,2026-04-17
+T9006,C002,Uber,commute,42,2026-04-20
+T9007,C002,Flipkart,shopping,330,2026-04-22
+T9008,C003,Spotify,subscriptions,8,2026-04-12
+T9009,C003,BookMyShow,entertainment,32,2026-04-18
+T9010,C003,Campus Cafe,dining,15,2026-04-22
+T9011,C004,Google Ads,business,1200,2026-04-10
+T9012,C004,Air India,travel,510,2026-04-13
+T9013,C004,Swiggy,dining,74,2026-04-15
+T9014,C004,AWS,business,840,2026-04-25

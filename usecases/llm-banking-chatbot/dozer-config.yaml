@@ -1,0 +1,106 @@
+app_name: llm-banking-chatbot
+version: 1
+
+connections:
+  - config: !LocalStorage
+      details:
+        path: data
+      tables:
+        - !Table
+          name: customers
+          config: !CSV
+            path: customers
+            extension: .csv
+        - !Table
+          name: accounts
+          config: !CSV
+            path: accounts
+            extension: .csv
+        - !Table
+          name: transactions
+          config: !CSV
+            path: transactions
+            extension: .csv
+        - !Table
+          name: card_products
+          config: !CSV
+            path: card_products
+            extension: .csv
+    name: banking_files
+
+sources:
+  - name: customers
+    table_name: customers
+    connection: banking_files
+  - name: accounts
+    table_name: accounts
+    connection: banking_files
+  - name: transactions
+    table_name: transactions
+    connection: banking_files
+  - name: card_products
+    table_name: card_products
+    connection: banking_files
+
+sql: |
+  SELECT
+    c.customer_id,
+    c.full_name,
+    c.segment,
+    c.city,
+    c.risk_band,
+    a.account_id,
+    a.account_type,
+    a.balance_usd,
+    a.monthly_income_usd,
+    a.credit_score,
+    SUM(t.amount_usd) as recent_spend_usd,
+    COUNT(t.transaction_id) as recent_transaction_count
+  INTO customer_profile
+  FROM customers c
+  JOIN accounts a ON c.customer_id = a.customer_id
+  JOIN transactions t ON c.customer_id = t.customer_id
+  GROUP BY
+    c.customer_id,
+    c.full_name,
+    c.segment,
+    c.city,
+    c.risk_band,
+    a.account_id,
+    a.account_type,
+    a.balance_usd,
+    a.monthly_income_usd,
+    a.credit_score;
+
+endpoints:
+  - name: customers
+    path: /customers
+    table_name: customers
+    index:
+      primary_key:
+        - customer_id
+  - name: accounts
+    path: /accounts
+    table_name: accounts
+    index:
+      primary_key:
+        - account_id
+  - name: transactions
+    path: /transactions
+    table_name: transactions
+    index:
+      primary_key:
+        - transaction_id
+  - name: card-products
+    path: /card-products
+    table_name: card_products
+    index:
+      primary_key:
+        - product_id
+  - name: customer-profile
+    path: /customer-profile
+    table_name: customer_profile
+    index:
+      primary_key:
+        - customer_id
+        - account_id
