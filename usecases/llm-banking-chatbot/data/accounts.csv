@@ -1,0 +1,5 @@
+account_id,customer_id,account_type,balance_usd,monthly_income_usd,credit_score
+A1001,C001,savings,18300,6200,782
+A1002,C002,salary,6100,3400,701
+A1003,C003,student,900,850,664
+A1004,C004,current,22400,8800,735
