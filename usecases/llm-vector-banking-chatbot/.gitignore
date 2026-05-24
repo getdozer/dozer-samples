@@ -1,0 +1,5 @@
+.chroma/
+.dozer/
+__pycache__/
+*.pyc
+.env

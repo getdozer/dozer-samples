@@ -1,0 +1,6 @@
+product_id,product_name,annual_fee,apr_range,reward_categories,travel_multiplier,dining_multiplier,groceries_multiplier,cashback_rate,eligibility_notes,description
+P001,Dozer Travel Signature,95,18.99-26.99,"travel,dining",5,3,1,1.0,"best for premium customers with high travel spend","Premium travel card with airport lounge credits, trip delay insurance, and elevated travel rewards."
+P002,Dozer Everyday Cash,0,17.49-25.49,"groceries,gas,subscriptions",1,1,3,2.0,"best for fee-sensitive everyday spending","No annual fee card optimized for groceries, gas, subscriptions, and simple statement credit redemption."
+P003,Dozer Dining Plus,49,18.49-27.49,"dining,entertainment",1,4,1,1.0,"best for dining-heavy customers","Dining rewards card with restaurant credits, delivery perks, and entertainment offers."
+P004,Dozer Student Builder,0,22.99-29.99,"education,transit",1,1,1,1.0,"best for students or first credit card customers","Student card with credit education, automatic limit reviews, and transit rewards."
+P005,Dozer Balance Guard,0,15.99-22.49,"balance_transfer,groceries",1,1,2,1.5,"best for customers prioritizing lower APR and no fee","Lower APR card with balance-transfer intro terms and practical everyday rewards."

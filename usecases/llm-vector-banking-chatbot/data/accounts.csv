@@ -1,0 +1,8 @@
+account_id,customer_id,account_type,balance,opened_at
+A1001,C001,checking,18540.40,2020-04-16
+A1002,C001,savings,72500.00,2020-04-16
+A2001,C002,checking,8320.10,2021-07-02
+A3001,C003,checking,2140.33,2022-01-12
+A4001,C004,checking,24210.88,2019-10-24
+A4002,C004,travel_savings,118000.00,2019-10-24
+A5001,C005,student_checking,980.45,2023-08-18

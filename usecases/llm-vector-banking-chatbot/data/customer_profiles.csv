@@ -1,0 +1,6 @@
+customer_id,full_name,segment,income_band,home_city,loyalty_tier,risk_profile,preferred_language
+C001,Ava Sharma,Premium,150k-200k,San Francisco,Platinum,balanced,en
+C002,Noah Kim,Mass affluent,90k-120k,Seattle,Gold,rewards-maximizer,en
+C003,Maria Garcia,Everyday,60k-80k,Austin,Silver,fee-sensitive,en
+C004,Liam Chen,Premium,180k-220k,New York,Platinum,travel-focused,en
+C005,Sofia Patel,Student,20k-35k,Boston,Bronze,credit-builder,en

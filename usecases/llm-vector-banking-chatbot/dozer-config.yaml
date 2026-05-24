@@ -1,0 +1,109 @@
+app_name: llm-vector-banking-chatbot
+version: 1
+
+connections:
+  - config: !LocalStorage
+      details:
+        path: data
+      tables:
+        - !Table
+          name: customer_profiles
+          config: !CSV
+            path: customer_profiles
+            extension: .csv
+        - !Table
+          name: accounts
+          config: !CSV
+            path: accounts
+            extension: .csv
+        - !Table
+          name: transactions
+          config: !CSV
+            path: transactions
+            extension: .csv
+        - !Table
+          name: card_products
+          config: !CSV
+            path: card_products
+            extension: .csv
+    name: banking_files
+
+sources:
+  - name: customer_profiles
+    table_name: customer_profiles
+    connection: banking_files
+
+  - name: accounts
+    table_name: accounts
+    connection: banking_files
+
+  - name: transactions
+    table_name: transactions
+    connection: banking_files
+
+  - name: card_products
+    table_name: card_products
+    connection: banking_files
+
+sql: |
+  SELECT
+    c.customer_id,
+    c.full_name,
+    c.segment,
+    c.income_band,
+    c.home_city,
+    c.loyalty_tier,
+    c.risk_profile,
+    t.category,
+    COUNT(t.transaction_id) AS transaction_count,
+    SUM(t.amount) AS total_spend
+  INTO customer_spending_profile
+  FROM customer_profiles c
+  JOIN accounts a ON c.customer_id = a.customer_id
+  JOIN transactions t ON a.account_id = t.account_id
+  GROUP BY
+    c.customer_id,
+    c.full_name,
+    c.segment,
+    c.income_band,
+    c.home_city,
+    c.loyalty_tier,
+    c.risk_profile,
+    t.category;
+
+endpoints:
+  - name: customer_profiles
+    path: /customer_profiles
+    table_name: customer_profiles
+    index:
+      primary_key:
+        - customer_id
+
+  - name: accounts
+    path: /accounts
+    table_name: accounts
+    index:
+      primary_key:
+        - account_id
+
+  - name: transactions
+    path: /transactions
+    table_name: transactions
+    index:
+      primary_key:
+        - transaction_id
+
+  - name: card_products
+    path: /card_products
+    table_name: card_products
+    index:
+      primary_key:
+        - product_id
+
+  - name: customer_spending_profile
+    path: /customer_spending_profile
+    table_name: customer_spending_profile
+    index:
+      primary_key:
+        - customer_id
+        - category
