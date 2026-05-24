@@ -1,0 +1,16 @@
+transaction_id,account_id,customer_id,posted_at,merchant,category,amount,currency
+T0001,A1001,C001,2026-04-04,United Airlines,travel,1280.50,USD
+T0002,A1001,C001,2026-04-08,Taverna Bella,dining,216.40,USD
+T0003,A1001,C001,2026-04-15,WholeMart,groceries,184.90,USD
+T0004,A1001,C001,2026-04-25,Hotel Aurora,travel,740.00,USD
+T0005,A2001,C002,2026-04-02,QuickBite,dining,94.20,USD
+T0006,A2001,C002,2026-04-10,Streamly,subscriptions,18.99,USD
+T0007,A2001,C002,2026-04-20,WholeMart,groceries,232.44,USD
+T0008,A3001,C003,2026-04-05,Value Market,groceries,142.30,USD
+T0009,A3001,C003,2026-04-13,FuelMax,gas,68.12,USD
+T0010,A3001,C003,2026-04-19,QuickBite,dining,38.50,USD
+T0011,A4001,C004,2026-04-01,Singapore Air,travel,2400.00,USD
+T0012,A4001,C004,2026-04-11,Hotel Aurora,travel,1560.25,USD
+T0013,A4001,C004,2026-04-16,Chef Table,dining,420.10,USD
+T0014,A5001,C005,2026-04-03,Campus Books,education,210.00,USD
+T0015,A5001,C005,2026-04-22,Metro Transit,transit,54.80,USD
