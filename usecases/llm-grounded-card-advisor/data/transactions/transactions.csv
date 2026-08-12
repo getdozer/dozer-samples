@@ -1,0 +1,14 @@
+transaction_id,account_id,category,amount
+T001,A001,travel,900
+T002,A001,grocery,480
+T003,A001,other,620
+T004,A002,travel,80
+T005,A002,grocery,410
+T006,A002,other,310
+T007,A003,travel,1800
+T008,A003,grocery,650
+T009,A003,other,950
+T010,A004,travel,40
+T011,A004,grocery,520
+T012,A004,other,440
+T013,A005,grocery,220

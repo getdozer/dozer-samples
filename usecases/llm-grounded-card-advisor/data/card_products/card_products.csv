@@ -1,0 +1,6 @@
+product_id,name,description,annual_fee,min_income,min_credit_score,min_age,max_age,allowed_risk_bands,reward_rate,travel_multiplier,grocery_multiplier
+CARD-CASH,Everyday Cash,Simple no-fee cashback for groceries and daily purchases,0,24000,640,18,80,low|medium,0.01,1.0,2.0
+CARD-TRAVEL,Travel Plus,Airport and travel rewards for frequent travelers,95,50000,700,21,75,low|medium,0.0125,3.0,1.0
+CARD-PREMIUM,Premium Reserve,Premium travel benefits and elevated rewards,395,90000,760,25,75,low,0.015,4.0,1.5
+CARD-BUILDER,Credit Builder,Low-limit card for establishing a credit history,0,18000,580,18,30,medium|high,0.005,1.0,1.0
+CARD-SELECT,Select Cashback,Flexible cashback for established customers,45,45000,680,21,70,low|medium,0.012,1.0,2.5

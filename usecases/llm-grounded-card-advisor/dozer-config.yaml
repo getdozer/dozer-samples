@@ -1,0 +1,83 @@
+app_name: llm-grounded-card-advisor
+version: 1
+
+connections:
+  - name: card_advisor_files
+    config: !LocalStorage
+      details:
+        path: data
+      tables:
+        - !Table
+          name: customers
+          config: !CSV
+            path: customers
+            extension: .csv
+        - !Table
+          name: accounts
+          config: !CSV
+            path: accounts
+            extension: .csv
+        - !Table
+          name: transactions
+          config: !CSV
+            path: transactions
+            extension: .csv
+        - !Table
+          name: card_products
+          config: !CSV
+            path: card_products
+            extension: .csv
+
+sources:
+  - name: customers
+    table_name: customers
+    connection: card_advisor_files
+  - name: accounts
+    table_name: accounts
+    connection: card_advisor_files
+  - name: transactions
+    table_name: transactions
+    connection: card_advisor_files
+  - name: card_products
+    table_name: card_products
+    connection: card_advisor_files
+
+sql: |
+  SELECT
+    c.customer_id,
+    c.age,
+    c.annual_income,
+    c.credit_score,
+    c.risk_band,
+    SUM(CASE WHEN a.status = 'active' THEN COALESCE(t.amount, 0) ELSE 0 END) AS monthly_spend,
+    SUM(CASE WHEN a.status = 'active' AND t.category = 'travel' THEN t.amount ELSE 0 END) AS travel_spend,
+    SUM(CASE WHEN a.status = 'active' AND t.category = 'grocery' THEN t.amount ELSE 0 END) AS grocery_spend,
+    MAX(CASE WHEN a.status = 'active' THEN 1 ELSE 0 END) AS active_account
+  INTO customer_features
+  FROM customers c
+  LEFT JOIN accounts a ON c.customer_id = a.customer_id
+  LEFT JOIN transactions t ON a.account_id = t.account_id
+  GROUP BY
+    c.customer_id,
+    c.age,
+    c.annual_income,
+    c.credit_score,
+    c.risk_band;
+
+endpoints:
+  - name: customer_features
+    path: /customer_features
+    table_name: customer_features
+    index:
+      primary_key:
+        - customer_id
+        - age
+        - annual_income
+        - credit_score
+        - risk_band
+  - name: card_products
+    path: /card_products
+    table_name: card_products
+    index:
+      primary_key:
+        - product_id

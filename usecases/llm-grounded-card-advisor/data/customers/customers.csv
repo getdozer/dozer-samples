@@ -1,0 +1,6 @@
+customer_id,age,annual_income,credit_score,risk_band
+C001,34,72000,748,low
+C002,23,36000,662,medium
+C003,67,118000,801,low
+C004,42,51000,610,high
+C005,19,22000,690,medium

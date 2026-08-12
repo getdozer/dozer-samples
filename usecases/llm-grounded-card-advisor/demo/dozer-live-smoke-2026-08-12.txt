@@ -1,0 +1,89 @@
+Live Dozer smoke result (fixture -> generated API -> advisor)
+=============================================================
+Date: 2026-08-12 (UTC)
+Dozer binary: dozer 0.2.1 (dozer-linux-amd64.tar.gz from
+  https://github.com/getdozer/dozer/releases/tag/v0.2.1)
+Runtime: WSL2 Ubuntu 24.04 x86_64; protoc 3.21.12; unixODBC/libssl1.1
+  extracted into the user home (no system packages installed)
+Command: dozer run --config-path dozer-config.yaml --ignore-pipe
+(no Docker, no cloud account, no API key)
+
+-- 1. Both generated endpoints -------------------------------------------
+
+$ curl -s http://localhost:8080/card_products
+[{"product_id":"CARD-CASH","name":"Everyday Cash",
+  "description":"Simple no-fee cashback for groceries and daily purchases",
+  "annual_fee":0,"min_income":24000,"min_credit_score":640,"min_age":18,
+  "max_age":80,"allowed_risk_bands":"low|medium","reward_rate":0.01,
+  "travel_multiplier":1.0,"grocery_multiplier":2.0,
+  "__dozer_record_id":0,"__dozer_record_version":1}, ...]
+total records: 5
+
+$ curl -s -X POST http://localhost:8080/customer_features/query \
+    -H "Content-Type: application/json" \
+    -d '{"$filter": {"customer_id": "C001"}}'
+[{
+  "customer_id": "C001",
+  "age": 34,
+  "annual_income": 72000,
+  "credit_score": 748,
+  "risk_band": "low",
+  "monthly_spend": 2000,
+  "travel_spend": 900,
+  "grocery_spend": 480,
+  "active_account": 1,
+  "__dozer_record_id": 0,
+  "__dozer_record_version": 3
+}]
+
+-- 2. One successful CLI call through the Dozer gateway -------------------
+
+$ python -m app.cli --gateway dozer --dozer-url http://localhost:8080 \
+    --customer-id C001 --query "travel rewards" --json   # exit 0
+
+{
+  "customer_id": "C001",
+  "gateway": "dozer",
+  "query": "travel rewards",
+  "recommendations": [
+    {
+      "product_id": "CARD-TRAVEL",
+      "product_name": "Travel Plus",
+      "estimated_annual_value": 475.0,
+      "score": 0.534522,
+      "reason": "Eligible under all published constraints; query relevance
+                 0.535. Estimated rewards minus annual fee: 475.00/year.",
+      "provenance": [
+        {"endpoint": "customer_features", "source": "dozer",
+         "record_id": "C001",
+         "fields": ["monthly_spend", "travel_spend", "grocery_spend"]},
+        {"endpoint": "card_products", "source": "dozer",
+         "record_id": "CARD-TRAVEL",
+         "fields": ["annual_fee", "reward_rate", "travel_multiplier",
+                    "grocery_multiplier"]}
+      ]
+    },
+    { "product_id": "CARD-SELECT", "product_name": "Select Cashback",
+      "estimated_annual_value": 346.68, ... }
+  ]
+}
+
+-- 3. What had to change to make the documented path run ------------------
+
+The config was written for the Dozer v1 config schema, which is supported by
+the v0.2.1 release (v0.4.0+ moved to the v2 schema with `sinks`/`lambdas`).
+Two reproducible fixes were needed:
+
+a) LocalStorage CSV layout: Dozer's LocalStorage connector lists a
+   per-table DIRECTORY, so the CSVs moved from `data/<table>.csv` to
+   `data/<table>/<table>.csv`. The fixture gateway reads the same
+   directories, so offline and Dozer paths consume one layout.
+
+b) Endpoint primary key: Dozer derives the materialized key from the SQL
+   GROUP BY columns (`customer_id, age, annual_income, credit_score,
+   risk_band`); the endpoint declared only `customer_id`. The index was
+   aligned to the full key. `POST /customer_features/query` with the
+   `$filter` still resolves a single row per customer.
+
+All 41 unit tests still pass after the layout change:
+$ python -m unittest discover -s tests -v  # Ran 41 tests ... OK

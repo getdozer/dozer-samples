@@ -1,0 +1,149 @@
+name: Grounded Card Advisor
+
+# Runs the deterministic unit suite for the llm-grounded-card-advisor sample on
+# every change, and optionally reproduces the live Dozer smoke test that the
+# exact-head review on PR #143 asked for (Dozer v0.2.1 started with
+# dozer-config.yaml, both generated endpoints queried, one successful
+# `--gateway dozer` CLI call). The smoke job uses the pinned release binary,
+# not a source build, so the review proof stays reproducible and fast.
+# A daily scheduled run keeps the proof alive against Dozer release drift, and the
+# smoke start step retries once before failing (flake guard).
+
+on:
+  pull_request:
+    paths:
+      - "usecases/llm-grounded-card-advisor/**"
+      - ".github/workflows/grounded-card-advisor.yml"
+  push:
+    branches:
+      - bounty/1690-grounded-card-advisor
+    paths:
+      - "usecases/llm-grounded-card-advisor/**"
+      - ".github/workflows/grounded-card-advisor.yml"
+  workflow_dispatch:
+    inputs:
+      run_live_smoke:
+        description: "Run the live Dozer smoke test (needs network)"
+        type: boolean
+        default: true
+  # Daily regression guard: fires against the default branch, so it activates
+  # once this workflow is merged to main. Catches Dozer release/schema drift
+  # that would silently break the pinned v0.2.1 proof.
+  schedule:
+    - cron: "0 3 * * *"
+
+concurrency:
+  group: grounded-card-advisor/${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: usecases/llm-grounded-card-advisor
+
+jobs:
+  unit-tests:
+    name: Unit tests (41) + retrieval eval
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run unit suite
+        run: python -m unittest discover -s tests -v
+
+      - name: Run retrieval evaluation
+        run: python -m tests.eval_retrieval
+
+      - name: Compile check
+        run: python -m compileall -q app tests
+
+  dozer-live-smoke:
+    name: Dozer live smoke (v0.2.1)
+    needs: unit-tests
+    runs-on: ubuntu-22.04 # jammy ships libssl1.1 needed by the v0.2.1 binary
+    if: >-
+      github.event_name == 'workflow_dispatch' &&
+      (github.event.inputs.run_live_smoke == 'true' || github.event.inputs.run_live_smoke == '')
+      || github.event_name != 'workflow_dispatch'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Dozer runtime dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq unixodbc libltdl7 protobuf-compiler
+
+      - name: Install protoc
+        uses: arduino/setup-protoc@v3
+        with:
+          version: "21.12"
+
+      - name: Download pinned Dozer binary (v0.2.1)
+        run: |
+          mkdir -p /tmp/dozer-bin
+          curl -sL -o /tmp/dozer.tar.gz \
+            https://github.com/getdozer/dozer/releases/download/v0.2.1/dozer-linux-amd64.tar.gz
+          tar xzf /tmp/dozer.tar.gz -C /tmp/dozer-bin
+          /tmp/dozer-bin/dozer-linux-amd64/dozer --version
+
+      - name: Start Dozer and wait for REST API (retry once)
+        run: |
+          set -u
+          DOZER=/tmp/dozer-bin/dozer-linux-amd64/dozer
+          start_and_wait() {
+            # kill any leftover instance from a previous attempt
+            pkill -f "dozer-linux-amd64/dozer run" 2>/dev/null || true
+            sleep 2
+            : > /tmp/dozer-run.log
+            "$DOZER" run --config-path dozer-config.yaml --ignore-pipe               > /tmp/dozer-run.log 2>&1 &
+            for i in $(seq 1 30); do
+              if curl -sf -m 3 http://localhost:8080/card_products > /dev/null 2>&1; then
+                echo "Dozer REST API up after $((i * 10))s (attempt $1)"
+                return 0
+              fi
+              sleep 10
+            done
+            echo "Dozer did not become ready within 300s (attempt $1)"
+            tail -20 /tmp/dozer-run.log
+            return 1
+          }
+          if ! start_and_wait 1; then
+            echo "--- retrying once (flake guard) ---"
+            if ! start_and_wait 2; then
+              echo "Dozer failed to start after 2 attempts"
+              exit 1
+            fi
+          fi
+
+      - name: Query both generated endpoints
+        run: |
+          set -e
+          echo "=== GET /card_products ==="
+          PRODUCTS=$(curl -sf -m 10 http://localhost:8080/card_products)
+          echo "$PRODUCTS" | python3 -c \
+            "import json,sys; d=json.load(sys.stdin); print('records:', len(d)); assert len(d) == 5, 'expected 5 card products'; assert d[0]['product_id'] == 'CARD-CASH'"
+          echo "=== POST /customer_features/query (C001) ==="
+          FEATURES=$(curl -sf -m 10 -X POST http://localhost:8080/customer_features/query \
+            -H "Content-Type: application/json" \
+            -d '{"$filter": {"customer_id": "C001"}}')
+          echo "$FEATURES" | python3 -c \
+            "import json,sys; d=json.load(sys.stdin); assert len(d) == 1 and d[0]['customer_id'] == 'C001', d; f=d[0]; print('customer_id:', f['customer_id'], '| monthly_spend:', f['monthly_spend'], '| travel_spend:', f['travel_spend'])"
+
+      - name: Run advisor CLI through the Dozer gateway
+        run: |
+          set -e
+          python -m app.cli --gateway dozer --dozer-url http://localhost:8080             --customer-id C001 --query "travel rewards" --json > /tmp/cli-out.json
+          python3 -c "import json; d=json.load(open('/tmp/cli-out.json')); assert d['gateway']=='dozer', d; assert d['recommendations'], 'no recommendations'; top=d['recommendations'][0]; assert top['product_id']=='CARD-TRAVEL', top; srcs={p['source'] for r in d['recommendations'] for p in r['provenance']}; assert srcs=={'dozer'}, srcs; print('CLI exit 0 | gateway:', d['gateway'], '| top:', top['product_id'], '| provenance sources:', sorted(srcs))"
+      - name: Upload smoke log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dozer-smoke-log
+          path: /tmp/dozer-run.log
+          if-no-files-found: ignore
