@@ -1,0 +1,9 @@
+.dozer/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+.chroma/
+*.egg-info/
+.pytest_cache/

@@ -1,0 +1,6 @@
+customer_id,full_name,segment,city,preferred_channel,risk_tier,joined_at
+C001,Ava Chen,premium,Buenos Aires,mobile,low,2019-03-12
+C002,Mateo Ruiz,mass_affluent,Córdoba,web,medium,2021-07-01
+C003,Sofia Almeida,student,Rosario,mobile,medium,2023-01-18
+C004,Diego Morales,premium,Mendoza,branch,low,2018-11-05
+C005,Luna Ferreira,mass_market,La Plata,mobile,high,2022-09-22

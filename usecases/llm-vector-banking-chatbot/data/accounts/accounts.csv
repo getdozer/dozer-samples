@@ -1,0 +1,9 @@
+account_id,customer_id,product_type,currency,balance,status,opened_at
+A1001,C001,checking,ARS,845000.50,active,2019-03-12
+A1002,C001,credit_card,ARS,120000.00,active,2020-01-15
+A1003,C002,checking,ARS,210400.00,active,2021-07-01
+A1004,C002,savings,ARS,550000.00,active,2021-08-10
+A1005,C003,checking,ARS,45200.75,active,2023-01-18
+A1006,C004,checking,ARS,1500000.00,active,2018-11-05
+A1007,C004,credit_card,ARS,0.00,active,2019-02-01
+A1008,C005,checking,ARS,12800.00,active,2022-09-22
