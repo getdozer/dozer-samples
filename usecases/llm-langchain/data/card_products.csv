@@ -1,0 +1,5 @@
+card_id,product_name,description,annual_fee,min_income
+P001,Explorer Travel Card,2x points on travel and dining plus lounge access,95.0,40000
+P002,Cashback Everyday Card,3% cashback on grocery and fuel with no annual fee,0.0,0
+P003,Premium Rewards Card,5x points on retail and travel with concierge service,450.0,120000
+P004,Starter Student Card,Low credit limit card for students with no fees,0.0,20000
