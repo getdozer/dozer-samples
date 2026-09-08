@@ -1,8 +1,19 @@
 # Dozer + LLM banking chatbot sample (issue getdozer/dozer#1690)
 # Sources multiple LocalStorage CSV datasets, materializes a unified
 # customer spending profile, and exposes REST/gRPC APIs for LangChain.
+#
+# Verified against Dozer 0.3.0 (API-era binary). Dozer >=0.4.0 removed
+# built-in `endpoints` / dozer-api; see SAMPLE_NOTES.md.
 app_name: llm-vector-banking-chatbot
 version: 1
+
+api:
+  rest:
+    port: 8080
+    host: 0.0.0.0
+  grpc:
+    port: 50051
+    host: 0.0.0.0
 
 connections:
   - name: bank_local
@@ -46,7 +57,7 @@ sources:
     connection: bank_local
 
 sql: |
-  -- Unified spend profile: total spend + dominant category per customer
+  -- Unified spend profile: total spend + category per customer
   SELECT
     t.customer_id AS customer_id,
     COUNT(t.txn_id) AS txn_count,
@@ -88,3 +99,7 @@ endpoints:
   - name: customer_spending_profile
     path: /customer_spending_profile
     table_name: customer_spending_profile
+    index:
+      primary_key:
+        - customer_id
+        - top_category

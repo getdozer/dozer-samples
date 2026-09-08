@@ -13,12 +13,17 @@ retrieval flow over credit-card products (vector store + optional LLM).
 | Dozer config | `dozer-config.yaml` | LocalStorage CSV sources + spend-profile SQL + REST endpoints |
 | Seed data | `data/*/*.csv` | customers, accounts, transactions, card products |
 | RAG stub | `app/rag_chatbot.py` | fixture mode (offline) + `--use-dozer` + optional `--llm` |
+| Unit tests | `tests/test_rag_chatbot.py` | fixture load, segment gate, keyword/rerank |
 | Deps | `app/requirements.txt` | LangChain / Chroma / OpenAI (optional) |
+| Demo log | `demo-log.txt` | text capture of live Dozer REST + chatbot (no video yet) |
 
 ## Prerequisites
 
-- [Dozer installed](https://getdozer.io/docs/installation) (`dozer` on `PATH`) for the live path
+- **Dozer 0.3.x** on `PATH` for the live path (API-era binary with `endpoints`).
+  Dozer **≥0.4.0** removed built-in `endpoints` / `dozer-api` — that binary will reject
+  this config. See [`SAMPLE_NOTES.md`](./SAMPLE_NOTES.md).
 - Python 3.10+
+- `protoc` (`protobuf-compiler`) for `dozer build` on 0.3.x
 - Optional: `OPENAI_API_KEY` for the ChatOpenAI answer path
 
 ## Quick start (offline fixture — no Dozer binary)
@@ -30,8 +35,8 @@ python3 app/rag_chatbot.py \
   --question "Which card is best for travel and dining rewards?"
 ```
 
-Expected shape: a recommendation for **Dozer Travel Signature** (or another eligible
-card) grounded in C001's travel/dining spend.
+Expected shape: a recommendation for **Dozer Travel Signature** grounded in C001's
+travel/dining spend.
 
 Student example:
 
@@ -41,30 +46,39 @@ python3 app/rag_chatbot.py \
   --question "I need a no-fee student card for education"
 ```
 
-## Live Dozer path
+## Live Dozer path (verified on 0.3.0)
 
 ```bash
 cd usecases/llm-vector-banking-chatbot
 rm -rf .dozer
-dozer run -c dozer-config.yaml
+dozer --ignore-pipe build -c dozer-config.yaml
+dozer --ignore-pipe run -c dozer-config.yaml
 # elsewhere:
-pip install -r app/requirements.txt
-python3 app/rag_chatbot.py --use-dozer --customer C001 \
+python3 -m venv .venv && .venv/bin/pip install -r app/requirements.txt
+.venv/bin/python app/rag_chatbot.py --use-dozer --customer C001 \
   --question "Which card is best for travel and dining rewards?"
 ```
 
-Dozer REST is expected at `http://localhost:8080` (override with `--dozer-base` or
-`DOZER_API_BASE`).
+Dozer REST listens at `http://localhost:8080` (override with `--dozer-base` or
+`DOZER_API_BASE`). Responses are bare JSON lists; the client filters by `customer_id`.
 
 Optional LLM polish:
 
 ```bash
 export OPENAI_API_KEY=sk-...
-python3 app/rag_chatbot.py --use-dozer --llm --customer C001 \
+.venv/bin/python app/rag_chatbot.py --use-dozer --llm --customer C001 \
   --question "Which card is best for travel and dining rewards?"
 ```
 
-## APIs exposed (once Dozer is up)
+## Tests
+
+```bash
+cd usecases/llm-vector-banking-chatbot
+python3 -m venv .venv && .venv/bin/pip install pytest httpx
+.venv/bin/pytest -q tests/test_rag_chatbot.py
+```
+
+## APIs exposed (once Dozer 0.3.x is up)
 
 - `GET /customer_profiles`
 - `GET /accounts`
@@ -85,5 +99,7 @@ CSV seeds ──► Dozer LocalStorage ──► SQL spend profile ──► RES
 
 ## Status / honesty
 
-See [`SAMPLE_NOTES.md`](./SAMPLE_NOTES.md) for claim template, known gaps (demo video,
-live `dozer` binary not exercised in this environment), and morning checklist.
+See [`SAMPLE_NOTES.md`](./SAMPLE_NOTES.md). Live `dozer run` (0.3.0) + `--use-dozer`
+chatbot verified; text demo log attached. **No payout claimed.** Demo *video* and
+maintainer confirmation of bounty eligibility remain open. Crowded claim field
+(`dozer-samples` #139–#145, etc.).

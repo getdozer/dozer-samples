@@ -8,8 +8,8 @@ Modes
 * --use-dozer: fetch customer context from Dozer REST (http://localhost:8080)
 * --llm: optional ChatOpenAI final answer when OPENAI_API_KEY is set
 
-This is an overnight scaffold: vector retrieval + rerank work offline;
-wire-up to a live Dozer process is the morning verification step.
+Fixture mode needs no Dozer binary. Live mode (--use-dozer) was verified
+against Dozer 0.3.0 REST (bare JSON lists; client-side customer filter).
 """
 
 from __future__ import annotations
@@ -21,7 +21,6 @@ import sys
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
 
 SAMPLE_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = SAMPLE_ROOT / "data"
@@ -72,25 +71,28 @@ def load_fixture_context(customer_id: str) -> CustomerContext:
 
 
 def load_dozer_context(customer_id: str, base: str) -> CustomerContext:
-    """Fetch unified profile from Dozer REST once the binary is running."""
+    """Fetch unified profile from Dozer REST once the binary is running.
+
+    Dozer 0.3 REST returns a bare JSON list and does not honor simple
+    ``?customer_id=`` query filters, so we always filter client-side.
+    """
     try:
         import httpx
     except ImportError as exc:
         raise SystemExit("httpx required for --use-dozer; pip install httpx") from exc
 
-    def get(path: str, params: dict[str, Any] | None = None) -> list[dict]:
-        r = httpx.get(f"{base.rstrip('/')}{path}", params=params or {}, timeout=10.0)
+    def get(path: str) -> list[dict]:
+        r = httpx.get(f"{base.rstrip('/')}{path}", timeout=10.0)
         r.raise_for_status()
         payload = r.json()
-        # Dozer historically returns {"data": [...]} or a bare list
+        # Dozer 0.3 returns a bare list; older docs mentioned {"data": [...]}
         if isinstance(payload, dict):
             return payload.get("data") or payload.get("records") or []
-        return payload
+        if isinstance(payload, list):
+            return payload
+        return []
 
-    profiles = get("/customer_profiles", {"customer_id": customer_id})
-    if not profiles:
-        # fallback: filter client-side
-        profiles = [p for p in get("/customer_profiles") if p.get("customer_id") == customer_id]
+    profiles = [p for p in get("/customer_profiles") if p.get("customer_id") == customer_id]
     if not profiles:
         raise SystemExit(f"Dozer returned no profile for {customer_id}")
     p = profiles[0]

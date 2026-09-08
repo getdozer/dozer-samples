@@ -1,96 +1,62 @@
-# SAMPLE_NOTES — getdozer/dozer#1690 overnight scaffold
+# SAMPLE_NOTES — getdozer/dozer#1690
 
 **Branch:** `bounty/1690-llm-vector-banking-scaffold`  
-**Repo:** `getdozer/dozer-samples` (local clone under `/workspace/bounty-night/dozer-samples`)  
+**PR:** https://github.com/getdozer/dozer-samples/pull/144  
 **Issue:** https://github.com/getdozer/dozer/issues/1690  
 **Bounty:** $250 Algora — Dozer + LLM + Vector DB + LangChain sample  
 
-## Do NOT claim money earned
+## Do NOT invent payout success
 
-This overnight work is a **local scaffold + offline smoke only**. No payout, no merged
-PR, no maintainer acceptance. Algora currently lists `dozer#1690` under **Completed**
-with **2 claims**, while the GitHub issue remains **open** with multiple competing
-attempts/PRs (`dozer-samples` #141/#142/#143, `dozer` #2492/#2511, etc.). Treat reward
-eligibility as **uncertain** until a maintainer confirms funding + preferred submission.
+No maintainer acceptance, no Algora payout confirmation. Multiple competing open PRs
+(`dozer-samples` #139–#145 and others). Algora may already show claims/completed —
+treat reward eligibility as **uncertain**.
 
-## What was built tonight
+## What works now (verified locally)
 
-- `usecases/llm-vector-banking-chatbot/` following existing LocalStorage CSV + SQL
-  `INTO` + `endpoints` patterns (`connectors/javascript`, `sql/join`, `connectors/local-storage`)
-- Four seed datasets + `customer_spending_profile` aggregate in `dozer-config.yaml`
-- `app/rag_chatbot.py` stub: fixture CSV mode (verified), `--use-dozer` REST client,
-  LangChain/Chroma path with FakeEmbeddings fallback, optional `--llm`
-- Root README row linking the usecase
-- Local commit(s) on the branch above only (no push)
+| Check | Result |
+| --- | --- |
+| Offline fixture chatbot | OK (C001→Travel Signature, C003→Campus Starter) |
+| `dozer build/run` **0.3.0** against `dozer-config.yaml` | OK (`--ignore-pipe`; needs `protoc` + OpenSSL 1.1) |
+| REST `GET /customer_profiles`, `/customer_spending_profile`, `/card_products` | 200, bare JSON lists |
+| `rag_chatbot.py --use-dozer` | OK after client-side customer filter fix |
+| Unit tests `tests/test_rag_chatbot.py` | 7 passed |
+| Text demo log | `demo-log.txt` |
+| Demo **video** | **Still missing** |
 
-### Offline smoke (ran)
-
-```text
-python3 app/rag_chatbot.py --customer C001 --question "Which card is best for travel and dining rewards?"
-python3 app/rag_chatbot.py --customer C003 --question "I need a no-fee student card for education"
-python3 -m py_compile app/rag_chatbot.py
-```
-
-## Honest gaps (blockers for a real /claim)
-
-1. **No demo video** — Algora guidelines for this bounty require a short demo video in the PR.
-2. **No live Dozer binary** in this environment — `dozer run -c dozer-config.yaml` was
-   **not** executed; REST payload shapes for `--use-dozer` are best-effort and may need
-   tweaks against a real Dozer version.
-3. **Blog URL 404** — `https://getdozer.io/blog/llm-chatbot` did not resolve when fetched;
-   sample follows the issue text + historical LocalStorage API sample shape.
-4. **Architecture drift** — recent issue comments note current Dozer may emphasize sinks
-   over built-in data APIs; if maintainers require sink→app-API, config must be adapted.
-5. **Crowded claim field** — multiple open PRs/claims already; submitting another without
-   maintainer confirmation risks wasted work.
-6. **No focused unit tests / CI green against live Dozer** yet.
-7. **GitHub auth** for this agent path was deferred (waiting on autorouting#92 auth);
-   nothing was pushed or `/attempt`/`/claim` posted.
-
-## /claim template (for morning PR body — only after live verify + video)
-
-```markdown
-/claim https://github.com/getdozer/dozer/issues/1690
-
-## Summary
-- Add `usecases/llm-vector-banking-chatbot`: Dozer LocalStorage over customer profiles,
-  accounts, transactions, and card products; SQL `customer_spending_profile`; REST endpoints.
-- LangChain/Chroma (FakeEmbeddings) retrieval + customer-aware rerank; fixture mode and
-  `--use-dozer` live mode; optional ChatOpenAI via `--llm`.
-
-## Demo
-<!-- attach ≤30s video showing: dozer run + rag_chatbot.py --use-dozer -->
-
-## Verification
-- `dozer run -c usecases/llm-vector-banking-chatbot/dozer-config.yaml`
-- `python3 usecases/llm-vector-banking-chatbot/app/rag_chatbot.py --use-dozer --customer C001 --question "Which card is best for travel and dining rewards?"`
-- `python3 -m py_compile usecases/llm-vector-banking-chatbot/app/rag_chatbot.py`
-
-## Notes
-Offline fixture path works without API keys. Live Dozer verified on <version>.
-Competing PRs acknowledged; happy to rebase or close if another submission is preferred.
-```
-
-Also comment on the issue (if still eligible):
+### Commands that succeeded
 
 ```text
-/attempt #1690
-
-Plan: finish live Dozer verification + demo video for the dozer-samples scaffold on
-branch bounty/1690-llm-vector-banking-scaffold, then open PR with /claim.
+dozer --ignore-pipe build -c dozer-config.yaml   # dozer 0.3.0
+dozer --ignore-pipe run -c dozer-config.yaml
+python3 app/rag_chatbot.py --use-dozer --customer C001 --question "Which card is best for travel and dining rewards?"
+python3 app/rag_chatbot.py --use-dozer --customer C003 --question "I need a no-fee student card for education"
+pytest -q tests/test_rag_chatbot.py               # 7 passed
 ```
+
+## Config / client fixes in this follow-up
+
+1. Explicit `api.rest` / `api.grpc` host+port (8080 / 50051).
+2. Composite PK on `customer_spending_profile`: `customer_id` + `top_category`
+   (matches `GROUP BY customer_id, category`).
+3. `--use-dozer` no longer trusts `?customer_id=` (0.3 ignores it and would always
+   pick the first profile); always filter client-side on bare lists.
+4. Document that **Dozer ≥0.4.0 rejects `endpoints`** (`unknown field endpoints`;
+   sinks-only era). This sample targets the API-era 0.3.x binary that matches the
+   historical LocalStorage samples in this repo.
+
+## Remaining gaps
+
+1. **No demo video** (Algora often wants ≤30s screen capture).
+2. **Architecture drift:** issue comments note current main may prefer
+   Dozer→sink→app API. This PR intentionally stays on 0.3-style REST endpoints to
+   match existing `dozer-samples` patterns; maintainers may ask for a sink rewrite.
+3. **Blog URL** `https://getdozer.io/blog/llm-chatbot` still 404 when last checked.
+4. **Crowded claims** — many open PRs; confirm with maintainers before banking on $250.
+5. Optional Chroma/LangChain path needs `pip install -r app/requirements.txt`; tests
+   and live demo use keyword retrieve + fixture/Dozer context without Chroma.
 
 ## Confidence
 
-**~0.55 / 1.0** that this is a *credible starting PR* after morning polish.  
-**~0.20 / 1.0** that it would win the $250 given Completed/2-claims Algora state + many
-existing submissions — **do not bank on payout**.
-
-## Left for morning
-
-1. Confirm with `@snork-alt` / maintainers: bounty still funded? prefer `dozer-samples`?
-2. Install/run real `dozer` against `dozer-config.yaml`; fix REST parsing if needed.
-3. Add a short demo video (screen capture of Dozer boot + chatbot recommendation).
-4. Add a few unit tests (fixture load, rerank, segment gate).
-5. Open PR from this branch; put `/claim …` in body **only** after (2)+(3).
-6. Re-check Algora claim table / competing PRs before posting `/attempt`.
+**~0.70** that this is a credible, runnable sample PR after live verify + tests.  
+**~0.20** that it wins $250 given competition + possible architecture preference for
+sinks — **do not bank on payout**.
