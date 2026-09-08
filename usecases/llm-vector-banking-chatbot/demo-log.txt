@@ -1,0 +1,61 @@
+=== DEMO LOG — llm-vector-banking-chatbot (Dozer 0.3.0 + RAG stub) ===
+Captured: 2026-09-08 05:46:36 ART
+
+--- dozer -V ---
+dozer 0.3.0
+
+--- REST endpoints (Dozer already running) ---
+["/customer_profiles","/accounts","/transactions","/card_products","/customer_spending_profile"]
+
+--- GET /customer_profiles (first record) ---
+{
+  "customer_id": "C001",
+  "full_name": "Ava Chen",
+  "segment": "premium",
+  "city": "Buenos Aires",
+  "preferred_channel": "mobile",
+  "risk_tier": "low",
+  "joined_at": "2019-03-12",
+  "__dozer_record_id": 0,
+  "__dozer_record_version": 1
+}
+
+--- GET /customer_spending_profile (C001 rows) ---
+[
+  {
+    "customer_id": "C001",
+    "txn_count": 2,
+    "total_spend": 283000.0,
+    "top_category": "travel",
+    "__dozer_record_id": 0,
+    "__dozer_record_version": 2
+  },
+  {
+    "customer_id": "C001",
+    "txn_count": 1,
+    "total_spend": 31000.0,
+    "top_category": "shopping",
+    "__dozer_record_id": 2,
+    "__dozer_record_version": 1
+  },
+  {
+    "customer_id": "C001",
+    "txn_count": 2,
+    "total_spend": 50500.0,
+    "top_category": "dining",
+    "__dozer_record_id": 1,
+    "__dozer_record_version": 2
+  }
+]
+
+--- chatbot --use-dozer C001 ---
+For Ava Chen (C001), segment=premium, city=Buenos Aires, total_spend=$364,500, top=[travel=$283,000, dining=$50,500, shopping=$31,000], given question «Which card is best for travel and dining rewards?», recommend **Dozer Travel Signature** (P_TRAVEL): 3x points on travel and dining, lounge access, travel insurance (annual fee 45000 ARS).
+
+--- chatbot --use-dozer C003 ---
+For Sofia Almeida (C003), segment=student, city=Rosario, total_spend=$29,300, top=[education=$22,000, dining=$4,800, transit=$2,500], given question «I need a no-fee student card for education», recommend **Dozer Campus Starter** (P_STUDENT): 1.5x points on education and transit, no annual fee (annual fee 0 ARS).
+
+--- pytest ---
+.......                                                                  [100%]
+7 passed in 0.01s
+
+=== END DEMO LOG ===

@@ -1,0 +1,6 @@
+product_id,name,annual_fee,reward_categories,perk_summary,min_segment,tags
+P_TRAVEL,Dozer Travel Signature,45000,"travel|dining","3x points on travel and dining, lounge access, travel insurance",premium,"travel,dining,lounge"
+P_CASHBACK,Dozer Everyday Cashback,0,"groceries|fuel|shopping","2% cash back on groceries and fuel, 1% everywhere else",mass_market,"cashback,everyday"
+P_STUDENT,Dozer Campus Starter,0,"education|dining|transit","1.5x points on education and transit, no annual fee",student,"student,education,no_fee"
+P_LUXURY,Dozer Black Reserve,120000,"shopping|travel","5x luxury shopping, concierge, airport transfer credits",premium,"luxury,concierge,high_fee"
+P_BALANCE,Dozer Balance Transfer,15000,"shopping","0% APR intro on transfers, modest rewards elsewhere",mass_affluent,"balance_transfer,apr"

@@ -47,6 +47,7 @@ Refer to the [Installation section](https://getdozer.io/docs/installation) for i
 |                  | [IMDB Analytics](./usecases/imdb-analytics)                              | Use Dozer to get interesting analytics using an IMDb dataset                 |
 |                  | Use Dozer to Instrument (Coming soon)                                    | Combine Log data to get real time insights                                   |
 |                  | Real Time Model Scoring (Coming soon)                                    | Deploy trained models to get real time insights as APIs                      |
+|                  | [LLM Vector Banking Chatbot](./usecases/llm-vector-banking-chatbot)      | Dozer + LangChain + vector retrieval for card personalization (#1690)     |
 |                  |                                                                          |                                                                              |
 | Client Libraries | [Dozer React Starter](./usecases/react/)                                 | Instantly start building real time views using Dozer and React               |
 |                  | [Ingest Polars/Pandas Dataframes](./client-samples/ingest-python-sample) | Instantly ingest Polars/Pandas dataframes using Arrow format and deploy APIs |

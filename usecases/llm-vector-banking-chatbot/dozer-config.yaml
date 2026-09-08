@@ -1,0 +1,105 @@
+# Dozer + LLM banking chatbot sample (issue getdozer/dozer#1690)
+# Sources multiple LocalStorage CSV datasets, materializes a unified
+# customer spending profile, and exposes REST/gRPC APIs for LangChain.
+#
+# Verified against Dozer 0.3.0 (API-era binary). Dozer >=0.4.0 removed
+# built-in `endpoints` / dozer-api; see SAMPLE_NOTES.md.
+app_name: llm-vector-banking-chatbot
+version: 1
+
+api:
+  rest:
+    port: 8080
+    host: 0.0.0.0
+  grpc:
+    port: 50051
+    host: 0.0.0.0
+
+connections:
+  - name: bank_local
+    config: !LocalStorage
+      details:
+        path: data
+      tables:
+        - !Table
+          name: customer_profiles
+          config: !CSV
+            path: customer_profiles
+            extension: .csv
+        - !Table
+          name: accounts
+          config: !CSV
+            path: accounts
+            extension: .csv
+        - !Table
+          name: transactions
+          config: !CSV
+            path: transactions
+            extension: .csv
+        - !Table
+          name: card_products
+          config: !CSV
+            path: card_products
+            extension: .csv
+
+sources:
+  - name: customer_profiles
+    table_name: customer_profiles
+    connection: bank_local
+  - name: accounts
+    table_name: accounts
+    connection: bank_local
+  - name: transactions
+    table_name: transactions
+    connection: bank_local
+  - name: card_products
+    table_name: card_products
+    connection: bank_local
+
+sql: |
+  -- Unified spend profile: total spend + category per customer
+  SELECT
+    t.customer_id AS customer_id,
+    COUNT(t.txn_id) AS txn_count,
+    SUM(t.amount) AS total_spend,
+    t.category AS top_category
+  INTO customer_spending_profile
+  FROM transactions t
+  GROUP BY t.customer_id, t.category;
+
+endpoints:
+  - name: customer_profiles
+    path: /customer_profiles
+    table_name: customer_profiles
+    index:
+      primary_key:
+        - customer_id
+
+  - name: accounts
+    path: /accounts
+    table_name: accounts
+    index:
+      primary_key:
+        - account_id
+
+  - name: transactions
+    path: /transactions
+    table_name: transactions
+    index:
+      primary_key:
+        - txn_id
+
+  - name: card_products
+    path: /card_products
+    table_name: card_products
+    index:
+      primary_key:
+        - product_id
+
+  - name: customer_spending_profile
+    path: /customer_spending_profile
+    table_name: customer_spending_profile
+    index:
+      primary_key:
+        - customer_id
+        - top_category
