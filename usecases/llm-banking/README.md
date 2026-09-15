@@ -65,3 +65,7 @@ Same sample also lives on getdozer/dozer#2511 under `examples/llm-banking/`.
 ## Demo
 
 `demo.mp4` is a short capture of `scripts/demo.sh` / `app.py` on cust_002 and cust_003. Or just run the script yourself.
+
+## Reviewer notes
+
+See `SAMPLE_NOTES.md` for the 2026-09-15 offline verification log and why this path differs from the chatbot-named PRs.
