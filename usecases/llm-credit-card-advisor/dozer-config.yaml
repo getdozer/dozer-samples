@@ -1,0 +1,58 @@
+app_name: dozer-llm-credit-card-advisor
+version: 1
+connections:
+  - config: !LocalStorage
+      details:
+        path: ./data
+      tables:
+        - config: !CSV
+            name: customers
+            path: customers.csv
+            extension: .csv
+        - config: !CSV
+            name: transactions
+            path: transactions.csv
+            extension: .csv
+        - config: !CSV
+            name: credit_cards
+            path: credit_cards.csv
+            extension: .csv
+
+sources:
+  - name: customers
+    table_name: customers
+    connection: LocalStorage
+  - name: transactions
+    table_name: transactions
+    connection: LocalStorage
+  - name: credit_cards
+    table_name: credit_cards
+    connection: LocalStorage
+
+sql: |
+  SELECT
+    c.customer_id,
+    c.full_name,
+    c.income_tier,
+    c.credit_score,
+    COUNT(t.tx_id) AS tx_count,
+     COALESCE(SUM(t.amount_usd), 0.0) AS total_spend_usd,
+    MAX(t.merchant_category) AS top_category
+  INTO customer_360_profile
+  FROM customers c
+  LEFT JOIN transactions t ON c.customer_id = t.customer_id
+  GROUP BY c.customer_id, c.full_name, c.income_tier, c.credit_score;
+
+endpoints:
+  - name: customer_profile
+    path: /customer_profile
+    table_name: customer_360_profile
+    index:
+      primary_key:
+        - customer_id
+  - name: credit_cards
+    path: /credit_cards
+    table_name: credit_cards
+    index:
+      primary_key:
+        - card_id

@@ -1,0 +1,4 @@
+tx_id,customer_id,amount_usd,merchant_category
+1,101,1450.00,Travel
+2,101,890.00,Dining
+3,102,320.00,Groceries
