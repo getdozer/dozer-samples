@@ -1,0 +1,27 @@
+tx_id,customer_id,tx_date,merchant,category,amount,currency,is_international
+5001,101,2026-10-02,United Airlines,travel,1240.00,USD,false
+5002,101,2026-10-06,Marriott Hotels,travel,890.00,EUR,true
+5003,101,2026-10-11,Le Bernardin,dining,310.00,USD,false
+5004,101,2026-10-18,Delta Air Lines,travel,670.00,USD,false
+5005,101,2026-10-22,Whole Foods Market,groceries,185.00,USD,false
+5006,101,2026-10-28,Nobu Downtown,dining,265.00,USD,false
+5007,102,2026-10-03,Campus Bookstore,online_shopping,145.00,USD,false
+5008,102,2026-10-09,Trader Joes,groceries,95.00,USD,false
+5009,102,2026-10-14,Chipotle,dining,42.00,USD,false
+5010,102,2026-10-21,Spotify & Streaming,utilities,16.00,USD,false
+5011,102,2026-10-27,Target,groceries,88.00,USD,false
+5012,103,2026-10-04,Costco Wholesale,groceries,540.00,USD,false
+5013,103,2026-10-10,Whole Foods Market,groceries,410.00,USD,false
+5014,103,2026-10-15,Shell Service Station,fuel,165.00,USD,false
+5015,103,2026-10-20,Kroger Supermarket,groceries,390.00,USD,false
+5016,103,2026-10-25,Olive Garden,dining,195.00,USD,false
+5017,103,2026-10-29,Chevron Gas,fuel,140.00,USD,false
+5018,104,2026-10-05,Home Depot,online_shopping,420.00,USD,false
+5019,104,2026-10-12,Publix Super Markets,groceries,260.00,USD,false
+5020,104,2026-10-19,ExxonMobil,fuel,130.00,USD,false
+5021,104,2026-10-26,City Power & Light,utilities,210.00,USD,false
+5022,105,2026-10-03,AWS Cloud Services,online_shopping,980.00,USD,false
+5023,105,2026-10-08,British Airways,travel,1150.00,GBP,true
+5024,105,2026-10-16,WeWork Coworking,utilities,450.00,USD,false
+5025,105,2026-10-23,Capital Grille,dining,340.00,USD,false
+5026,105,2026-10-30,Google Workspace,online_shopping,280.00,USD,false
