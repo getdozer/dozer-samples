@@ -1,0 +1,145 @@
+app_name: dozer-llm-banking-chatbot
+version: 1
+home_dir: ./.dozer
+
+connections:
+  - config: !LocalStorage
+      details:
+        path: ./data
+      tables:
+        - !Table
+          name: customers
+          config: !CSV
+            path: customers.csv
+            extension: .csv
+        - !Table
+          name: credit_accounts
+          config: !CSV
+            path: credit_accounts.csv
+            extension: .csv
+        - !Table
+          name: transactions
+          config: !CSV
+            path: transactions.csv
+            extension: .csv
+        - !Table
+          name: card_products
+          config: !CSV
+            path: card_products.csv
+            extension: .csv
+    name: banking_local_data
+
+sources:
+  - name: customers
+    table_name: customers
+    connection: banking_local_data
+  - name: credit_accounts
+    table_name: credit_accounts
+    connection: banking_local_data
+  - name: transactions
+    table_name: transactions
+    connection: banking_local_data
+  - name: card_products
+    table_name: card_products
+    connection: banking_local_data
+
+sql: |
+  SELECT
+    c.customer_id,
+    c.customer_code,
+    c.full_name,
+    c.age,
+    c.annual_income,
+    c.credit_score,
+    c.employment_status,
+    c.preferred_reward_type,
+    c.city,
+    a.existing_card_type,
+    a.current_balance,
+    a.credit_limit,
+    a.current_apr,
+    a.late_payments_last_year,
+    ROUND((a.current_balance * 100.0) / a.credit_limit, 2) AS utilization_pct,
+    COUNT(t.tx_id) AS tx_count,
+    ROUND(COALESCE(SUM(t.amount), 0.0), 2) AS total_spend,
+    ROUND(COALESCE(SUM(CASE WHEN t.category = 'travel' THEN t.amount ELSE 0.0 END), 0.0), 2) AS travel_spend,
+    ROUND(COALESCE(SUM(CASE WHEN t.category = 'dining' THEN t.amount ELSE 0.0 END), 0.0), 2) AS dining_spend,
+    ROUND(COALESCE(SUM(CASE WHEN t.category = 'groceries' THEN t.amount ELSE 0.0 END), 0.0), 2) AS groceries_spend,
+    ROUND(COALESCE(SUM(CASE WHEN t.category = 'fuel' THEN t.amount ELSE 0.0 END), 0.0), 2) AS fuel_spend,
+    ROUND(COALESCE(SUM(CASE WHEN t.category = 'online_shopping' THEN t.amount ELSE 0.0 END), 0.0), 2) AS online_shopping_spend,
+    ROUND(COALESCE(SUM(CASE WHEN t.category = 'utilities' THEN t.amount ELSE 0.0 END), 0.0), 2) AS utilities_spend
+  INTO customer_profiles
+  FROM customers c
+  INNER JOIN credit_accounts a ON c.customer_id = a.customer_id
+  LEFT JOIN transactions t ON c.customer_id = t.customer_id
+  GROUP BY
+    c.customer_id,
+    c.customer_code,
+    c.full_name,
+    c.age,
+    c.annual_income,
+    c.credit_score,
+    c.employment_status,
+    c.preferred_reward_type,
+    c.city,
+    a.existing_card_type,
+    a.current_balance,
+    a.credit_limit,
+    a.current_apr,
+    a.late_payments_last_year;
+
+  SELECT
+    t.customer_id,
+    t.category,
+    COUNT(t.tx_id) AS category_tx_count,
+    ROUND(SUM(t.amount), 2) AS category_spend
+  INTO category_spending
+  FROM transactions t
+  GROUP BY t.customer_id, t.category;
+
+api:
+  rest:
+    port: 8080
+    host: 0.0.0.0
+  grpc:
+    port: 50051
+    host: 0.0.0.0
+
+endpoints:
+  - name: customers
+    path: /customers
+    table_name: customers
+    index:
+      primary_key:
+        - customer_id
+  - name: credit_accounts
+    path: /credit_accounts
+    table_name: credit_accounts
+    index:
+      primary_key:
+        - account_id
+  - name: transactions
+    path: /transactions
+    table_name: transactions
+    index:
+      primary_key:
+        - tx_id
+  - name: card_products
+    path: /card_products
+    table_name: card_products
+    index:
+      primary_key:
+        - product_id
+  - name: customer_profiles
+    path: /customer_profiles
+    table_name: customer_profiles
+    index:
+      primary_key:
+        - customer_id
+  - name: category_spending
+    path: /category_spending
+    table_name: category_spending
+    index:
+      primary_key:
+        - customer_id
+        - category

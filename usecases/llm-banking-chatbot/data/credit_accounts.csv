@@ -1,0 +1,6 @@
+account_id,customer_id,existing_card_type,current_balance,credit_limit,current_apr,late_payments_last_year,account_age_months
+9001,101,Dozer Basic Silver,1350.00,18000.00,19.99,0,64
+9002,102,Dozer Campus Starter,320.00,1200.00,22.49,0,14
+9003,103,Dozer Everyday Standard,1850.00,12000.00,20.99,0,48
+9004,104,Dozer Classic Platinum,6800.00,9000.00,24.99,1,36
+9005,105,Dozer Cash Freedom,2100.00,15000.00,18.99,0,52

@@ -1,0 +1,6 @@
+customer_id,customer_code,full_name,age,annual_income,credit_score,employment_status,preferred_reward_type,city
+101,C001,Ava Sharma,34,148000,790,Employed,travel_points,San Francisco
+102,C002,Liam Chen,21,29000,645,Student,cashback,Austin
+103,C003,Sofia Martinez,41,96000,745,Employed,grocery_cashback,Chicago
+104,C004,Marcus Johnson,38,82000,680,Employed,low_apr,Atlanta
+105,C005,Priya Patel,31,122000,765,Self-Employed,business_rewards,Seattle
