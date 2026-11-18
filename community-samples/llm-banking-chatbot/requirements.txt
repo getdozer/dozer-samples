@@ -1,0 +1,9 @@
+fastapi>=0.110.0
+uvicorn>=0.29.0
+pydantic>=2.6.0
+requests>=2.31.0
+numpy>=1.26.0
+pyyaml>=6.0.1
+langchain>=0.3.0
+langchain-core>=0.3.0
+pytest>=8.0.0

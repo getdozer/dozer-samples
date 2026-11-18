@@ -1,0 +1,23 @@
+transaction_id,customer_id,merchant,category,amount,currency,transaction_date,channel
+T1001,C001,Turkish Airlines,travel,1850.00,USD,2026-10-02,online
+T1002,C001,Hilton Bosphorus,travel,920.00,USD,2026-10-05,pos
+T1003,C001,Mikla Restaurant,dining,340.00,USD,2026-10-08,pos
+T1004,C001,Lufthansa,travel,1120.00,USD,2026-10-14,online
+T1005,C002,Migros,groceries,285.50,USD,2026-10-03,pos
+T1006,C002,CarrefourSA,groceries,210.00,USD,2026-10-11,pos
+T1007,C002,Shell Station,fuel,145.00,USD,2026-10-15,pos
+T1008,C002,IGDAS Utilities,utilities,95.00,USD,2026-10-19,online
+T1009,C003,Emirates,travel,3200.00,USD,2026-10-01,online
+T1010,C003,Four Seasons,travel,1750.00,USD,2026-10-09,pos
+T1011,C003,Nusr-Et,dining,610.00,USD,2026-10-12,pos
+T1012,C003,Apple Store,online_shopping,1299.00,USD,2026-10-20,online
+T1013,C004,Steam,entertainment,45.00,USD,2026-10-04,online
+T1014,C004,Getir,groceries,65.00,USD,2026-10-07,online
+T1015,C004,Spotify,entertainment,15.00,USD,2026-10-10,online
+T1016,C005,Amazon,online_shopping,540.00,USD,2026-10-06,online
+T1017,C005,Trendyol,online_shopping,410.00,USD,2026-10-13,online
+T1018,C005,Zara,online_shopping,260.00,USD,2026-10-18,pos
+T1019,C005,Starbucks,dining,75.00,USD,2026-10-21,pos
+T1020,C006,BP Station,fuel,310.00,USD,2026-10-05,pos
+T1021,C006,Migros,groceries,480.00,USD,2026-10-12,pos
+T1022,C006,Sunset Grill,dining,290.00,USD,2026-10-17,pos
