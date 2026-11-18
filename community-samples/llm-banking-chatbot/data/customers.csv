@@ -1,0 +1,7 @@
+customer_id,full_name,email,age,annual_income,credit_score,city,segment,account_opened_at
+C001,Ayse Yilmaz,ayse.yilmaz@example.com,34,145000,785,Istanbul,affluent,2020-03-15
+C002,Mehmet Demir,mehmet.demir@example.com,27,62000,695,Ankara,mass_market,2022-07-01
+C003,Zeynep Kaya,zeynep.kaya@example.com,41,210000,810,Izmir,private_banking,2018-11-20
+C004,Caner Ozturk,caner.ozturk@example.com,23,36000,615,Bursa,starter,2024-01-10
+C005,Elif Sahin,elif.sahin@example.com,31,98000,745,Antalya,emerging_affluent,2021-05-18
+C006,Burak Celik,burak.celik@example.com,38,118000,760,Istanbul,affluent,2019-09-04

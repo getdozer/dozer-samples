@@ -1,0 +1,6 @@
+card_id,card_name,issuer,annual_fee,min_credit_score,min_income,primary_category,cashback_rate,travel_miles_multiplier,benefits_summary,target_persona
+CARD-TRV-01,Horizon Miles Infinite,Dozer Bank,295,750,120000,travel,1.5,5.0,"5x miles on airlines and hotels, global airport lounge access, zero foreign transaction fees, complimentary travel insurance",Frequent international flyers and luxury travelers
+CARD-CSH-02,Everyday Cashback Plus,Dozer Bank,0,670,45000,groceries,4.0,1.0,"4% cashback on groceries and supermarkets, 2% on fuel and utilities, no annual fee",Families and everyday household shoppers
+CARD-SHP-03,Digital Rewards Platinum,Dozer Bank,49,710,75000,online_shopping,3.5,2.0,"3.5% rewards on online shopping and e-commerce, extended warranty, purchase protection, 2% on dining",Online shoppers and digital-first professionals
+CARD-DIN-04,Gourmet Gold,Dozer Bank,95,720,85000,dining,3.5,2.5,"3.5% cashback at restaurants and cafes, priority dining reservations, 2.5x points on weekend travel",Foodies and urban professionals
+CARD-SEC-05,Starter Builder Secured,Dozer Bank,0,580,20000,entertainment,1.5,1.0,"1.5% cashback on streaming, entertainment, and everyday purchases with credit score building tools",Students and credit-building newcomers

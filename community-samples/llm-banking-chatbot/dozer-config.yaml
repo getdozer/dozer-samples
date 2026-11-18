@@ -1,0 +1,94 @@
+app_name: llm-banking-chatbot
+version: 1
+
+connections:
+  - name: banking_local_storage
+    config: !LocalStorage
+      details:
+        path: data
+      tables:
+        - !Table
+          name: customers
+          config: !CSV
+            path: customers
+            extension: .csv
+        - !Table
+          name: transactions
+          config: !CSV
+            path: transactions
+            extension: .csv
+        - !Table
+          name: credit_cards
+          config: !CSV
+            path: credit_cards
+            extension: .csv
+
+sources:
+  - name: customers
+    table_name: customers
+    connection: banking_local_storage
+  - name: transactions
+    table_name: transactions
+    connection: banking_local_storage
+  - name: credit_cards
+    table_name: credit_cards
+    connection: banking_local_storage
+
+sql: |
+  SELECT
+    c.customer_id,
+    c.full_name,
+    c.email,
+    c.age,
+    c.annual_income,
+    c.credit_score,
+    c.city,
+    c.segment,
+    c.account_opened_at,
+    COUNT(t.transaction_id) AS transaction_count,
+    ROUND(COALESCE(SUM(t.amount), 0), 2) AS total_spend,
+    ROUND(COALESCE(AVG(t.amount), 0), 2) AS avg_transaction_amount,
+    ROUND(COALESCE(MAX(t.amount), 0), 2) AS max_transaction_amount
+  INTO customer_profiles
+  FROM customers c
+  LEFT JOIN transactions t
+    ON c.customer_id = t.customer_id
+  GROUP BY
+    c.customer_id,
+    c.full_name,
+    c.email,
+    c.age,
+    c.annual_income,
+    c.credit_score,
+    c.city,
+    c.segment,
+    c.account_opened_at;
+
+  SELECT
+    card_id,
+    card_name,
+    issuer,
+    annual_fee,
+    min_credit_score,
+    min_income,
+    primary_category,
+    cashback_rate,
+    travel_miles_multiplier,
+    benefits_summary,
+    target_persona
+  INTO credit_cards_catalog
+  FROM credit_cards;
+
+endpoints:
+  - name: customer_profiles
+    path: /customer_profiles
+    table_name: customer_profiles
+    index:
+      primary_key:
+        - customer_id
+  - name: credit_cards
+    path: /credit_cards
+    table_name: credit_cards_catalog
+    index:
+      primary_key:
+        - card_id
